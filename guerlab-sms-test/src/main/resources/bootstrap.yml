@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: sms-test
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+sms:
+  enable-web: true

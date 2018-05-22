@@ -1,0 +1,197 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>net.guerlab</groupId>
+    <artifactId>guerlab-sms</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>guerlab sms extension</description>
+    <url>https://gitee.com/guerlab_net/guerlab-sms</url>
+
+    <licenses>
+        <license>
+            <name>GNU LESSER GENERAL PUBLIC LICENSE Version 3</name>
+            <url>https://www.gnu.org/licenses/lgpl-3.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <id>guer</id>
+            <name>guer</name>
+            <email>master@guerlab.net</email>
+            <organization>guerlab</organization>
+            <organizationUrl>http://www.guerlab.net</organizationUrl>
+        </developer>
+    </developers>
+
+    <organization>
+        <name>guerlab</name>
+        <url>http://www.guerlab.net</url>
+    </organization>
+
+    <scm>
+        <connection>scm:git:https://gitee.com/guerlab_net/guerlab-sms.git</connection>
+        <developerConnection>scm:git:https://gitee.com/guerlab_net/guerlab-sms.git</developerConnection>
+        <url>https://gitee.com/guerlab_net/guerlab-sms</url>
+        <tag>HEAD</tag>
+    </scm>
+
+    <issueManagement>
+        <system>gitee</system>
+        <url>https://gitee.com/guerlab_net/guerlab-sms/issues</url>
+    </issueManagement>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
+        <plugin.javadoc.version>2.10.2</plugin.javadoc.version>
+        <plugin.deploy.version>2.8.2</plugin.deploy.version>
+        <project.encoding>UTF-8</project.encoding>
+
+        <guerlab-sms.version>0.0.1-SNAPSHOT</guerlab-sms.version>
+        <guerlab-spring.version>2.0.0-SNAPSHOT</guerlab-spring.version>
+    </properties>
+
+    <repositories>
+        <repository>
+            <id>spring-milestones</id>
+            <name>Spring Milestones</name>
+            <url>https://repo.spring.io/libs-milestone</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <profiles>
+        <profile>
+            <id>guerlab</id>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>guerlab-snapshot</id>
+                    <name>guerlab Snapshot Repository</name>
+                    <url>http://rep.guerlab.net/repository/guerlab-snapshot</url>
+                </snapshotRepository>
+                <repository>
+                    <id>guerlab-release</id>
+                    <name>guerlab Release Repository</name>
+                    <url>http://rep.guerlab.net/repository/guerlab-release</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+        <profile>
+            <id>central</id>
+            <distributionManagement>
+                <snapshotRepository>
+                    <id>sonatype-nexus-snapshots</id>
+                    <name>Sonatype Nexus Snapshots</name>
+                    <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+                </snapshotRepository>
+                <repository>
+                    <id>sonatype-nexus-staging</id>
+                    <name>Nexus Release Repository</name>
+                    <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+                </repository>
+            </distributionManagement>
+        </profile>
+    </profiles>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>${maven-gpg-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <configuration>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <encoding>${project.encoding}</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <configuration>
+                        <encoding>${project.encoding}</encoding>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <version>${plugin.javadoc.version}</version>
+                    <configuration>
+                        <encoding>${project.encoding}</encoding>
+                        <aggregate>true</aggregate>
+                        <charset>${project.encoding}</charset>
+                        <docencoding>${project.encoding}</docencoding>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>net.guerlab</groupId>
+                <artifactId>guerlab-spring</artifactId>
+                <version>${guerlab-spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            
+            <dependency>
+                <groupId>net.guerlab</groupId>
+                <artifactId>guerlab-sms-core</artifactId>
+                <version>${guerlab-sms.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.guerlab</groupId>
+                <artifactId>guerlab-sms-server</artifactId>
+                <version>${guerlab-sms.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    
+    <modules>
+        <module>guerlab-sms-core</module>
+        <module>guerlab-sms-server</module>
+        <module>guerlab-sms-test</module>
+    </modules>
+</project>
