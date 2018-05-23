@@ -7,4 +7,12 @@ management:
       exposure:
         include: '*'
 sms:
-  enable-web: true
+  enable-web: true ##启用web端点
+  reg: ##手机号码正则表达式，为空则不做验证
+  verification-code:
+    code-length: 6 ##验证码长度
+    delete-by-verify-fail: false ##为true则验证失败后删除验证码
+    delete-by-verify-succeed: true ##为true则验证成功后删除验证码
+    expiration-time:  ##验证码有效期，单位秒
+    identification-code-length: 3 ##识别码长度
+    use-identification-code: false ##是否启用识别码

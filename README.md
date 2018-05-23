@@ -1,37 +1,82 @@
 # guerlab-sms
 
-#### 项目介绍
+## 项目介绍
 基于Spring boot的短信服务支持，通过引用不同的Starter启用不同的短信通道支持
 
-#### 软件架构
-软件架构说明
+## maven配置
 
+```
+<dependency>
+	<groupId>net.guerlab</groupId>
+	<artifactId>guerlab-sms-server-starter</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+</dependency>
+<repositories>
+	<repository>
+		<id>sonatype-nexus-snapshots</id>
+		<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+		<releases>
+			<enabled>false</enabled>
+		</releases>
+		<snapshots>
+			<enabled>true</enabled>
+		</snapshots>
+	</repository>
+</repositories>
+```
 
-#### 安装教程
+## 安装教程
 
-1. xxxx
-2. xxxx
-3. xxxx
+#### 1.引入jar包
 
-#### 使用说明
+```
+    <dependencies>
+        <dependency>
+            <groupId>net.guerlab</groupId>
+            <artifactId>guerlab-sms-server-starter</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+```
 
-1. xxxx
-2. xxxx
-3. xxxx
+#### 2.bootstrap.yml增加配置项 sms.*
 
-#### 参与贡献
+```
+sms:
+  enable-web: true ##启用web端点
+  reg: ##手机号码正则表达式，为空则不做验证
+  verification-code:
+    code-length: 6 ##验证码长度
+    delete-by-verify-fail: false ##为true则验证失败后删除验证码
+    delete-by-verify-succeed: true ##为true则验证成功后删除验证码
+    expiration-time:  ##验证码有效期，单位秒
+    identification-code-length: 3 ##识别码长度
+    use-identification-code: false ##是否启用识别码
+```
 
-1. Fork 本项目
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
+#### 3.启动方法增加注解项@EnableSmsServer
 
+```
+package net.guerlab.sms.test;
 
-#### 码云特技
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [http://git.mydoc.io/](http://git.mydoc.io/)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+import net.guerlab.sms.server.annotation.EnableSmsServer;
+
+@SpringBootApplication
+@EnableSmsServer
+public class Starter {
+
+    public static void main(String[] args) {
+        SpringApplication.run(Starter.class, args);
+    }
+}
+
+```
+
+#### 4.定制验证码的储存位置
+
+实现net.guerlab.sms.server.repository.IVerificationCodeRepository接口即可
+
+可参考[guerlab-sms-redis-repository-starter](./guerlab-sms-redis-repository-starter)实现

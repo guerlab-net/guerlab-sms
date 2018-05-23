@@ -39,7 +39,7 @@ public class VerificationCodeProperties {
     private boolean deleteByVerifyFail = false;
 
     /**
-     * 返回 验证码过期时间
+     * 返回 验证码过期时间，单位秒
      *
      * @return 验证码过期时间
      */
@@ -48,7 +48,7 @@ public class VerificationCodeProperties {
     }
 
     /**
-     * 设置验证码过期时间
+     * 设置验证码过期时间，单位秒
      *
      * @param expirationTime
      *            验证码过期时间，小于等于0表示不过期

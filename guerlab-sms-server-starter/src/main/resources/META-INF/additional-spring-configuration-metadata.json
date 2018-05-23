@@ -31,7 +31,7 @@
 			"name": "sms.verification-code.expiration-time",
 			"type": "long",
 			"sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
-			"description": "验证码过期时间,小于等于0表示不过期"
+			"description": "验证码过期时间,小于等于0表示不过期，单位秒"
 		},
 		{
 			"name": "sms.verification-code.use-identification-code",
