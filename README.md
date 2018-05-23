@@ -80,3 +80,24 @@ public class Starter {
 实现net.guerlab.sms.server.repository.IVerificationCodeRepository接口即可
 
 可参考[guerlab-sms-redis-repository-starter](./guerlab-sms-redis-repository-starter)实现
+
+#### 5.测试系统尝试功能
+
+#### 5.1 发送验证码
+
+POST请求访问http://localhost:8080/sms/verificationCode/{电话号码} 进行验证码发送
+
+#### 5.2 获取验证码信息
+
+GET请求访问http://localhost:8080/sms/verificationCode/{电话号码} 进行验证码信息获取
+
+#### 5.2 验证码验证
+
+POST请求发送请求提访问http://localhost:8080/sms/verificationCode 进行验证码信息验证
+
+请求体
+```
+{"phone":"电话号码","code":"验证码","identificationCode":"识别码"}
+```
+
+未启动识别码请求体中可不传识别码
