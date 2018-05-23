@@ -67,6 +67,6 @@
 			"sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
 			"description": "验证失败是否删除验证码",
 			"defaultValue": "false"
-		},
+		}
 	]
 }
