@@ -1,0 +1,72 @@
+{
+	"groups": [
+		{
+			"name": "sms",
+			"type": "net.guerlab.sms.server.properties.SmsProperties",
+			"sourceType": "net.guerlab.sms.server.properties.SmsProperties",
+			"description": "短信配置"
+		},
+		{
+			"name": "sms.verification-code",
+			"type": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+			"sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+			"description": "短信验证码配置"
+		}
+	],
+	"properties": [
+		{
+			"name": "sms.reg",
+			"type": "String",
+			"sourceType": "net.guerlab.sms.server.properties.SmsProperties",
+			"description": "手机号码正则规则"
+		},
+		{
+			"name": "sms.enable-web",
+			"type": "boolean",
+			"sourceType": "net.guerlab.sms.server.properties.SmsProperties",
+			"description": "启用web端点",
+			"defaultValue": "false"
+		},
+		{
+			"name": "sms.verification-code.expiration-time",
+			"type": "long",
+			"sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+			"description": "验证码过期时间,小于等于0表示不过期"
+		},
+		{
+			"name": "sms.verification-code.use-identification-code",
+			"type": "boolean",
+			"sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+			"description": "是否使用识别码",
+			"defaultValue": "false"
+		},
+		{
+			"name": "sms.verification-code.code-length",
+			"type": "int",
+			"sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+			"description": "验证码长度",
+			"defaultValue": "6"
+		},
+		{
+			"name": "sms.verification-code.identification-code-length",
+			"type": "int",
+			"sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+			"description": "识别码长度",
+			"defaultValue": "3"
+		},
+		{
+			"name": "sms.verification-code.delete-by-verify-succeed",
+			"type": "boolean",
+			"sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+			"description": "验证成功是否删除验证码",
+			"defaultValue": "true"
+		},
+		{
+			"name": "sms.verification-code.delete-by-verify-fail",
+			"type": "boolean",
+			"sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+			"description": "验证失败是否删除验证码",
+			"defaultValue": "false"
+		},
+	]
+}

@@ -183,7 +183,12 @@
             </dependency>
             <dependency>
                 <groupId>net.guerlab</groupId>
-                <artifactId>guerlab-sms-server</artifactId>
+                <artifactId>guerlab-sms-server-starter</artifactId>
+                <version>${guerlab-sms.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.guerlab</groupId>
+                <artifactId>guerlab-sms-aliyun-starter</artifactId>
                 <version>${guerlab-sms.version}</version>
             </dependency>
         </dependencies>
@@ -191,7 +196,8 @@
     
     <modules>
         <module>guerlab-sms-core</module>
-        <module>guerlab-sms-server</module>
+        <module>guerlab-sms-server-starter</module>
         <module>guerlab-sms-test</module>
+        <module>guerlab-sms-aliyun-starter</module>
     </modules>
 </project>

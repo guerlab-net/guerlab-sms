@@ -51,14 +51,21 @@ public class DefaultVerificationCodeService implements VerificationCodeService {
         return verificationCode == null ? null : verificationCode.getCode();
     }
 
+    private String createIdentificationCode() {
+        if (!properties.getVerificationCode().isUseIdentificationCode()) {
+            return "";
+        }
+
+        return RandomUtil.nextString(properties.getVerificationCode().getIdentificationCodeLength());
+    }
+
     @Override
     public void send(String phone) {
         if (StringUtils.isBlank(phone)) {
             throw new PhoneIsNullError();
         }
 
-        String identificationCode = RandomUtil
-                .nextString(properties.getVerificationCode().getIdentificationCodeLength());
+        String identificationCode = createIdentificationCode();
 
         phoneValidation(phone);
 

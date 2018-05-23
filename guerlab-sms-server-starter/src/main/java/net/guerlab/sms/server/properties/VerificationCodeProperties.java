@@ -19,6 +19,11 @@ public class VerificationCodeProperties {
     private int codeLength = 6;
 
     /**
+     * 是否使用识别码
+     */
+    private boolean useIdentificationCode = false;
+
+    /**
      * 识别码长度
      */
     private int identificationCodeLength = 3;
@@ -69,6 +74,25 @@ public class VerificationCodeProperties {
      */
     public void setCodeLength(int codeLength) {
         this.codeLength = codeLength;
+    }
+
+    /**
+     * 返回是否使用识别码
+     *
+     * @return 是否使用识别码
+     */
+    public boolean isUseIdentificationCode() {
+        return useIdentificationCode;
+    }
+
+    /**
+     * 设置是否使用识别码
+     *
+     * @param useIdentificationCode
+     *            是否使用识别码
+     */
+    public void setUseIdentificationCode(boolean useIdentificationCode) {
+        this.useIdentificationCode = useIdentificationCode;
     }
 
     /**

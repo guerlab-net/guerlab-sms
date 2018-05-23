@@ -7,6 +7,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +28,8 @@ import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
 @Service
 public class DefaultNoticeService implements NoticeService {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultNoticeService.class);
+
     @Autowired
     private SmsProperties properties;
 
@@ -37,13 +41,19 @@ public class DefaultNoticeService implements NoticeService {
 
     @Override
     public void send(NoticeData noticeData, Collection<String> phones) {
-        if (noticeData == null || CollectionUtil.isEmpty(phones)) {
+        if (noticeData == null) {
+            LOGGER.debug("noticeData is null");
+            return;
+        }
+        if (CollectionUtil.isEmpty(phones)) {
+            LOGGER.debug("phones is empty");
             return;
         }
 
         List<String> phoneList = phones.stream().filter(this::phoneRegValidation).collect(Collectors.toList());
 
         if (CollectionUtil.isEmpty(phoneList)) {
+            LOGGER.debug("filted phones is empty");
             return;
         }
 

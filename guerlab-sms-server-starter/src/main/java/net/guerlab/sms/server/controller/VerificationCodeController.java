@@ -14,6 +14,8 @@ import net.guerlab.sms.core.domain.VerifyInfo;
 import net.guerlab.sms.core.exception.VerificationCodeIsNullError;
 import net.guerlab.sms.core.exception.VerifyFailError;
 import net.guerlab.sms.server.service.VerificationCodeService;
+import net.guerlab.web.result.Result;
+import net.guerlab.web.result.Succeed;
 
 /**
  * 手机验证码
@@ -46,15 +48,15 @@ public class VerificationCodeController {
      * @return 发送响应
      */
     @GetMapping(value = "/{phone}", produces = "application/json")
-    public String get(@PathVariable("phone") String phone,
-            @RequestParam("identificationCode") String identificationCode) {
+    public Result<String> get(@PathVariable("phone") String phone,
+            @RequestParam(value = "identificationCode", required = false, defaultValue = "") String identificationCode) {
         String code = service.find(phone, identificationCode);
 
         if (StringUtils.isBlank(code)) {
             throw new VerificationCodeIsNullError();
         }
 
-        return code;
+        return new Succeed<>(Succeed.MSG, code);
     }
 
     /**
