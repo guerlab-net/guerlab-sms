@@ -1,0 +1,43 @@
+{
+	"groups": [
+		{
+			"name": "sms.qcloud",
+			"type": "net.guerlab.sms.qcloud.QCloudProperties",
+			"sourceType": "net.guerlab.sms.qcloud.QCloudProperties",
+			"description": "腾讯云短信配置"
+		}
+	],
+	"properties": [
+		{
+			"name": "sms.qcloud.enable",
+			"type": "boolean",
+			"sourceType": "net.guerlab.sms.qcloud.QCloudProperties",
+			"description": "是否启用腾讯云配置",
+			"defaultValue": "true"
+		},
+		{
+			"name": "sms.qcloud.app-id",
+			"type": "int",
+			"sourceType": "net.guerlab.sms.qcloud.QCloudProperties",
+			"description": "短信应用SDK AppID"
+		},
+		{
+			"name": "sms.qcloud.appkey",
+			"type": "String",
+			"sourceType": "net.guerlab.sms.qcloud.QCloudProperties",
+			"description": "短信应用SDK AppKey"
+		},
+		{
+			"name": "sms.qcloud.sms-sign",
+			"type": "String",
+			"sourceType": "net.guerlab.sms.qcloud.QCloudProperties",
+			"description": "短信签名"
+		},
+		{
+			"name": "sms.qcloud.templates",
+			"type": "java.util.Map<String, Integer>",
+			"sourceType": "net.guerlab.sms.qcloud.QCloudProperties",
+			"description": "短信模板"
+		}
+	]
+}

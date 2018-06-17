@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.guerlab</groupId>
     <artifactId>guerlab-sms</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -52,7 +52,7 @@
         <plugin.deploy.version>2.8.2</plugin.deploy.version>
         <project.encoding>UTF-8</project.encoding>
 
-        <guerlab-sms.version>0.0.1-SNAPSHOT</guerlab-sms.version>
+        <guerlab-sms.version>0.0.2-SNAPSHOT</guerlab-sms.version>
         <guerlab-spring.version>2.0.0-SNAPSHOT</guerlab-spring.version>
     </properties>
 
@@ -205,5 +205,6 @@
         <module>guerlab-sms-test</module>
         <module>guerlab-sms-aliyun-starter</module>
         <module>guerlab-sms-redis-repository-starter</module>
+        <module>guerlab-sms-qcloud-starter</module>
     </modules>
 </project>
