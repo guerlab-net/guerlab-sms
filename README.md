@@ -9,7 +9,7 @@
 <dependency>
 	<groupId>net.guerlab</groupId>
 	<artifactId>guerlab-sms-server-starter</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 </dependency>
 <repositories>
 	<repository>
@@ -34,7 +34,7 @@
         <dependency>
             <groupId>net.guerlab</groupId>
             <artifactId>guerlab-sms-server-starter</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>0.0.2-SNAPSHOT</version>
         </dependency>
     </dependencies>
 ```
