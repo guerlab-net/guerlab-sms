@@ -27,8 +27,6 @@ public class QCloudAutoConfigure {
      *
      * @param properties
      *            配置对象
-     * @param objectMapper
-     *            objectMapper
      * @return 阿里云发送处理
      */
     @Bean
