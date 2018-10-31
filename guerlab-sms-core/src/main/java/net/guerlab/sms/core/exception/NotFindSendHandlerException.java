@@ -5,12 +5,12 @@ import java.util.Locale;
 import net.guerlab.commons.exception.ApplicationException;
 
 /**
- * 手机验证码信息无效
+ * 未找到有效的短信发送处理
  *
  * @author guer
  *
  */
-public class VerificationCodeIsNullError extends ApplicationException {
+public class NotFindSendHandlerException extends ApplicationException {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,16 +20,16 @@ public class VerificationCodeIsNullError extends ApplicationException {
         Locale locale = Locale.getDefault();
 
         if (Locale.CHINA.equals(locale)) {
-            DEFAULT_MSG = "手机验证码信息无效";
+            DEFAULT_MSG = "未找到有效的短信发送处理程序";
         } else {
-            DEFAULT_MSG = "The mobile verification code information is invalid.";
+            DEFAULT_MSG = "Not found effective sms send handler.";
         }
     }
 
     /**
-     * 手机验证码信息无效
+     * 未找到有效的短信发送处理
      */
-    public VerificationCodeIsNullError() {
+    public NotFindSendHandlerException() {
         super(DEFAULT_MSG);
     }
 }

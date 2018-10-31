@@ -5,12 +5,12 @@ import java.util.Locale;
 import net.guerlab.commons.exception.ApplicationException;
 
 /**
- * 短信发送失败
+ * 验证失败
  *
  * @author guer
  *
  */
-public class SendFailedError extends ApplicationException {
+public class VerifyFailException extends ApplicationException {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,19 +20,16 @@ public class SendFailedError extends ApplicationException {
         Locale locale = Locale.getDefault();
 
         if (Locale.CHINA.equals(locale)) {
-            DEFAULT_MSG = "短信发送失败，";
+            DEFAULT_MSG = "验证失败";
         } else {
-            DEFAULT_MSG = "SMS sending failed,";
+            DEFAULT_MSG = "Validation fails";
         }
     }
 
     /**
-     * 通过错误信息构造短信发送失败异常
-     *
-     * @param message
-     *            错误信息
+     * 验证失败
      */
-    public SendFailedError(String message) {
-        super(DEFAULT_MSG + message);
+    public VerifyFailException() {
+        super(DEFAULT_MSG);
     }
 }

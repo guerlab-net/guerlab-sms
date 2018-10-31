@@ -5,12 +5,12 @@ import java.util.Locale;
 import net.guerlab.commons.exception.ApplicationException;
 
 /**
- * 验证失败
+ * 手机号无效
  *
  * @author guer
  *
  */
-public class VerifyFailError extends ApplicationException {
+public class PhoneIsNullException extends ApplicationException {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,16 +20,16 @@ public class VerifyFailError extends ApplicationException {
         Locale locale = Locale.getDefault();
 
         if (Locale.CHINA.equals(locale)) {
-            DEFAULT_MSG = "验证失败";
+            DEFAULT_MSG = "手机号无效";
         } else {
-            DEFAULT_MSG = "Validation fails";
+            DEFAULT_MSG = "Invalid phone number.";
         }
     }
 
     /**
-     * 验证失败
+     * 手机号无效
      */
-    public VerifyFailError() {
+    public PhoneIsNullException() {
         super(DEFAULT_MSG);
     }
 }

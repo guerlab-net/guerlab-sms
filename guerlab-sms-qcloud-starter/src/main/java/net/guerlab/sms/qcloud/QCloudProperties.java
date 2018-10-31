@@ -1,5 +1,6 @@
 package net.guerlab.sms.qcloud;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -34,6 +35,11 @@ public class QCloudProperties {
      * 短信模板
      */
     protected Map<String, Integer> templates;
+
+    /**
+     * 参数顺序
+     */
+    protected Map<String, List<String>> paramsOrders;
 
     /**
      * 返回短信应用SDK AppID
@@ -120,6 +126,36 @@ public class QCloudProperties {
      */
     public Integer getTemplates(String type) {
         return templates == null ? null : templates.get(type);
+    }
+
+    /**
+     * 返回参数顺序
+     *
+     * @return 参数顺序
+     */
+    public Map<String, List<String>> getParamsOrders() {
+        return paramsOrders;
+    }
+
+    /**
+     * 设置参数顺序
+     *
+     * @param paramsOrders
+     *            参数顺序
+     */
+    public void setParamsOrders(Map<String, List<String>> paramsOrders) {
+        this.paramsOrders = paramsOrders;
+    }
+
+    /**
+     * 返回参数顺序
+     *
+     * @param type
+     *            类型
+     * @return 参数顺序
+     */
+    public List<String> getParamsOrder(String type) {
+        return paramsOrders.get(type);
     }
 
 }

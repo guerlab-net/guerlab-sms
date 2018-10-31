@@ -5,18 +5,18 @@
 	<artifactId>guerlab-sms-test</artifactId>
 
 	<parent>
-		<groupId>net.guerlab</groupId>
+		<groupId>net.guerlab.sms</groupId>
 		<artifactId>guerlab-sms</artifactId>
-		<version>0.0.2</version>
+		<version>1.0.0</version>
 	</parent>
 
 	<dependencies>
 		<dependency>
-			<groupId>net.guerlab</groupId>
+			<groupId>net.guerlab.sms</groupId>
 			<artifactId>guerlab-sms-aliyun-starter</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>net.guerlab</groupId>
+			<groupId>net.guerlab.sms</groupId>
 			<artifactId>guerlab-sms-redis-repository-starter</artifactId>
 		</dependency>
 		<dependency>

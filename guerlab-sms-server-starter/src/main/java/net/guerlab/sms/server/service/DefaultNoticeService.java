@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 import net.guerlab.commons.collection.CollectionUtil;
 import net.guerlab.sms.core.domain.NoticeData;
-import net.guerlab.sms.core.exception.NotFindSendHandlerError;
+import net.guerlab.sms.core.exception.NotFindSendHandlerException;
 import net.guerlab.sms.core.handler.SendHandler;
 import net.guerlab.sms.server.properties.SmsProperties;
 import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
@@ -61,7 +61,7 @@ public class DefaultNoticeService implements NoticeService {
                 .getBeansOfType(SendHandler.class);
 
         if (sendHandlerMap.isEmpty()) {
-            throw new NotFindSendHandlerError();
+            throw new NotFindSendHandlerException();
         }
 
         Optional<SendHandler> optional = sendHandlerMap.values().stream().findAny();

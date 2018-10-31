@@ -5,12 +5,12 @@ import java.util.Locale;
 import net.guerlab.commons.exception.ApplicationException;
 
 /**
- * 手机号无效
+ * 短信发送失败
  *
  * @author guer
  *
  */
-public class PhoneIsNullError extends ApplicationException {
+public class SendFailedException extends ApplicationException {
 
     private static final long serialVersionUID = 1L;
 
@@ -20,16 +20,19 @@ public class PhoneIsNullError extends ApplicationException {
         Locale locale = Locale.getDefault();
 
         if (Locale.CHINA.equals(locale)) {
-            DEFAULT_MSG = "手机号无效";
+            DEFAULT_MSG = "短信发送失败，";
         } else {
-            DEFAULT_MSG = "Invalid phone number.";
+            DEFAULT_MSG = "SMS sending failed,";
         }
     }
 
     /**
-     * 手机号无效
+     * 通过错误信息构造短信发送失败异常
+     *
+     * @param message
+     *            错误信息
      */
-    public PhoneIsNullError() {
-        super(DEFAULT_MSG);
+    public SendFailedException(String message) {
+        super(DEFAULT_MSG + message);
     }
 }

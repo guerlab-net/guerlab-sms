@@ -1,9 +1,7 @@
 package net.guerlab.sms.server.repository;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -63,19 +61,23 @@ public class VerificationCodeRedisRepository implements IVerificationCodeReposit
 
         ValueOperations<String, String> operations = redisTemplate.opsForValue();
 
+        LocalDateTime expirationTime = verificationCode.getExpirationTime();
+
+        String value = null;
+
         try {
-            operations.set(key, objectMapper.writeValueAsString(verificationCode));
+            value = objectMapper.writeValueAsString(verificationCode);
         } catch (Exception e) {
             LOGGER.debug(e.getMessage(), e);
             throw new ApplicationException(e);
         }
 
-        LocalDateTime expirationTime = verificationCode.getExpirationTime();
+        if (expirationTime == null) {
+            operations.set(key, value);
+        } else {
+            int timeout = expirationTime.getSecond() - LocalDateTime.now().getSecond();
 
-        if (expirationTime != null) {
-            Instant instant = expirationTime.atZone(ZoneId.systemDefault()).toInstant();
-            Date date = Date.from(instant);
-            redisTemplate.expireAt(key, date);
+            operations.set(key, value, timeout, TimeUnit.SECONDS);
         }
     }
 

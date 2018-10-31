@@ -19,6 +19,12 @@ import net.guerlab.commons.exception.ApplicationException;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.handler.SendHandler;
 
+/**
+ * 阿里云短信发送处理
+ *
+ * @author guer
+ *
+ */
 public class AliyunSendHandler implements SendHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AliyunSendHandler.class);
@@ -35,6 +41,14 @@ public class AliyunSendHandler implements SendHandler {
 
     private IAcsClient acsClient;
 
+    /**
+     * 构造阿里云短信发送处理
+     *
+     * @param properties
+     *            阿里云短信配置
+     * @param objectMapper
+     *            objectMapper
+     */
     public AliyunSendHandler(AliyunProperties properties, ObjectMapper objectMapper) {
         this.properties = properties;
         this.objectMapper = objectMapper;

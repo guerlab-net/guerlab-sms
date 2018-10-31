@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import net.guerlab.commons.number.NumberHelper;
 import net.guerlab.commons.random.RandomUtil;
 import net.guerlab.sms.core.domain.NoticeData;
-import net.guerlab.sms.core.exception.PhoneIsNullError;
+import net.guerlab.sms.core.exception.PhoneIsNullException;
 import net.guerlab.sms.server.entity.VerificationCode;
 import net.guerlab.sms.server.properties.SmsProperties;
 import net.guerlab.sms.server.repository.IVerificationCodeRepository;
@@ -62,7 +62,7 @@ public class DefaultVerificationCodeService implements VerificationCodeService {
     @Override
     public void send(String phone) {
         if (StringUtils.isBlank(phone)) {
-            throw new PhoneIsNullError();
+            throw new PhoneIsNullException();
         }
 
         String identificationCode = createIdentificationCode();
@@ -127,7 +127,7 @@ public class DefaultVerificationCodeService implements VerificationCodeService {
 
     private void phoneValidation(String phone) {
         if (!noticeService.phoneRegValidation(phone)) {
-            throw new PhoneIsNullError();
+            throw new PhoneIsNullException();
         }
     }
 

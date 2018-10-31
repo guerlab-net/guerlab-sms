@@ -26,9 +26,9 @@ public class SmsProperties {
     private VerificationCodeProperties verificationCode = new VerificationCodeProperties();
 
     /**
-     * 启用web端点
+     * 短信Web配置
      */
-    private boolean enableWeb = false;
+    private SmsWebProperties web = new SmsWebProperties();
 
     /**
      * 返回 手机号码正则规则
@@ -69,21 +69,21 @@ public class SmsProperties {
     }
 
     /**
-     * 返回启用web端点
+     * 返回短信Web配置
      *
-     * @return 启用web端点
+     * @return 短信Web配置
      */
-    public boolean isEnableWeb() {
-        return enableWeb;
+    public SmsWebProperties getWeb() {
+        return web;
     }
 
     /**
-     * 设置启用web端点
+     * 设置短信Web配置
      *
-     * @param enableWeb
-     *            启用web端点
+     * @param web
+     *            短信Web配置
      */
-    public void setEnableWeb(boolean enableWeb) {
-        this.enableWeb = enableWeb;
+    public void setWeb(SmsWebProperties web) {
+        this.web = web;
     }
 }

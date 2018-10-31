@@ -12,7 +12,7 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 import net.guerlab.sms.qcloud.QCloudAutoConfigure.EnableCondition;
 
 /**
- * 阿里云发送端点自动配置
+ * 腾讯云发送端点自动配置
  *
  * @author guer
  *
@@ -23,15 +23,15 @@ import net.guerlab.sms.qcloud.QCloudAutoConfigure.EnableCondition;
 public class QCloudAutoConfigure {
 
     /**
-     * 构造阿里云发送处理
+     * 构造腾讯云发送处理
      *
      * @param properties
      *            配置对象
-     * @return 阿里云发送处理
+     * @return 腾讯云发送处理
      */
     @Bean
     @RefreshScope
-    public QCloudSendHandler aliyunSendHandler(QCloudProperties properties) {
+    public QCloudSendHandler qcloudSendHandler(QCloudProperties properties) {
         return new QCloudSendHandler(properties);
     }
 
