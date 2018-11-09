@@ -7,22 +7,10 @@
 
 ```
 <dependency>
-	<groupId>net.guerlab</groupId>
+	<groupId>net.guerlab.sms</groupId>
 	<artifactId>guerlab-sms-server-starter</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>1.0.0</version>
 </dependency>
-<repositories>
-	<repository>
-		<id>sonatype-nexus-snapshots</id>
-		<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-		<releases>
-			<enabled>false</enabled>
-		</releases>
-		<snapshots>
-			<enabled>true</enabled>
-		</snapshots>
-	</repository>
-</repositories>
 ```
 
 ## 安装教程
@@ -30,20 +18,17 @@
 #### 1.引入jar包
 
 ```
-    <dependencies>
-        <dependency>
-            <groupId>net.guerlab</groupId>
-            <artifactId>guerlab-sms-server-starter</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
-        </dependency>
-    </dependencies>
+<dependency>
+    <groupId>net.guerlab.sms</groupId>
+    <artifactId>guerlab-sms-server-starter</artifactId>
+    <version>1.0.0</version>
+</dependency>
 ```
 
 #### 2.bootstrap.yml增加配置项 sms.*
 
 ```
 sms:
-  enable-web: true ##启用web端点
   reg: ##手机号码正则表达式，为空则不做验证
   verification-code:
     code-length: 6 ##验证码长度
@@ -52,13 +37,14 @@ sms:
     expiration-time:  ##验证码有效期，单位秒
     identification-code-length: 3 ##识别码长度
     use-identification-code: false ##是否启用识别码
+  web:
+    enbale: true ##启用web端点
+    base-path: /sms ##基础路径,默认为/sms,实现类为net.guerlab.sms.server.controller.SmsController
 ```
 
 #### 3.启动方法增加注解项@EnableSmsServer
 
 ```
-package net.guerlab.sms.test;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -81,23 +67,44 @@ public class Starter {
 
 可参考[guerlab-sms-redis-repository-starter](./guerlab-sms-redis-repository-starter)实现
 
-#### 5.测试系统尝试功能
+#### 5.定制具体的业务实现类
 
-#### 5.1 发送验证码
-
-POST请求访问http://localhost:8080/sms/verificationCode/{电话号码} 进行验证码发送
-
-#### 5.2 获取验证码信息
-
-GET请求访问http://localhost:8080/sms/verificationCode/{电话号码} 进行验证码信息获取
-
-#### 5.2 验证码验证
-
-POST请求发送请求提访问http://localhost:8080/sms/verificationCode 进行验证码信息验证
-
-请求体
+阿里云短信使用方式直接添加依赖
 ```
-{"phone":"电话号码","code":"验证码","identificationCode":"识别码"}
+<dependency>
+    <groupId>net.guerlab.sms</groupId>
+    <artifactId>guerlab-sms-aliyun-starter</artifactId>
+    <version>1.0.0</version>
+</dependency>
 ```
 
-未启动识别码请求体中可不传识别码
+腾讯云短信使用方式直接添加依赖
+```
+<dependency>
+    <groupId>net.guerlab.sms</groupId>
+    <artifactId>guerlab-sms-qcloud-starter</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+其他运营商实现方式请自行实现net.guerlab.sms.core.handler.SendHandler
+
+#### 6.发送验证码
+
+#### 6.1 注入VerificationCodeService  (net.guerlab.sms.server.service.VerificationCodeService)
+
+#### 6.2 发送验证码
+
+调用verificationCodeService.send(phone)方法进行验证码发送
+
+#### 6.3 验证码验证
+
+调用verificationCodeService.verify(phone, code, identificationCode)进行验证，其中code为验证码，identificationCode为识别码，识别码非必填
+
+#### 7.发送通知
+
+#### 7.1 注入NoticeService  (net.guerlab.sms.server.service.NoticeService)
+
+#### 7.2 发送通知
+
+调用noticeService.send(noticeData, phones)进行通知发送，noticeData为net.guerlab.sms.core.domain.NoticeData实例，phones为手机号码列表
