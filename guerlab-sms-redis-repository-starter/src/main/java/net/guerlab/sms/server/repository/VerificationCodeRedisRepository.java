@@ -1,8 +1,8 @@
 package net.guerlab.sms.server.repository;
 
-import java.time.LocalDateTime;
-import java.util.concurrent.TimeUnit;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import net.guerlab.commons.exception.ApplicationException;
+import net.guerlab.sms.server.entity.VerificationCode;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +11,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import net.guerlab.commons.exception.ApplicationException;
-import net.guerlab.sms.server.entity.VerificationCode;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 验证码redis储存实现
@@ -26,6 +25,8 @@ import net.guerlab.sms.server.entity.VerificationCode;
 public class VerificationCodeRedisRepository implements IVerificationCodeRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VerificationCodeMemoryRepository.class);
+
+    private static final ZoneOffset ZONE_OFFSET = ZoneOffset.of("+0");
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
@@ -75,7 +76,9 @@ public class VerificationCodeRedisRepository implements IVerificationCodeReposit
         if (expirationTime == null) {
             operations.set(key, value);
         } else {
-            int timeout = expirationTime.getSecond() - LocalDateTime.now().getSecond();
+            long now = LocalDateTime.now().toEpochSecond(ZONE_OFFSET);
+            long end = expirationTime.toEpochSecond(ZONE_OFFSET);
+            long timeout = end - now;
 
             operations.set(key, value, timeout, TimeUnit.SECONDS);
         }
