@@ -1,0 +1,18 @@
+{
+	"groups": [
+		{
+			"name": "sms.redis",
+			"type": "net.guerlab.sms.server.properties.RedisProperties",
+			"sourceType": "net.guerlab.sms.server.properties.RedisProperties",
+			"description": "Redis配置"
+		}
+	],
+	"properties": [
+		{
+			"name": "sms.redis.key-prefix",
+			"type": "String",
+			"sourceType": "net.guerlab.sms.server.properties.RedisProperties",
+			"description": "Key前缀"
+		}
+	]
+}

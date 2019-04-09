@@ -3,10 +3,12 @@ package net.guerlab.sms.server.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.guerlab.commons.exception.ApplicationException;
 import net.guerlab.sms.server.entity.VerificationCode;
+import net.guerlab.sms.server.properties.RedisProperties;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Repository;
@@ -22,11 +24,15 @@ import java.util.concurrent.TimeUnit;
  *
  */
 @Repository
+@EnableConfigurationProperties(RedisProperties.class)
 public class VerificationCodeRedisRepository implements IVerificationCodeRepository {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VerificationCodeMemoryRepository.class);
 
     private static final ZoneOffset ZONE_OFFSET = ZoneOffset.of("+0");
+
+    @Autowired
+    private RedisProperties properties;
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
@@ -46,14 +52,12 @@ public class VerificationCodeRedisRepository implements IVerificationCodeReposit
             return null;
         }
 
-        VerificationCode verificationCode = null;
         try {
-            verificationCode = objectMapper.readValue(json, VerificationCode.class);
+            return objectMapper.readValue(json, VerificationCode.class);
         } catch (Exception e) {
             LOGGER.debug(e.getMessage(), e);
+            return null;
         }
-
-        return verificationCode;
     }
 
     @Override
@@ -64,7 +68,7 @@ public class VerificationCodeRedisRepository implements IVerificationCodeReposit
 
         LocalDateTime expirationTime = verificationCode.getExpirationTime();
 
-        String value = null;
+        String value;
 
         try {
             value = objectMapper.writeValueAsString(verificationCode);
@@ -90,11 +94,20 @@ public class VerificationCodeRedisRepository implements IVerificationCodeReposit
     }
 
     private String key(String phone, String identificationCode) {
-        if (StringUtils.isBlank(identificationCode)) {
-            return phone;
+        String tempPrefix = StringUtils.trimToNull(properties.getKeyPrefix());
+
+        String prefix;
+        if (tempPrefix == null) {
+            prefix = "";
+        } else {
+            prefix = tempPrefix + "_";
         }
 
-        return phone + "_" + identificationCode;
+        if (StringUtils.isBlank(identificationCode)) {
+            return prefix + phone;
+        }
+
+        return prefix + phone + "_" + identificationCode;
     }
 
 }
