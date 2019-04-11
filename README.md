@@ -1,7 +1,10 @@
 # guerlab-sms
 
-## 项目介绍
 基于Spring boot的短信服务支持，通过引用不同的Starter启用不同的短信通道支持
+
+![](https://img.shields.io/maven-central/v/net.guerlab.sms/guerlab-sms-server-starter.svg)
+![](https://travis-ci.org/guerlab-net-sms/guerlab-sms-core.svg?branch=master)
+![](https://img.shields.io/badge/LICENSE-LGPL--3.0-brightgreen.svg)
 
 ## maven配置
 
@@ -9,102 +12,24 @@
 <dependency>
 	<groupId>net.guerlab.sms</groupId>
 	<artifactId>guerlab-sms-server-starter</artifactId>
-	<version>1.0.0</version>
 </dependency>
 ```
 
-## 安装教程
+## 子项目列表
 
-#### 1.引入jar包
+|子项目|说明|
+|:--|--|
+|guerlab-sms-core|核心包|
+|guerlab-sms-server-starter|短信服务实现|
+|guerlab-sms-redis-repository-starter|基于redis的repository实现|
+|guerlab-sms-aliyun-starter|阿里云接入实现|
+|guerlab-sms-qcloud-starter|腾讯云接入实现|
+|guerlab-sms-test|测试及demo|
 
-```
-<dependency>
-    <groupId>net.guerlab.sms</groupId>
-    <artifactId>guerlab-sms-server-starter</artifactId>
-    <version>1.0.0</version>
-</dependency>
-```
+## wiki
 
-#### 2.bootstrap.yml增加配置项 sms.*
+- [Gitee](https://gitee.com/guerlab_net/guerlab-sms/wikis/pages)
 
-```
-sms:
-  reg: ##手机号码正则表达式，为空则不做验证
-  verification-code:
-    code-length: 6 ##验证码长度
-    delete-by-verify-fail: false ##为true则验证失败后删除验证码
-    delete-by-verify-succeed: true ##为true则验证成功后删除验证码
-    expiration-time:  ##验证码有效期，单位秒
-    identification-code-length: 3 ##识别码长度
-    use-identification-code: false ##是否启用识别码
-  web:
-    enbale: true ##启用web端点
-    base-path: /sms ##基础路径,默认为/sms,实现类为net.guerlab.sms.server.controller.SmsController
-```
+## changelog
 
-#### 3.启动方法增加注解项@EnableSmsServer
-
-```
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import net.guerlab.sms.server.annotation.EnableSmsServer;
-
-@SpringBootApplication
-@EnableSmsServer
-public class Starter {
-
-    public static void main(String[] args) {
-        SpringApplication.run(Starter.class, args);
-    }
-}
-
-```
-
-#### 4.定制验证码的储存位置
-
-实现net.guerlab.sms.server.repository.IVerificationCodeRepository接口即可
-
-可参考[guerlab-sms-redis-repository-starter](./guerlab-sms-redis-repository-starter)实现
-
-#### 5.定制具体的业务实现类
-
-阿里云短信使用方式直接添加依赖
-```
-<dependency>
-    <groupId>net.guerlab.sms</groupId>
-    <artifactId>guerlab-sms-aliyun-starter</artifactId>
-    <version>1.0.0</version>
-</dependency>
-```
-
-腾讯云短信使用方式直接添加依赖
-```
-<dependency>
-    <groupId>net.guerlab.sms</groupId>
-    <artifactId>guerlab-sms-qcloud-starter</artifactId>
-    <version>1.0.0</version>
-</dependency>
-```
-
-其他运营商实现方式请自行实现net.guerlab.sms.core.handler.SendHandler
-
-#### 6.发送验证码
-
-#### 6.1 注入VerificationCodeService  (net.guerlab.sms.server.service.VerificationCodeService)
-
-#### 6.2 发送验证码
-
-调用verificationCodeService.send(phone)方法进行验证码发送
-
-#### 6.3 验证码验证
-
-调用verificationCodeService.verify(phone, code, identificationCode)进行验证，其中code为验证码，identificationCode为识别码，识别码非必填
-
-#### 7.发送通知
-
-#### 7.1 注入NoticeService  (net.guerlab.sms.server.service.NoticeService)
-
-#### 7.2 发送通知
-
-调用noticeService.send(noticeData, phones)进行通知发送，noticeData为net.guerlab.sms.core.domain.NoticeData实例，phones为手机号码列表
+- [Gitee](https://gitee.com/guerlab_net/guerlab-sms/wikis/pages)

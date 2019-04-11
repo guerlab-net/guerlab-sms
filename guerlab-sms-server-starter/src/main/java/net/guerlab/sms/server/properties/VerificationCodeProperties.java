@@ -14,6 +14,11 @@ public class VerificationCodeProperties {
     private Long expirationTime;
 
     /**
+     * 重新发送验证码间隔时间,小于等于0表示不启用
+     */
+    private Long retryIntervalTime;
+
+    /**
      * 验证码长度
      */
     private int codeLength = 6;
@@ -55,6 +60,24 @@ public class VerificationCodeProperties {
      */
     public void setExpirationTime(Long expirationTime) {
         this.expirationTime = expirationTime;
+    }
+
+    /**
+     * 返回重新发送验证码间隔时间，单位秒
+     *
+     * @return 重新发送验证码间隔时间
+     */
+    public Long getRetryIntervalTime() {
+        return retryIntervalTime;
+    }
+
+    /**
+     * 设置重新发送验证码间隔时间，单位秒
+     *
+     * @param retryIntervalTime 重新发送验证码间隔时间,小于等于0表示不启用
+     */
+    public void setRetryIntervalTime(Long retryIntervalTime) {
+        this.retryIntervalTime = retryIntervalTime;
     }
 
     /**

@@ -29,8 +29,6 @@ public class VerificationCodeRedisRepository implements IVerificationCodeReposit
 
     private static final Logger LOGGER = LoggerFactory.getLogger(VerificationCodeMemoryRepository.class);
 
-    private static final ZoneOffset ZONE_OFFSET = ZoneOffset.of("+0");
-
     @Autowired
     private RedisProperties properties;
 
@@ -80,8 +78,8 @@ public class VerificationCodeRedisRepository implements IVerificationCodeReposit
         if (expirationTime == null) {
             operations.set(key, value);
         } else {
-            long now = LocalDateTime.now().toEpochSecond(ZONE_OFFSET);
-            long end = expirationTime.toEpochSecond(ZONE_OFFSET);
+            long now = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
+            long end = expirationTime.toEpochSecond(ZoneOffset.UTC);
             long timeout = end - now;
 
             operations.set(key, value, timeout, TimeUnit.SECONDS);

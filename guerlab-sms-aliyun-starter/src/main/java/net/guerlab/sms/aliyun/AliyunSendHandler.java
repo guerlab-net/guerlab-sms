@@ -1,11 +1,5 @@
 package net.guerlab.sms.aliyun;
 
-import java.util.Collection;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.aliyuncs.DefaultAcsClient;
 import com.aliyuncs.IAcsClient;
 import com.aliyuncs.dysmsapi.model.v20170525.SendSmsRequest;
@@ -14,10 +8,14 @@ import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import net.guerlab.commons.exception.ApplicationException;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.handler.SendHandler;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.Collection;
 
 /**
  * 阿里云短信发送处理
@@ -74,13 +72,13 @@ public class AliyunSendHandler implements SendHandler {
     }
 
     @Override
-    public void send(NoticeData noticeData, Collection<String> phones) {
-        String paramString = null;
+    public boolean send(NoticeData noticeData, Collection<String> phones) {
+        String paramString;
         try {
             paramString = objectMapper.writeValueAsString(noticeData.getParams());
         } catch (Exception e) {
             LOGGER.debug(e.getMessage(), e);
-            return;
+            return false;
         }
 
         SendSmsRequest request = new SendSmsRequest();
@@ -92,11 +90,16 @@ public class AliyunSendHandler implements SendHandler {
 
         try {
             SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
-            if (!OK.equals(sendSmsResponse.getCode())) {
-                LOGGER.debug("send fail[code={}, message={}]", sendSmsResponse.getCode(), sendSmsResponse.getMessage());
+
+            if (OK.equals(sendSmsResponse.getCode())) {
+                return true;
             }
+
+            LOGGER.debug("send fail[code={}, message={}]", sendSmsResponse.getCode(), sendSmsResponse.getMessage());
         } catch (Exception e) {
             LOGGER.debug(e.getMessage(), e);
         }
+
+        return false;
     }
 }

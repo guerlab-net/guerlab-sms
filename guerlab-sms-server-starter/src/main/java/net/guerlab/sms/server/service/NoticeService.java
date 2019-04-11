@@ -1,11 +1,10 @@
 package net.guerlab.sms.server.service;
 
-import java.util.Arrays;
-import java.util.Collection;
-
+import net.guerlab.sms.core.domain.NoticeData;
 import org.apache.commons.lang3.StringUtils;
 
-import net.guerlab.sms.core.domain.NoticeData;
+import java.util.Arrays;
+import java.util.Collection;
 
 /**
  * 短信通知服务
@@ -31,8 +30,9 @@ public interface NoticeService {
      *            通知内容
      * @param phones
      *            手机号列表
+     * @return 是否发送成功
      */
-    void send(NoticeData noticeData, Collection<String> phones);
+    boolean send(NoticeData noticeData, Collection<String> phones);
 
     /**
      * 发送通知
@@ -41,13 +41,14 @@ public interface NoticeService {
      *            通知内容
      * @param phone
      *            手机号
+     * @return 是否发送成功
      */
-    default void send(NoticeData noticeData, String phone) {
+    default boolean send(NoticeData noticeData, String phone) {
         if (StringUtils.isBlank(phone)) {
-            return;
+            return false;
         }
 
-        send(noticeData, Arrays.asList(phone));
+        return send(noticeData, Arrays.asList(phone));
     }
 
     /**
@@ -58,11 +59,11 @@ public interface NoticeService {
      * @param phones
      *            手机号列表
      */
-    default void send(NoticeData noticeData, String... phones) {
+    default boolean send(NoticeData noticeData, String... phones) {
         if (phones == null) {
-            return;
+            return false;
         }
 
-        send(noticeData, Arrays.asList(phones));
+        return send(noticeData, Arrays.asList(phones));
     }
 }

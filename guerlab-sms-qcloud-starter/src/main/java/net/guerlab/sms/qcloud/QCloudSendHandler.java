@@ -1,20 +1,15 @@
 package net.guerlab.sms.qcloud;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.github.qcloudsms.SmsMultiSender;
+import com.github.qcloudsms.SmsMultiSenderResult;
+import net.guerlab.commons.collection.CollectionUtil;
+import net.guerlab.sms.core.domain.NoticeData;
+import net.guerlab.sms.core.handler.SendHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.github.qcloudsms.SmsMultiSender;
-
-import net.guerlab.commons.collection.CollectionUtil;
-import net.guerlab.sms.core.domain.NoticeData;
-import net.guerlab.sms.core.handler.SendHandler;
+import java.util.*;
 
 public class QCloudSendHandler implements SendHandler {
 
@@ -39,14 +34,14 @@ public class QCloudSendHandler implements SendHandler {
     }
 
     @Override
-    public void send(NoticeData noticeData, Collection<String> phones) {
+    public boolean send(NoticeData noticeData, Collection<String> phones) {
         String type = noticeData.getType();
 
         Integer templateId = properties.getTemplates(type);
 
         if (templateId == null) {
             LOGGER.debug("templateId invalid");
-            return;
+            return false;
         }
 
         List<String> paramsOrder = properties.getParamsOrder(type);
@@ -85,8 +80,8 @@ public class QCloudSendHandler implements SendHandler {
             }
         }
 
-        phoneMap.entrySet().parallelStream()
-                .forEach(entry -> send0(templateId, params, entry.getKey(), entry.getValue()));
+        return phoneMap.entrySet().parallelStream()
+                .map(entry -> send0(templateId, params, entry.getKey(), entry.getValue())).filter(v -> !v).count() == 0;
     }
 
     private Collection<String> getList(Map<String, ArrayList<String>> phoneMap, String nationCode) {
@@ -101,11 +96,20 @@ public class QCloudSendHandler implements SendHandler {
         return list;
     }
 
-    private void send0(int templateId, ArrayList<String> params, String nationCode, ArrayList<String> phones) {
+    private boolean send0(int templateId, ArrayList<String> params, String nationCode, ArrayList<String> phones) {
         try {
-            sender.sendWithParam(nationCode, phones, templateId, params, properties.getSmsSign(), "", "");
+            SmsMultiSenderResult result = sender
+                    .sendWithParam(nationCode, phones, templateId, params, properties.getSmsSign(), "", "");
+
+            if (result.result == 0) {
+                return true;
+            }
+
+            LOGGER.debug("send fail[code={}, errMsg={}]", result.result, result.errMsg);
         } catch (Exception e) {
             LOGGER.debug(e.getMessage(), e);
         }
+
+        return false;
     }
 }

@@ -30,6 +30,11 @@ public class VerificationCode {
     private String identificationCode;
 
     /**
+     * 可重试时间
+     */
+    private LocalDateTime retryTime;
+
+    /**
      * 过期时间
      */
     private LocalDateTime expirationTime;
@@ -89,6 +94,24 @@ public class VerificationCode {
      */
     public void setIdentificationCode(String identificationCode) {
         this.identificationCode = identificationCode;
+    }
+
+    /**
+     * 返回 可重试时间
+     *
+     * @return 可重试时间
+     */
+    public LocalDateTime getRetryTime() {
+        return retryTime;
+    }
+
+    /**
+     * 设置可重试时间
+     *
+     * @param retryTime 可重试时间
+     */
+    public void setRetryTime(LocalDateTime retryTime) {
+        this.retryTime = retryTime;
     }
 
     /**
