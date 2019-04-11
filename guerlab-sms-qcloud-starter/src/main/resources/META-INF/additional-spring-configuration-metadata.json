@@ -38,6 +38,12 @@
 			"type": "java.util.Map<String, Integer>",
 			"sourceType": "net.guerlab.sms.qcloud.QCloudProperties",
 			"description": "短信模板"
+		},
+		{
+			"name": "sms.qcloud.params-orders",
+			"type": "java.util.Map<String, java.util.List<String>>",
+			"sourceType": "net.guerlab.sms.qcloud.QCloudProperties",
+			"description": "参数顺序"
 		}
 	]
 }
