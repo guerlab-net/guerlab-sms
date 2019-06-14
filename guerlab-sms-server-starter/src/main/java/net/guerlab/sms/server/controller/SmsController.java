@@ -1,12 +1,5 @@
 package net.guerlab.sms.server.controller;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import net.guerlab.sms.core.domain.NoticeInfo;
 import net.guerlab.sms.core.domain.VerifyInfo;
 import net.guerlab.sms.core.exception.VerificationCodeIsNullException;
@@ -15,6 +8,12 @@ import net.guerlab.sms.server.service.NoticeService;
 import net.guerlab.sms.server.service.VerificationCodeService;
 import net.guerlab.web.result.Result;
 import net.guerlab.web.result.Succeed;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 短信Controller
@@ -27,14 +26,22 @@ public class SmsController {
     /**
      * 手机验证码服务
      */
-    @Autowired
     private VerificationCodeService verificationCodeService;
 
     /**
      * 短信通知服务
      */
-    @Autowired
     private NoticeService noticeService;
+
+    @Autowired
+    public void setVerificationCodeService(VerificationCodeService verificationCodeService) {
+        this.verificationCodeService = verificationCodeService;
+    }
+
+    @Autowired
+    public void setNoticeService(NoticeService noticeService) {
+        this.noticeService = noticeService;
+    }
 
     /**
      * 获取验证码

@@ -4,47 +4,47 @@
 			"name": "sms.aliyun",
 			"type": "net.guerlab.sms.aliyun.AliyunProperties",
 			"sourceType": "net.guerlab.sms.aliyun.AliyunProperties",
-			"description": "阿里云短信配置"
+          "description": "阿里云短信配置."
 		}
 	],
 	"properties": [
 		{
 			"name": "sms.aliyun.enable",
-			"type": "boolean",
+          "type": "java.lang.Boolean",
 			"sourceType": "net.guerlab.sms.aliyun.AliyunProperties",
-			"description": "是否启用阿里云配置",
+          "description": "是否启用阿里云配置.",
 			"defaultValue": "true"
 		},
 		{
 			"name": "sms.aliyun.endpoint",
-			"type": "String",
+          "type": "java.lang.String",
 			"sourceType": "net.guerlab.sms.aliyun.AliyunProperties",
-			"description": "endpoint",
+          "description": "endpoint.",
 			"defaultValue": "cn-hangzhou"
 		},
 		{
 			"name": "sms.aliyun.access-key-id",
-			"type": "String",
+          "type": "java.lang.String",
 			"sourceType": "net.guerlab.sms.aliyun.AliyunProperties",
-			"description": "accessKeyId"
+          "description": "accessKeyId."
 		},
 		{
 			"name": "sms.aliyun.access-key-secret",
-			"type": "String",
+          "type": "java.lang.String",
 			"sourceType": "net.guerlab.sms.aliyun.AliyunProperties",
-			"description": "accessKeySecret"
+          "description": "accessKeySecret."
 		},
 		{
 			"name": "sms.aliyun.sign-name",
-			"type": "String",
+          "type": "java.lang.String",
 			"sourceType": "net.guerlab.sms.aliyun.AliyunProperties",
-			"description": "短信签名"
+          "description": "短信签名."
 		},
 		{
 			"name": "sms.aliyun.templates",
-			"type": "java.util.Map<String, String>",
+          "type": "java.util.Map<java.lang.String, java.lang.String>",
 			"sourceType": "net.guerlab.sms.aliyun.AliyunProperties",
-			"description": "短信模板"
+          "description": "短信模板."
 		}
 	]
 }

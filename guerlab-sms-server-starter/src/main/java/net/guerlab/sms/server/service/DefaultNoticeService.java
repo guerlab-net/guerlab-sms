@@ -1,15 +1,16 @@
 package net.guerlab.sms.server.service;
 
+import lombok.extern.slf4j.Slf4j;
 import net.guerlab.commons.collection.CollectionUtil;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.exception.NotFindSendHandlerException;
 import net.guerlab.sms.core.handler.SendHandler;
 import net.guerlab.sms.server.properties.SmsProperties;
-import net.guerlab.spring.commons.util.SpringApplicationContextUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -24,13 +25,23 @@ import java.util.stream.Collectors;
  * @author guer
  *
  */
+@Slf4j
 @Service
-public class DefaultNoticeService implements NoticeService {
+public class DefaultNoticeService implements NoticeService, ApplicationContextAware {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultNoticeService.class);
+    private SmsProperties properties;
+
+    private ApplicationContext context = null;
 
     @Autowired
-    private SmsProperties properties;
+    public void setProperties(SmsProperties properties) {
+        this.properties = properties;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        context = applicationContext;
+    }
 
     @Override
     public boolean phoneRegValidation(String phone) {
@@ -41,23 +52,23 @@ public class DefaultNoticeService implements NoticeService {
     @Override
     public boolean send(NoticeData noticeData, Collection<String> phones) {
         if (noticeData == null) {
-            LOGGER.debug("noticeData is null");
+            log.debug("noticeData is null");
             return false;
         }
+
         if (CollectionUtil.isEmpty(phones)) {
-            LOGGER.debug("phones is empty");
+            log.debug("phones is empty");
             return false;
         }
 
         List<String> phoneList = phones.stream().filter(this::phoneRegValidation).collect(Collectors.toList());
 
         if (CollectionUtil.isEmpty(phoneList)) {
-            LOGGER.debug("filted phones is empty");
+            log.debug("after filter phones is empty");
             return false;
         }
 
-        Map<String, SendHandler> sendHandlerMap = SpringApplicationContextUtil.getContext()
-                .getBeansOfType(SendHandler.class);
+        Map<String, SendHandler> sendHandlerMap = context.getBeansOfType(SendHandler.class);
 
         if (sendHandlerMap.isEmpty()) {
             throw new NotFindSendHandlerException();
@@ -65,11 +76,6 @@ public class DefaultNoticeService implements NoticeService {
 
         Optional<SendHandler> optional = sendHandlerMap.values().stream().findAny();
 
-        if (optional.isPresent()) {
-            return optional.get().send(noticeData, phones);
-        } else {
-            return false;
-        }
+        return optional.map(sendHandler -> sendHandler.send(noticeData, phones)).orElse(false);
     }
-
 }

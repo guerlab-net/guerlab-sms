@@ -2,35 +2,26 @@ package net.guerlab.sms.qcloud;
 
 import com.github.qcloudsms.SmsMultiSender;
 import com.github.qcloudsms.SmsMultiSenderResult;
+import lombok.extern.slf4j.Slf4j;
 import net.guerlab.commons.collection.CollectionUtil;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.handler.SendHandler;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+@Slf4j
 public class QCloudSendHandler implements SendHandler {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(QCloudSendHandler.class);
 
     private static final String DEFAULT_NATION_CODE = "86";
 
-    private QCloudProperties properties;
+    private final QCloudProperties properties;
 
-    private SmsMultiSender sender;
+    private final SmsMultiSender sender;
 
     public QCloudSendHandler(QCloudProperties properties) {
         this.properties = properties;
-        initClient();
-    }
-
-    private void initClient() {
-        int appid = properties.getAppId();
-        String appkey = properties.getAppkey();
-
-        sender = new SmsMultiSender(appid, appkey);
+        sender = new SmsMultiSender(properties.getAppId(), properties.getAppkey());
     }
 
     @Override
@@ -40,7 +31,7 @@ public class QCloudSendHandler implements SendHandler {
         Integer templateId = properties.getTemplates(type);
 
         if (templateId == null) {
-            LOGGER.debug("templateId invalid");
+            log.debug("templateId invalid");
             return false;
         }
 
@@ -81,19 +72,11 @@ public class QCloudSendHandler implements SendHandler {
         }
 
         return phoneMap.entrySet().parallelStream()
-                .map(entry -> send0(templateId, params, entry.getKey(), entry.getValue())).filter(v -> !v).count() == 0;
+                .allMatch(entry -> send0(templateId, params, entry.getKey(), entry.getValue()));
     }
 
     private Collection<String> getList(Map<String, ArrayList<String>> phoneMap, String nationCode) {
-        ArrayList<String> list = phoneMap.get(nationCode);
-
-        if (list == null) {
-            list = new ArrayList<>();
-
-            phoneMap.put(nationCode, list);
-        }
-
-        return list;
+        return phoneMap.computeIfAbsent(nationCode, k -> new ArrayList<>());
     }
 
     private boolean send0(int templateId, ArrayList<String> params, String nationCode, ArrayList<String> phones) {
@@ -105,9 +88,9 @@ public class QCloudSendHandler implements SendHandler {
                 return true;
             }
 
-            LOGGER.debug("send fail[code={}, errMsg={}]", result.result, result.errMsg);
+            log.debug("send fail[code={}, errMsg={}]", result.result, result.errMsg);
         } catch (Exception e) {
-            LOGGER.debug(e.getMessage(), e);
+            log.debug(e.getMessage(), e);
         }
 
         return false;

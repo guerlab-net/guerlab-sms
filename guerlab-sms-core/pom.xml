@@ -7,13 +7,13 @@
     <parent>
         <groupId>net.guerlab.sms</groupId>
         <artifactId>guerlab-sms</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
     </parent>
-    
+
     <dependencies>
         <dependency>
-            <groupId>net.guerlab</groupId>
-            <artifactId>guerlab-commons</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -24,7 +24,6 @@
 |guerlab-sms-redis-repository-starter|基于redis的repository实现|
 |guerlab-sms-aliyun-starter|阿里云接入实现|
 |guerlab-sms-qcloud-starter|腾讯云接入实现|
-|guerlab-sms-test|测试及demo|
 
 ## wiki
 
@@ -33,3 +32,7 @@
 ## changelog
 
 - [Gitee](https://gitee.com/guerlab_net/guerlab-sms/wikis/pages)
+
+## demo
+
+- [Gitee](https://gitee.com/guerlab_net/guerlab-sms-demo)

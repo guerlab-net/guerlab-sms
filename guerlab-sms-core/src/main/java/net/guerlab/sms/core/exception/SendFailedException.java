@@ -2,15 +2,13 @@ package net.guerlab.sms.core.exception;
 
 import java.util.Locale;
 
-import net.guerlab.commons.exception.ApplicationException;
-
 /**
  * 短信发送失败
  *
  * @author guer
  *
  */
-public class SendFailedException extends ApplicationException {
+public class SendFailedException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 

@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.guerlab.sms</groupId>
     <artifactId>guerlab-sms</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -41,7 +41,7 @@
     </scm>
 
     <issueManagement>
-        <system>gitee</system>
+        <system>Gitee</system>
         <url>https://gitee.com/guerlab_net/guerlab-sms/issues</url>
     </issueManagement>
 
@@ -55,14 +55,14 @@
         <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 
-        <guerlab-sms.version>1.0.2</guerlab-sms.version>
+        <guerlab-sms.version>1.0.3</guerlab-sms.version>
         <guerlab-spring.version>2.2.0</guerlab-spring.version>
     </properties>
 
     <distributionManagement>
         <snapshotRepository>
             <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
+            <name>sonatype Nexus Snapshots</name>
             <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </snapshotRepository>
         <repository>
@@ -159,6 +159,11 @@
             </dependency>
             <dependency>
                 <groupId>net.guerlab.sms</groupId>
+                <artifactId>guerlab-sms-redis-repository-starter</artifactId>
+                <version>${guerlab-sms.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.guerlab.sms</groupId>
                 <artifactId>guerlab-sms-aliyun-starter</artifactId>
                 <version>${guerlab-sms.version}</version>
             </dependency>
@@ -167,20 +172,21 @@
                 <artifactId>guerlab-sms-qcloud-starter</artifactId>
                 <version>${guerlab-sms.version}</version>
             </dependency>
-            <dependency>
-                <groupId>net.guerlab.sms</groupId>
-                <artifactId>guerlab-sms-redis-repository-starter</artifactId>
-                <version>${guerlab-sms.version}</version>
-            </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
     
     <modules>
         <module>guerlab-sms-core</module>
         <module>guerlab-sms-server-starter</module>
-        <module>guerlab-sms-test</module>
-        <module>guerlab-sms-aliyun-starter</module>
         <module>guerlab-sms-redis-repository-starter</module>
+        <module>guerlab-sms-aliyun-starter</module>
         <module>guerlab-sms-qcloud-starter</module>
     </modules>
 </project>

@@ -1,12 +1,11 @@
 package net.guerlab.sms.server.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import net.guerlab.commons.exception.ApplicationException;
 import net.guerlab.sms.server.entity.VerificationCode;
 import net.guerlab.sms.server.properties.RedisProperties;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -23,20 +22,31 @@ import java.util.concurrent.TimeUnit;
  * @author guer
  *
  */
+@Slf4j
 @Repository
 @EnableConfigurationProperties(RedisProperties.class)
 public class VerificationCodeRedisRepository implements IVerificationCodeRepository {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(VerificationCodeMemoryRepository.class);
-
-    @Autowired
     private RedisProperties properties;
 
-    @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
-    @Autowired
     private ObjectMapper objectMapper;
+
+    @Autowired
+    public void setProperties(RedisProperties properties) {
+        this.properties = properties;
+    }
+
+    @Autowired
+    public void setRedisTemplate(RedisTemplate<String, String> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
+    @Autowired
+    public void setObjectMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     @Override
     public VerificationCode findOne(String phone, String identificationCode) {
@@ -46,14 +56,14 @@ public class VerificationCodeRedisRepository implements IVerificationCodeReposit
         String json = operations.get(key);
 
         if (StringUtils.isBlank(json)) {
-            LOGGER.debug("json data is empty");
+            log.debug("json data is empty");
             return null;
         }
 
         try {
             return objectMapper.readValue(json, VerificationCode.class);
         } catch (Exception e) {
-            LOGGER.debug(e.getMessage(), e);
+            log.debug(e.getMessage(), e);
             return null;
         }
     }
@@ -71,7 +81,7 @@ public class VerificationCodeRedisRepository implements IVerificationCodeReposit
         try {
             value = objectMapper.writeValueAsString(verificationCode);
         } catch (Exception e) {
-            LOGGER.debug(e.getMessage(), e);
+            log.debug(e.getMessage(), e);
             throw new ApplicationException(e);
         }
 

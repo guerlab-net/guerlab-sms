@@ -2,15 +2,13 @@ package net.guerlab.sms.core.exception;
 
 import java.util.Locale;
 
-import net.guerlab.commons.exception.ApplicationException;
-
 /**
  * 验证失败
  *
  * @author guer
  *
  */
-public class VerifyFailException extends ApplicationException {
+public class VerifyFailException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 

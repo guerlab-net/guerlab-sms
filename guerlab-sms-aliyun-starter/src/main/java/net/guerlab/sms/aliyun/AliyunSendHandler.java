@@ -8,12 +8,11 @@ import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import net.guerlab.commons.exception.ApplicationException;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.handler.SendHandler;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 
@@ -23,9 +22,8 @@ import java.util.Collection;
  * @author guer
  *
  */
+@Slf4j
 public class AliyunSendHandler implements SendHandler {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(AliyunSendHandler.class);
 
     private static final String OK = "OK";
 
@@ -33,11 +31,11 @@ public class AliyunSendHandler implements SendHandler {
 
     private static final String DOMAIN = "dysmsapi.aliyuncs.com";
 
-    private AliyunProperties properties;
+    private final AliyunProperties properties;
 
-    private ObjectMapper objectMapper;
+    private final ObjectMapper objectMapper;
 
-    private IAcsClient acsClient;
+    private final IAcsClient acsClient;
 
     /**
      * 构造阿里云短信发送处理
@@ -51,10 +49,6 @@ public class AliyunSendHandler implements SendHandler {
         this.properties = properties;
         this.objectMapper = objectMapper;
 
-        initClient();
-    }
-
-    private void initClient() {
         String endPoint = properties.getEndpoint();
         String accessKeyId = properties.getAccessKeyId();
         String accessKeySecret = properties.getAccessKeySecret();
@@ -64,7 +58,7 @@ public class AliyunSendHandler implements SendHandler {
         try {
             DefaultProfile.addEndpoint(endPoint, endPoint, PRODUCT, DOMAIN);
         } catch (Exception e) {
-            LOGGER.debug(e.getMessage(), e);
+            log.debug(e.getMessage(), e);
             throw new ApplicationException(e);
         }
 
@@ -77,7 +71,7 @@ public class AliyunSendHandler implements SendHandler {
         try {
             paramString = objectMapper.writeValueAsString(noticeData.getParams());
         } catch (Exception e) {
-            LOGGER.debug(e.getMessage(), e);
+            log.debug(e.getMessage(), e);
             return false;
         }
 
@@ -95,9 +89,9 @@ public class AliyunSendHandler implements SendHandler {
                 return true;
             }
 
-            LOGGER.debug("send fail[code={}, message={}]", sendSmsResponse.getCode(), sendSmsResponse.getMessage());
+            log.debug("send fail[code={}, message={}]", sendSmsResponse.getCode(), sendSmsResponse.getMessage());
         } catch (Exception e) {
-            LOGGER.debug(e.getMessage(), e);
+            log.debug(e.getMessage(), e);
         }
 
         return false;

@@ -1,11 +1,14 @@
 package net.guerlab.sms.server.properties;
 
+import lombok.Data;
+
 /**
  * 短信Web配置
  *
  * @author guer
  *
  */
+@Data
 public class SmsWebProperties {
 
     /**
@@ -24,45 +27,23 @@ public class SmsWebProperties {
     private String basePath = DEFAULT_BASE_PATH;
 
     /**
-     * 返回是否启用web端点
-     *
-     * @return 是否启用web端点
+     * 是否启用验证码发送web端点
      */
-    public boolean isEnable() {
-        return enable;
-    }
+    private boolean enableSend = true;
 
     /**
-     * 设置是否启用web端点
-     *
-     * @param enable
-     *            是否启用web端点
+     * 是否启用验证码查询web端点
      */
-    public void setEnable(boolean enable) {
-        this.enable = enable;
-    }
+    private boolean enableGet = true;
 
     /**
-     * 返回基础路径
-     *
-     * @return 基础路径
+     * 是否启用验证码验证web端点
      */
-    public String getBasePath() {
-        return basePath;
-    }
+    private boolean enableVerify = true;
 
     /**
-     * 设置基础路径
-     *
-     * @param basePath
-     *            基础路径
+     * 是否启用通知发送web端点
      */
-    public void setBasePath(String basePath) {
-        if (basePath == null) {
-            return;
-        }
-
-        this.basePath = basePath;
-    }
+    private boolean enableNotice = true;
 
 }

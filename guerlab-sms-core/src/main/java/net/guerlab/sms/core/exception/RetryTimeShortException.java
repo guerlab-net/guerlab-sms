@@ -1,7 +1,5 @@
 package net.guerlab.sms.core.exception;
 
-import net.guerlab.commons.exception.ApplicationException;
-
 import java.util.Locale;
 
 /**
@@ -9,7 +7,7 @@ import java.util.Locale;
  *
  * @author guer
  */
-public class RetryTimeShortException extends ApplicationException {
+public class RetryTimeShortException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 

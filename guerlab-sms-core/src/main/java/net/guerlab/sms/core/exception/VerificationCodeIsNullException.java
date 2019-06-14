@@ -2,15 +2,13 @@ package net.guerlab.sms.core.exception;
 
 import java.util.Locale;
 
-import net.guerlab.commons.exception.ApplicationException;
-
 /**
  * 手机验证码信息无效
  *
  * @author guer
  *
  */
-public class VerificationCodeIsNullException extends ApplicationException {
+public class VerificationCodeIsNullException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 

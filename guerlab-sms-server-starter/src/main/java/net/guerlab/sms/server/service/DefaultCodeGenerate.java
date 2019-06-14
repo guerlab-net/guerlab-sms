@@ -1,12 +1,11 @@
 package net.guerlab.sms.server.service;
 
-import java.text.NumberFormat;
-import java.util.concurrent.ThreadLocalRandom;
-
+import net.guerlab.sms.server.properties.SmsProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import net.guerlab.sms.server.properties.SmsProperties;
+import java.text.NumberFormat;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * 默认验证码生成
@@ -17,8 +16,12 @@ import net.guerlab.sms.server.properties.SmsProperties;
 @Component
 public class DefaultCodeGenerate implements ICodeGenerate {
 
-    @Autowired
     private SmsProperties properties;
+
+    @Autowired
+    public void setProperties(SmsProperties properties) {
+        this.properties = properties;
+    }
 
     @Override
     public String generate() {

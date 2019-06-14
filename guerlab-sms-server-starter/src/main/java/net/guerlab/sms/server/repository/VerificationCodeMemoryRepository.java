@@ -1,14 +1,12 @@
 package net.guerlab.sms.server.repository;
 
+import lombok.extern.slf4j.Slf4j;
+import net.guerlab.sms.server.entity.VerificationCode;
+import org.apache.commons.lang3.StringUtils;
+
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import net.guerlab.sms.server.entity.VerificationCode;
 
 /**
  * 验证码内存储存实现
@@ -16,11 +14,10 @@ import net.guerlab.sms.server.entity.VerificationCode;
  * @author guer
  *
  */
+@Slf4j
 public class VerificationCodeMemoryRepository implements IVerificationCodeRepository {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(VerificationCodeMemoryRepository.class);
-
-    private Map<String, VerificationCode> cache = new ConcurrentHashMap<>();
+    private final Map<String, VerificationCode> cache = new ConcurrentHashMap<>();
 
     @Override
     public VerificationCode findOne(String phone, String identificationCode) {
@@ -28,13 +25,13 @@ public class VerificationCodeMemoryRepository implements IVerificationCodeReposi
         VerificationCode verificationCode = cache.get(key);
 
         if (verificationCode == null) {
-            LOGGER.debug("verificationCode is null");
+            log.debug("verificationCode is null");
             return null;
         }
 
         LocalDateTime expirationTime = verificationCode.getExpirationTime();
         if (expirationTime != null && expirationTime.isBefore(LocalDateTime.now())) {
-            LOGGER.debug("verificationCode is not null, but timeout");
+            log.debug("verificationCode is not null, but timeout");
             cache.remove(key);
             return null;
         }

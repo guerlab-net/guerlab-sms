@@ -2,15 +2,13 @@ package net.guerlab.sms.core.exception;
 
 import java.util.Locale;
 
-import net.guerlab.commons.exception.ApplicationException;
-
 /**
  * 未找到有效的短信发送处理
  *
  * @author guer
  *
  */
-public class NotFindSendHandlerException extends ApplicationException {
+public class NotFindSendHandlerException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;
 

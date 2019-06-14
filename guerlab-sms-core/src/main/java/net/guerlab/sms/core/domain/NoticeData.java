@@ -1,6 +1,7 @@
 package net.guerlab.sms.core.domain;
 
-import java.util.Collections;
+import lombok.Data;
+
 import java.util.Map;
 
 /**
@@ -9,6 +10,7 @@ import java.util.Map;
  * @author guer
  *
  */
+@Data
 public class NoticeData {
 
     /**
@@ -20,42 +22,4 @@ public class NoticeData {
      * 参数列表
      */
     private Map<String, String> params;
-
-    /**
-     * 返回 类型
-     *
-     * @return 类型
-     */
-    public String getType() {
-        return type;
-    }
-
-    /**
-     * 设置类型
-     *
-     * @param type
-     *            类型
-     */
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * 返回 参数列表
-     *
-     * @return 参数列表
-     */
-    public Map<String, String> getParams() {
-        return params == null ? Collections.emptyMap() : params;
-    }
-
-    /**
-     * 设置参数列表
-     *
-     * @param params
-     *            参数列表
-     */
-    public void setParams(Map<String, String> params) {
-        this.params = params;
-    }
 }

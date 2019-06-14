@@ -27,17 +27,33 @@ import java.util.Objects;
 @Service
 public class DefaultVerificationCodeService implements VerificationCodeService {
 
-    @Autowired
     private IVerificationCodeRepository repository;
 
-    @Autowired
     private SmsProperties properties;
 
-    @Autowired
     private NoticeService noticeService;
 
-    @Autowired
     private ICodeGenerate codeGenerate;
+
+    @Autowired
+    public void setRepository(IVerificationCodeRepository repository) {
+        this.repository = repository;
+    }
+
+    @Autowired
+    public void setProperties(SmsProperties properties) {
+        this.properties = properties;
+    }
+
+    @Autowired
+    public void setNoticeService(NoticeService noticeService) {
+        this.noticeService = noticeService;
+    }
+
+    @Autowired
+    public void setCodeGenerate(ICodeGenerate codeGenerate) {
+        this.codeGenerate = codeGenerate;
+    }
 
     @Override
     public String find(String phone, String identificationCode) {

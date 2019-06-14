@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * 发送处理
@@ -39,7 +40,7 @@ public interface SendHandler {
             return false;
         }
 
-        return send(noticeData, Arrays.asList(phone));
+        return send(noticeData, Collections.singletonList(phone));
     }
 
     /**

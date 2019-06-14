@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 
 /**
  * 短信通知服务
@@ -48,7 +49,7 @@ public interface NoticeService {
             return false;
         }
 
-        return send(noticeData, Arrays.asList(phone));
+        return send(noticeData, Collections.singletonList(phone));
     }
 
     /**
