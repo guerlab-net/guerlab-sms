@@ -12,12 +12,12 @@ import lombok.Data;
 public class VerificationCodeProperties {
 
     /**
-     * 验证码过期时间,小于等于0表示不过期
+     * 验证码过期时间,小于等于0表示不过期,单位秒
      */
     private Long expirationTime;
 
     /**
-     * 重新发送验证码间隔时间,小于等于0表示不启用
+     * 重新发送验证码间隔时间,小于等于0表示不启用,单位秒
      */
     private Long retryIntervalTime;
 

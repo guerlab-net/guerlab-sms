@@ -56,7 +56,7 @@ public class AliyunSendHandler implements SendHandler {
         IClientProfile profile = DefaultProfile.getProfile(endPoint, accessKeyId, accessKeySecret);
 
         try {
-            DefaultProfile.addEndpoint(endPoint, endPoint, PRODUCT, DOMAIN);
+            DefaultProfile.addEndpoint(endPoint, PRODUCT, DOMAIN);
         } catch (Exception e) {
             log.debug(e.getMessage(), e);
             throw new ApplicationException(e);
@@ -76,7 +76,7 @@ public class AliyunSendHandler implements SendHandler {
         }
 
         SendSmsRequest request = new SendSmsRequest();
-        request.setMethod(MethodType.POST);
+        request.setSysMethod(MethodType.POST);
         request.setPhoneNumbers(StringUtils.join(phones, ","));
         request.setSignName(properties.getSignName());
         request.setTemplateCode(properties.getTemplates(noticeData.getType()));

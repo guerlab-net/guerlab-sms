@@ -1,6 +1,5 @@
 package net.guerlab.sms.aliyun;
 
-import net.guerlab.sms.server.properties.SmsProperties;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -10,9 +9,6 @@ import org.springframework.boot.test.util.TestPropertyValues;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.Optional;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 public class AliyunAutoConfigureTest {
 
@@ -56,6 +52,6 @@ public class AliyunAutoConfigureTest {
         TestPropertyValues.of("sms.aliyun.enable=true").applyTo(context);
         context.register(AliyunAutoConfigure.class);
         context.refresh();
-        assertNotNull(context.getBean(AliyunAutoConfigure.class));
+        Assert.assertNotNull(context.getBean(AliyunAutoConfigure.class));
     }
 }

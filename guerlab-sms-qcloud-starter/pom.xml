@@ -20,11 +20,11 @@
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-        
+
         <dependency>
             <groupId>com.github.qcloudsms</groupId>
             <artifactId>qcloudsms</artifactId>
-            <version>1.0.3</version>
+            <version>1.0.6</version>
         </dependency>
     </dependencies>
 </project>

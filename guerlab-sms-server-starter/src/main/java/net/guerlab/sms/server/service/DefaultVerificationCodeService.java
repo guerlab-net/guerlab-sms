@@ -90,12 +90,13 @@ public class DefaultVerificationCodeService implements VerificationCodeService {
 
         boolean newVerificationCode = false;
 
+        Long expirationTime = properties.getVerificationCode().getExpirationTime();
+
         if (verificationCode == null) {
             verificationCode = new VerificationCode();
             verificationCode.setPhone(phone);
             verificationCode.setIdentificationCode(identificationCode);
 
-            Long expirationTime = properties.getVerificationCode().getExpirationTime();
             Long retryIntervalTime = properties.getVerificationCode().getRetryIntervalTime();
 
             if (NumberHelper.greaterZero(expirationTime)) {
@@ -120,9 +121,13 @@ public class DefaultVerificationCodeService implements VerificationCodeService {
             }
         }
 
-        Map<String, String> params = new HashMap<>(2);
-        params.put("code", verificationCode.getCode());
-        params.put("identificationCode", verificationCode.getIdentificationCode());
+        Map<String, String> params = new HashMap<>(3);
+        params.put(MSG_KEY_CODE, verificationCode.getCode());
+        params.put(MSG_KEY_IDENTIFICATION_CODE, verificationCode.getIdentificationCode());
+        if (NumberHelper.greaterZero(expirationTime)) {
+            params.put(MSG_KEY_EXPIRATION_TIME_OF_SECONDS, String.valueOf(expirationTime));
+            params.put(MSG_KEY_EXPIRATION_TIME_OF_MINUTES, String.valueOf(expirationTime / 60));
+        }
 
         NoticeData notice = new NoticeData();
         notice.setType(VerificationCode.TYPE);
