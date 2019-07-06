@@ -1,15 +1,10 @@
 package net.guerlab.sms.qcloud;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Condition;
-import org.springframework.context.annotation.ConditionContext;
-import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.type.AnnotatedTypeMetadata;
-
-import net.guerlab.sms.qcloud.QCloudAutoConfigure.EnableCondition;
 
 /**
  * 腾讯云发送端点自动配置
@@ -18,7 +13,7 @@ import net.guerlab.sms.qcloud.QCloudAutoConfigure.EnableCondition;
  *
  */
 @Configuration
-@Conditional(EnableCondition.class)
+@ConditionalOnProperty(prefix = "sms.qcloud", name = "enable", havingValue = "true")
 @EnableConfigurationProperties(QCloudProperties.class)
 public class QCloudAutoConfigure {
 
@@ -27,27 +22,12 @@ public class QCloudAutoConfigure {
      *
      * @param properties
      *            配置对象
-     * @return 腾讯云发送处理
+     * @return 腾讯云发送处理Ø
      */
     @Bean
     @RefreshScope
     public QCloudSendHandler qcloudSendHandler(QCloudProperties properties) {
         return new QCloudSendHandler(properties);
-    }
-
-    /**
-     * 启用判断
-     *
-     * @author guer
-     *
-     */
-    public static class EnableCondition implements Condition {
-
-        @Override
-        public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-            return context.getEnvironment().getProperty("sms.qcloud.enable", Boolean.TYPE, true);
-        }
-
     }
 
 }
