@@ -121,10 +121,13 @@ public class DefaultVerificationCodeService implements VerificationCodeService {
             }
         }
 
-        Map<String, String> params = new HashMap<>(3);
+        Map<String, String> params = new HashMap<>(4);
         params.put(MSG_KEY_CODE, verificationCode.getCode());
-        params.put(MSG_KEY_IDENTIFICATION_CODE, verificationCode.getIdentificationCode());
-        if (NumberHelper.greaterZero(expirationTime)) {
+        if (verificationCode.getIdentificationCode() != null) {
+            params.put(MSG_KEY_IDENTIFICATION_CODE, verificationCode.getIdentificationCode());
+        }
+        if (properties.getVerificationCode().isTemplateHasExpirationTime() && NumberHelper
+                .greaterZero(expirationTime)) {
             params.put(MSG_KEY_EXPIRATION_TIME_OF_SECONDS, String.valueOf(expirationTime));
             params.put(MSG_KEY_EXPIRATION_TIME_OF_MINUTES, String.valueOf(expirationTime / 60));
         }

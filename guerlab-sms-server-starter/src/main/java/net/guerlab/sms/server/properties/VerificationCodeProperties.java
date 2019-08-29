@@ -45,4 +45,9 @@ public class VerificationCodeProperties {
      * 验证失败是否删除验证码
      */
     private boolean deleteByVerifyFail = false;
+
+    /**
+     * 模板中是否包含过期时间
+     */
+    private boolean templateHasExpirationTime = false;
 }

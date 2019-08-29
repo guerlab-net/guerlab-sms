@@ -1,11 +1,11 @@
 {
-	"groups": [
-		{
-			"name": "sms",
-			"type": "net.guerlab.sms.server.properties.SmsProperties",
-			"sourceType": "net.guerlab.sms.server.properties.SmsProperties",
-          "description": "短信配置."
-		},
+  "groups": [
+    {
+      "name": "sms",
+      "type": "net.guerlab.sms.server.properties.SmsProperties",
+      "sourceType": "net.guerlab.sms.server.properties.SmsProperties",
+      "description": "短信配置."
+    },
         {
             "name": "sms.web",
             "type": "net.guerlab.sms.server.properties.SmsWebProperties",
@@ -18,14 +18,14 @@
             "sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
           "description": "短信验证码配置."
         }
-	],
-	"properties": [
-		{
-			"name": "sms.reg",
-          "type": "java.lang.String",
-			"sourceType": "net.guerlab.sms.server.properties.SmsProperties",
-          "description": "手机号码正则规则."
-		},
+  ],
+  "properties": [
+    {
+      "name": "sms.reg",
+      "type": "java.lang.String",
+      "sourceType": "net.guerlab.sms.server.properties.SmsProperties",
+      "description": "手机号码正则规则."
+    },
         {
             "name": "sms.web.enable",
           "type": "java.lang.Boolean",
@@ -40,80 +40,87 @@
           "description": "基础路径.",
             "defaultValue": "/sms"
         },
-		{
-          "name": "sms.web.enable-send",
-          "type": "java.lang.Boolean",
-          "sourceType": "net.guerlab.sms.server.properties.SmsWebProperties",
-          "description": "是否启用验证码发送web端点.",
-          "defaultValue": "true"
+    {
+      "name": "sms.web.enable-send",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.guerlab.sms.server.properties.SmsWebProperties",
+      "description": "是否启用验证码发送web端点.",
+      "defaultValue": "true"
         },
-      {
-        "name": "sms.web.enable-get",
-        "type": "java.lang.Boolean",
-        "sourceType": "net.guerlab.sms.server.properties.SmsWebProperties",
-        "description": "是否启用验证码查询web端点.",
-        "defaultValue": "true"
-      },
-      {
-        "name": "sms.web.enable-verify",
-        "type": "java.lang.Boolean",
-        "sourceType": "net.guerlab.sms.server.properties.SmsWebProperties",
-        "description": "是否启用验证码验证web端点.",
-        "defaultValue": "true"
-      },
-      {
-        "name": "sms.web.enable-notice",
-        "type": "java.lang.Boolean",
-        "sourceType": "net.guerlab.sms.server.properties.SmsWebProperties",
-        "description": "是否启用通知发送web端点.",
-        "defaultValue": "true"
-      },
-      {
-			"name": "sms.verification-code.expiration-time",
-        "type": "java.lang.Long",
-			"sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
-        "description": "验证码过期时间,小于等于0表示不过期，单位秒."
-		},
-		{
-			"name": "sms.verification-code.retry-interval-time",
-          "type": "java.lang.Long",
-			"sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
-          "description": "重新发送验证码间隔时间,小于等于0表示不启用，单位秒."
-		},
-		{
-			"name": "sms.verification-code.use-identification-code",
-          "type": "java.lang.Boolean",
-			"sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
-          "description": "是否使用识别码.",
-			"defaultValue": "false"
-		},
-		{
-			"name": "sms.verification-code.code-length",
-          "type": "java.lang.Integer",
-			"sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
-          "description": "验证码长度.",
-			"defaultValue": "6"
-		},
-		{
-			"name": "sms.verification-code.identification-code-length",
-          "type": "java.lang.Integer",
-			"sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
-          "description": "识别码长度.",
-			"defaultValue": "3"
-		},
-		{
-			"name": "sms.verification-code.delete-by-verify-succeed",
-          "type": "java.lang.Boolean",
-			"sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
-          "description": "验证成功是否删除验证码.",
-			"defaultValue": "true"
-		},
-		{
-			"name": "sms.verification-code.delete-by-verify-fail",
-          "type": "java.lang.Boolean",
-			"sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
-          "description": "验证失败是否删除验证码.",
-			"defaultValue": "false"
-		}
-	]
+    {
+      "name": "sms.web.enable-get",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.guerlab.sms.server.properties.SmsWebProperties",
+      "description": "是否启用验证码查询web端点.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "sms.web.enable-verify",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.guerlab.sms.server.properties.SmsWebProperties",
+      "description": "是否启用验证码验证web端点.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "sms.web.enable-notice",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.guerlab.sms.server.properties.SmsWebProperties",
+      "description": "是否启用通知发送web端点.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "sms.verification-code.expiration-time",
+      "type": "java.lang.Long",
+      "sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+      "description": "验证码过期时间,小于等于0表示不过期，单位秒."
+    },
+    {
+      "name": "sms.verification-code.retry-interval-time",
+      "type": "java.lang.Long",
+      "sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+      "description": "重新发送验证码间隔时间,小于等于0表示不启用，单位秒."
+    },
+    {
+      "name": "sms.verification-code.use-identification-code",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+      "description": "是否使用识别码.",
+      "defaultValue": "false"
+    },
+    {
+      "name": "sms.verification-code.code-length",
+      "type": "java.lang.Integer",
+      "sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+      "description": "验证码长度.",
+      "defaultValue": "6"
+    },
+    {
+      "name": "sms.verification-code.identification-code-length",
+      "type": "java.lang.Integer",
+      "sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+      "description": "识别码长度.",
+      "defaultValue": "3"
+    },
+    {
+      "name": "sms.verification-code.delete-by-verify-succeed",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+      "description": "验证成功是否删除验证码.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "sms.verification-code.delete-by-verify-fail",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+      "description": "验证失败是否删除验证码.",
+      "defaultValue": "false"
+    },
+    {
+      "name": "sms.verification-code.template-has-expiration-time",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+      "description": "模板中是否包含过期时间.",
+      "defaultValue": "false"
+    }
+  ]
 }
