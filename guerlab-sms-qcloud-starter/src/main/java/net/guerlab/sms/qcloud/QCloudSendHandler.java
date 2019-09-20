@@ -3,10 +3,9 @@ package net.guerlab.sms.qcloud;
 import com.github.qcloudsms.SmsMultiSender;
 import com.github.qcloudsms.SmsMultiSenderResult;
 import lombok.extern.slf4j.Slf4j;
-import net.guerlab.commons.collection.CollectionUtil;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.handler.SendHandler;
-import org.apache.commons.lang3.StringUtils;
+import net.guerlab.sms.core.utils.StringUtils;
 
 import java.util.*;
 
@@ -39,7 +38,7 @@ public class QCloudSendHandler implements SendHandler {
 
         ArrayList<String> params = new ArrayList<>();
 
-        if (CollectionUtil.isNotEmpty(paramsOrder)) {
+        if (!paramsOrder.isEmpty()) {
             Map<String, String> paramMap = noticeData.getParams();
             for (String paramName : paramsOrder) {
                 String paramValue = paramMap.get(paramName);

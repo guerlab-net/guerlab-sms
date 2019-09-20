@@ -2,7 +2,6 @@ package net.guerlab.sms.qcloud;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import java.util.Map;
  *
  */
 @Data
-@RefreshScope
 @ConfigurationProperties(prefix = "sms.qcloud")
 public class QCloudProperties {
 

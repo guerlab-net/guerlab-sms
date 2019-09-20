@@ -4,15 +4,15 @@
 			"name": "sms.redis",
 			"type": "net.guerlab.sms.server.properties.RedisProperties",
 			"sourceType": "net.guerlab.sms.server.properties.RedisProperties",
-          "description": "Redis配置."
+			"description": "Redis配置."
 		}
 	],
 	"properties": [
 		{
 			"name": "sms.redis.key-prefix",
-          "type": "java.lang.String",
+			"type": "java.lang.String",
 			"sourceType": "net.guerlab.sms.server.properties.RedisProperties",
-          "description": "Key前缀."
+			"description": "Key前缀."
 		}
 	]
 }

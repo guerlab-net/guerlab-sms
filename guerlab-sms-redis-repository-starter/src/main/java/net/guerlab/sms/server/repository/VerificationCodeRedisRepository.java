@@ -2,10 +2,9 @@ package net.guerlab.sms.server.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import net.guerlab.commons.exception.ApplicationException;
+import net.guerlab.sms.core.utils.StringUtils;
 import net.guerlab.sms.server.entity.VerificationCode;
 import net.guerlab.sms.server.properties.RedisProperties;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -82,7 +81,7 @@ public class VerificationCodeRedisRepository implements IVerificationCodeReposit
             value = objectMapper.writeValueAsString(verificationCode);
         } catch (Exception e) {
             log.debug(e.getMessage(), e);
-            throw new ApplicationException(e);
+            throw new RuntimeException(e);
         }
 
         if (expirationTime == null) {

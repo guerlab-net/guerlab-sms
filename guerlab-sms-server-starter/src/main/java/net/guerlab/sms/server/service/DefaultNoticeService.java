@@ -1,12 +1,11 @@
 package net.guerlab.sms.server.service;
 
 import lombok.extern.slf4j.Slf4j;
-import net.guerlab.commons.collection.CollectionUtil;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.exception.NotFindSendHandlerException;
 import net.guerlab.sms.core.handler.SendHandler;
+import net.guerlab.sms.core.utils.StringUtils;
 import net.guerlab.sms.server.properties.SmsProperties;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -56,14 +55,14 @@ public class DefaultNoticeService implements NoticeService, ApplicationContextAw
             return false;
         }
 
-        if (CollectionUtil.isEmpty(phones)) {
+        if (phones == null || phones.isEmpty()) {
             log.debug("phones is empty");
             return false;
         }
 
         List<String> phoneList = phones.stream().filter(this::phoneRegValidation).collect(Collectors.toList());
 
-        if (CollectionUtil.isEmpty(phoneList)) {
+        if (phoneList.isEmpty()) {
             log.debug("after filter phones is empty");
             return false;
         }

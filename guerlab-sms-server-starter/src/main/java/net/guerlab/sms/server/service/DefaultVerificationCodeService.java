@@ -1,14 +1,13 @@
 package net.guerlab.sms.server.service;
 
-import net.guerlab.commons.number.NumberHelper;
-import net.guerlab.commons.random.RandomUtil;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.exception.PhoneIsNullException;
 import net.guerlab.sms.core.exception.RetryTimeShortException;
+import net.guerlab.sms.core.utils.StringUtils;
 import net.guerlab.sms.server.entity.VerificationCode;
 import net.guerlab.sms.server.properties.SmsProperties;
 import net.guerlab.sms.server.repository.IVerificationCodeRepository;
-import org.apache.commons.lang3.StringUtils;
+import net.guerlab.sms.server.utils.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -99,10 +98,10 @@ public class DefaultVerificationCodeService implements VerificationCodeService {
 
             Long retryIntervalTime = properties.getVerificationCode().getRetryIntervalTime();
 
-            if (NumberHelper.greaterZero(expirationTime)) {
+            if (expirationTime != null && expirationTime > 0) {
                 verificationCode.setExpirationTime(LocalDateTime.now().plusSeconds(expirationTime));
             }
-            if (NumberHelper.greaterZero(retryIntervalTime)) {
+            if (retryIntervalTime != null && retryIntervalTime > 0) {
                 verificationCode.setRetryTime(LocalDateTime.now().plusSeconds(retryIntervalTime));
             }
 
@@ -126,8 +125,8 @@ public class DefaultVerificationCodeService implements VerificationCodeService {
         if (verificationCode.getIdentificationCode() != null) {
             params.put(MSG_KEY_IDENTIFICATION_CODE, verificationCode.getIdentificationCode());
         }
-        if (properties.getVerificationCode().isTemplateHasExpirationTime() && NumberHelper
-                .greaterZero(expirationTime)) {
+        if (properties.getVerificationCode().isTemplateHasExpirationTime() && expirationTime != null
+                && expirationTime > 0) {
             params.put(MSG_KEY_EXPIRATION_TIME_OF_SECONDS, String.valueOf(expirationTime));
             params.put(MSG_KEY_EXPIRATION_TIME_OF_MINUTES, String.valueOf(expirationTime / 60));
         }

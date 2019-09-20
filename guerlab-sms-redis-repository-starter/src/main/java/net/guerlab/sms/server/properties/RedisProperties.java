@@ -1,14 +1,12 @@
 package net.guerlab.sms.server.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.stereotype.Component;
 
 /**
  * redis配置
  */
 @Component
-@RefreshScope
 @ConfigurationProperties(prefix = "sms.redis")
 public class RedisProperties {
 

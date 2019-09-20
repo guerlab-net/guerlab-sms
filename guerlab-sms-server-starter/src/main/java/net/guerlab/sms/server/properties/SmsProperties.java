@@ -2,7 +2,6 @@ package net.guerlab.sms.server.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 /**
  * 短信配置
@@ -11,7 +10,6 @@ import org.springframework.cloud.context.config.annotation.RefreshScope;
  *
  */
 @Data
-@RefreshScope
 @ConfigurationProperties(prefix = "sms")
 public class SmsProperties {
 

@@ -1,4 +1,4 @@
-package net.guerlab.sms.aliyun;
+package net.guerlab.sms.qcloud;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
@@ -11,7 +11,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 
 import java.util.Optional;
 
-public class AliyunAutoConfigureTest {
+public class QCloudAutoConfigureTest {
 
     private AnnotationConfigApplicationContext context;
 
@@ -28,32 +28,32 @@ public class AliyunAutoConfigureTest {
 
     @Test
     public void testConditionalOnPropertyNull() {
-        context.register(AliyunAutoConfigure.class);
+        context.register(QCloudAutoConfigure.class);
         context.refresh();
-        Assert.assertNotNull(context.getBean(AliyunSendHandler.class));
+        Assert.assertNotNull(context.getBean(QCloudSendHandler.class));
     }
 
     @Test
     public void testConditionalOnPropertyEmpty() {
-        TestPropertyValues.of("sms.aliyun.enable=").applyTo(context);
-        context.register(AliyunAutoConfigure.class);
+        TestPropertyValues.of("sms.qcloud.enable=").applyTo(context);
+        context.register(QCloudAutoConfigure.class);
         context.refresh();
-        Assert.assertNotNull(context.getBean(AliyunSendHandler.class));
+        Assert.assertNotNull(context.getBean(QCloudSendHandler.class));
     }
 
     @Test(expected = NoSuchBeanDefinitionException.class)
     public void testConditionalOnPropertyFalse() {
-        TestPropertyValues.of("sms.aliyun.enable=false").applyTo(context);
-        context.register(AliyunAutoConfigure.class);
+        TestPropertyValues.of("sms.qcloud.enable=false").applyTo(context);
+        context.register(QCloudAutoConfigure.class);
         context.refresh();
-        context.getBean(AliyunSendHandler.class);
+        context.getBean(QCloudSendHandler.class);
     }
 
     @Test
     public void testConditionalOnPropertyTrue() {
-        TestPropertyValues.of("sms.aliyun.enable=true").applyTo(context);
-        context.register(AliyunAutoConfigure.class);
+        TestPropertyValues.of("sms.qcloud.enable=true").applyTo(context);
+        context.register(QCloudAutoConfigure.class);
         context.refresh();
-        Assert.assertNotNull(context.getBean(AliyunSendHandler.class));
+        Assert.assertNotNull(context.getBean(QCloudSendHandler.class));
     }
 }

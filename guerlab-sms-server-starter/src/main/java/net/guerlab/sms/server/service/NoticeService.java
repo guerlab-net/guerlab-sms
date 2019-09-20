@@ -1,7 +1,7 @@
 package net.guerlab.sms.server.service;
 
 import net.guerlab.sms.core.domain.NoticeData;
-import org.apache.commons.lang3.StringUtils;
+import net.guerlab.sms.core.utils.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
