@@ -4,11 +4,9 @@ import net.guerlab.sms.core.domain.NoticeInfo;
 import net.guerlab.sms.core.domain.VerifyInfo;
 import net.guerlab.sms.core.exception.VerificationCodeIsNullException;
 import net.guerlab.sms.core.exception.VerifyFailException;
+import net.guerlab.sms.core.utils.StringUtils;
 import net.guerlab.sms.server.service.NoticeService;
 import net.guerlab.sms.server.service.VerificationCodeService;
-import net.guerlab.web.result.Result;
-import net.guerlab.web.result.Succeed;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,9 +56,9 @@ public class SmsController {
      *
      * @param phone
      *            手机号码
-     * @return 发送响应
+     * @return 验证码信息
      */
-    public Result<String> getVerificationCode(@PathVariable("phone") String phone,
+    public VerifyInfo getVerificationCode(@PathVariable("phone") String phone,
             @RequestParam(value = "identificationCode", required = false, defaultValue = "") String identificationCode) {
         String code = verificationCodeService.find(phone, identificationCode);
 
@@ -68,7 +66,12 @@ public class SmsController {
             throw new VerificationCodeIsNullException();
         }
 
-        return new Succeed<>(Succeed.MSG, code);
+        VerifyInfo info = new VerifyInfo();
+        info.setCode(code);
+        info.setIdentificationCode(identificationCode);
+        info.setPhone(phone);
+
+        return info;
     }
 
     /**

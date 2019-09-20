@@ -9,10 +9,9 @@ import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import net.guerlab.commons.exception.ApplicationException;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.handler.SendHandler;
-import org.apache.commons.lang3.StringUtils;
+import net.guerlab.sms.core.utils.StringUtils;
 
 import java.util.Collection;
 
@@ -54,13 +53,7 @@ public class AliyunSendHandler implements SendHandler {
         String accessKeySecret = properties.getAccessKeySecret();
 
         IClientProfile profile = DefaultProfile.getProfile(endPoint, accessKeyId, accessKeySecret);
-
-        try {
-            DefaultProfile.addEndpoint(endPoint, PRODUCT, DOMAIN);
-        } catch (Exception e) {
-            log.debug(e.getMessage(), e);
-            throw new ApplicationException(e);
-        }
+        DefaultProfile.addEndpoint(endPoint, PRODUCT, DOMAIN);
 
         acsClient = new DefaultAcsClient(profile);
     }

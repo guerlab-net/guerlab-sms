@@ -1,8 +1,8 @@
 package net.guerlab.sms.server.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import net.guerlab.sms.core.utils.StringUtils;
 import net.guerlab.sms.server.entity.VerificationCode;
-import org.apache.commons.lang3.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.Map;

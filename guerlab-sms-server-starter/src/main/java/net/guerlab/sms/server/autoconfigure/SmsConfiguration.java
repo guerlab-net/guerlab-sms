@@ -1,14 +1,13 @@
 package net.guerlab.sms.server.autoconfigure;
 
-import net.guerlab.commons.exception.ApplicationException;
 import net.guerlab.sms.core.domain.NoticeInfo;
 import net.guerlab.sms.core.domain.VerifyInfo;
+import net.guerlab.sms.core.utils.StringUtils;
 import net.guerlab.sms.server.controller.SmsController;
 import net.guerlab.sms.server.properties.SmsProperties;
 import net.guerlab.sms.server.properties.SmsWebProperties;
 import net.guerlab.sms.server.repository.IVerificationCodeRepository;
 import net.guerlab.sms.server.repository.VerificationCodeMemoryRepository;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -59,44 +58,40 @@ public class SmsConfiguration {
     @Autowired(required = false)
     @ConditionalOnBean({ RequestMappingHandlerMapping.class, SmsProperties.class })
     public void setWebMapping(RequestMappingHandlerMapping mapping, SmsProperties smsProperties,
-            SmsController controller) {
+            SmsController controller) throws NoSuchMethodException, SecurityException {
         if (smsProperties.getWeb() == null || !smsProperties.getWeb().isEnable()) {
             return;
         }
 
-        Method sendMethod;
-        Method getMethod;
-        Method verifyMethod;
-        Method noticeMethod;
+        SmsWebProperties webProperties = smsProperties.getWeb();
 
-        try {
-            sendMethod = SmsController.class.getMethod("sendVerificationCode", String.class);
-            getMethod = SmsController.class.getMethod("getVerificationCode", String.class, String.class);
-            verifyMethod = SmsController.class.getMethod("verifyVerificationCode", VerifyInfo.class);
-            noticeMethod = SmsController.class.getMethod("sendNotice", NoticeInfo.class);
-        } catch (Exception e) {
-            throw new ApplicationException(e.getLocalizedMessage(), e);
+        if (webProperties == null) {
+            return;
         }
 
-        SmsWebProperties webProperties = smsProperties.getWeb();
+
         String bathPath = getBasePath(webProperties);
 
-        if (webProperties != null && webProperties.isEnableSend()) {
+        if (webProperties.isEnableSend()) {
+            Method sendMethod = SmsController.class.getMethod("sendVerificationCode", String.class);
             RequestMappingInfo sendInfo = RequestMappingInfo.paths(bathPath + "/verificationCode/{phone}")
                     .methods(RequestMethod.POST).build();
             mapping.registerMapping(sendInfo, controller, sendMethod);
         }
-        if (webProperties != null && webProperties.isEnableGet()) {
+        if (webProperties.isEnableGet()) {
+            Method getMethod = SmsController.class.getMethod("getVerificationCode", String.class, String.class);
             RequestMappingInfo getInfo = RequestMappingInfo.paths(bathPath + "/verificationCode/{phone}")
                     .methods(RequestMethod.GET).produces("application/json").build();
             mapping.registerMapping(getInfo, controller, getMethod);
         }
-        if (webProperties != null && webProperties.isEnableVerify()) {
+        if (webProperties.isEnableVerify()) {
+            Method verifyMethod = SmsController.class.getMethod("verifyVerificationCode", VerifyInfo.class);
             RequestMappingInfo verifyInfo = RequestMappingInfo.paths(bathPath + "/verificationCode")
                     .methods(RequestMethod.POST).build();
             mapping.registerMapping(verifyInfo, controller, verifyMethod);
         }
-        if (webProperties != null && webProperties.isEnableNotice()) {
+        if (webProperties.isEnableNotice()) {
+            Method noticeMethod = SmsController.class.getMethod("sendNotice", NoticeInfo.class);
             RequestMappingInfo noticeInfo = RequestMappingInfo.paths(bathPath + "/notice").methods(RequestMethod.PUT)
                     .build();
             mapping.registerMapping(noticeInfo, controller, noticeMethod);

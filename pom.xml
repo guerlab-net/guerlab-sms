@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>net.guerlab.sms</groupId>
     <artifactId>guerlab-sms</artifactId>
-    <version>1.0.4</version>
+    <version>1.1.0</version>
     <packaging>pom</packaging>
 
     <name>${project.groupId}:${project.artifactId}</name>
@@ -55,8 +55,9 @@
         <maven-deploy-plugin.version>3.0.0-M1</maven-deploy-plugin.version>
         <maven-gpg-plugin.version>1.6</maven-gpg-plugin.version>
 
-        <guerlab-sms.version>1.0.4</guerlab-sms.version>
-        <guerlab-spring.version>2.2.0</guerlab-spring.version>
+        <spring-boot.version>2.1.0.RELEASE</spring-boot.version>
+
+        <guerlab-sms.version>1.1.0</guerlab-sms.version>
     </properties>
 
     <distributionManagement>
@@ -140,9 +141,9 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>net.guerlab.spring</groupId>
-                <artifactId>guerlab-spring</artifactId>
-                <version>${guerlab-spring.version}</version>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>

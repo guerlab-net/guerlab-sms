@@ -1,7 +1,7 @@
 package net.guerlab.sms.core.handler;
 
 import net.guerlab.sms.core.domain.NoticeData;
-import org.apache.commons.lang3.StringUtils;
+import net.guerlab.sms.core.utils.StringUtils;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -17,7 +17,7 @@ public interface SendHandler {
 
     /**
      * 发送通知
-     * 
+     *
      * @param noticeData
      *            通知内容
      * @param phones
@@ -28,7 +28,7 @@ public interface SendHandler {
 
     /**
      * 发送通知
-     * 
+     *
      * @param noticeData
      *            通知内容
      * @param phone
@@ -45,7 +45,7 @@ public interface SendHandler {
 
     /**
      * 发送通知
-     * 
+     *
      * @param noticeData
      *            通知内容
      * @param phones

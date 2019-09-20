@@ -2,7 +2,6 @@ package net.guerlab.sms.aliyun;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.cloud.context.config.annotation.RefreshScope;
 
 import java.util.Map;
 
@@ -13,7 +12,6 @@ import java.util.Map;
  *
  */
 @Data
-@RefreshScope
 @ConfigurationProperties(prefix = "sms.aliyun")
 public class AliyunProperties {
 
