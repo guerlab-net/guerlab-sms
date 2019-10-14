@@ -56,6 +56,8 @@ public class SmsController {
      *
      * @param phone
      *            手机号码
+     * @param identificationCode
+     *            识别码
      * @return 验证码信息
      */
     public VerifyInfo getVerificationCode(@PathVariable("phone") String phone,

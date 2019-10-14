@@ -54,6 +54,15 @@ public class SmsConfiguration {
      *            短信配置
      * @param controller
      *            短信Controller
+     * @throws NoSuchMethodException if a matching method is not found
+     *         or if the name is "&lt;init&gt;"or "&lt;clinit&gt;".
+     * @throws SecurityException
+     *         If a security manager, <i>s</i>, is present and
+     *         the caller's class loader is not the same as or an
+     *         ancestor of the class loader for the current class and
+     *         invocation of {@link SecurityManager#checkPackageAccess
+     *         s.checkPackageAccess()} denies access to the package
+     *         of this class.
      */
     @Autowired(required = false)
     @ConditionalOnBean({ RequestMappingHandlerMapping.class, SmsProperties.class })
