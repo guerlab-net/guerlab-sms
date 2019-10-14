@@ -69,24 +69,24 @@ public class DefaultVerificationCodeService implements VerificationCodeService {
 
     private String createIdentificationCode() {
         if (!properties.getVerificationCode().isUseIdentificationCode()) {
-            return "";
+            return null;
         }
 
         return RandomUtil.nextString(properties.getVerificationCode().getIdentificationCodeLength());
     }
 
     @Override
-    public void send(String phone) {
-        if (StringUtils.isBlank(phone)) {
+    public void send(String tempPhone) {
+        String phone = StringUtils.trimToNull(tempPhone);
+
+        if (phone == null) {
             throw new PhoneIsNullException();
         }
 
-        String identificationCode = createIdentificationCode();
-
         phoneValidation(phone);
 
+        String identificationCode = createIdentificationCode();
         VerificationCode verificationCode = repository.findOne(phone, identificationCode);
-
         boolean newVerificationCode = false;
 
         Long expirationTime = properties.getVerificationCode().getExpirationTime();

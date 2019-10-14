@@ -101,20 +101,24 @@ public class VerificationCodeRedisRepository implements IVerificationCodeReposit
     }
 
     private String key(String phone, String identificationCode) {
-        String tempPrefix = StringUtils.trimToNull(properties.getKeyPrefix());
+        String keyPrefix = StringUtils.trimToNull(properties.getKeyPrefix());
+        String tempIdentificationCode = StringUtils.trimToNull(identificationCode);
 
-        String prefix;
-        if (tempPrefix == null) {
-            prefix = "";
-        } else {
-            prefix = tempPrefix + "_";
+        StringBuilder keyBuilder = new StringBuilder();
+
+        if (keyPrefix != null) {
+            keyBuilder.append(keyPrefix);
+            keyBuilder.append("_");
         }
 
-        if (StringUtils.isBlank(identificationCode)) {
-            return prefix + phone;
+        keyBuilder.append(StringUtils.trimToNull(phone));
+
+        if (tempIdentificationCode != null) {
+            keyBuilder.append("_");
+            keyBuilder.append(tempIdentificationCode);
         }
 
-        return prefix + phone + "_" + identificationCode;
+        return keyBuilder.toString();
     }
 
 }
