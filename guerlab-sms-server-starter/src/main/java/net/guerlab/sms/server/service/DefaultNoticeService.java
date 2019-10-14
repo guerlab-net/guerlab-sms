@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -73,8 +72,7 @@ public class DefaultNoticeService implements NoticeService, ApplicationContextAw
             throw new NotFindSendHandlerException();
         }
 
-        Optional<SendHandler> optional = sendHandlerMap.values().stream().findAny();
-
-        return optional.map(sendHandler -> sendHandler.send(noticeData, phones)).orElse(false);
+        return sendHandlerMap.values().stream().findAny().map(sendHandler -> sendHandler.send(noticeData, phones))
+                .orElse(false);
     }
 }

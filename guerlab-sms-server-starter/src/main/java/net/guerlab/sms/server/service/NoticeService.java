@@ -59,6 +59,7 @@ public interface NoticeService {
      *            通知内容
      * @param phones
      *            手机号列表
+     * @return 是否发送成功
      */
     default boolean send(NoticeData noticeData, String... phones) {
         if (phones == null) {

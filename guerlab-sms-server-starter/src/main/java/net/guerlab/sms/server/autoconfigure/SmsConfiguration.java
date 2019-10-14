@@ -59,16 +59,15 @@ public class SmsConfiguration {
     @ConditionalOnBean({ RequestMappingHandlerMapping.class, SmsProperties.class })
     public void setWebMapping(RequestMappingHandlerMapping mapping, SmsProperties smsProperties,
             SmsController controller) throws NoSuchMethodException, SecurityException {
-        if (smsProperties.getWeb() == null || !smsProperties.getWeb().isEnable()) {
+        if (smsProperties == null) {
             return;
         }
 
         SmsWebProperties webProperties = smsProperties.getWeb();
 
-        if (webProperties == null) {
+        if (webProperties == null || !webProperties.isEnable()) {
             return;
         }
-
 
         String bathPath = getBasePath(webProperties);
 
@@ -103,12 +102,8 @@ public class SmsConfiguration {
             return SmsWebProperties.DEFAULT_BASE_PATH;
         }
 
-        String bathPath = properties.getBasePath();
+        String bathPath = StringUtils.trimToNull(properties.getBasePath());
 
-        if (StringUtils.isBlank(bathPath)) {
-            return SmsWebProperties.DEFAULT_BASE_PATH;
-        }
-
-        return bathPath.trim();
+        return bathPath == null ? SmsWebProperties.DEFAULT_BASE_PATH : bathPath;
     }
 }

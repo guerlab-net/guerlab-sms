@@ -5,6 +5,8 @@ import java.util.Collection;
 
 /**
  * 字符串工具类
+ *
+ * @author guer
  */
 public final class StringUtils {
 

@@ -50,17 +50,15 @@ public class VerificationCodeRedisRepository implements IVerificationCodeReposit
     @Override
     public VerificationCode findOne(String phone, String identificationCode) {
         String key = key(phone, identificationCode);
+        String data = redisTemplate.opsForValue().get(key);
 
-        ValueOperations<String, String> operations = redisTemplate.opsForValue();
-        String json = operations.get(key);
-
-        if (StringUtils.isBlank(json)) {
-            log.debug("json data is empty");
+        if (StringUtils.isBlank(data)) {
+            log.debug("json data is empty for key: {}", key);
             return null;
         }
 
         try {
-            return objectMapper.readValue(json, VerificationCode.class);
+            return objectMapper.readValue(data, VerificationCode.class);
         } catch (Exception e) {
             log.debug(e.getMessage(), e);
             return null;

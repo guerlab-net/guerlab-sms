@@ -9,6 +9,11 @@ import net.guerlab.sms.core.utils.StringUtils;
 
 import java.util.*;
 
+/**
+ * 腾讯云发送处理
+ *
+ * @author guer
+ */
 @Slf4j
 public class QCloudSendHandler implements SendHandler {
 
@@ -47,7 +52,7 @@ public class QCloudSendHandler implements SendHandler {
             }
         }
 
-        Map<String, ArrayList<String>> phoneMap = new HashMap<>();
+        Map<String, ArrayList<String>> phoneMap = new HashMap<>(phones.size());
 
         for (String phone : phones) {
             if (StringUtils.isBlank(phone)) {

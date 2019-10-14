@@ -25,13 +25,13 @@ public class VerificationCodeMemoryRepository implements IVerificationCodeReposi
         VerificationCode verificationCode = cache.get(key);
 
         if (verificationCode == null) {
-            log.debug("verificationCode is null");
+            log.debug("verificationCode is null, key: {}", key);
             return null;
         }
 
         LocalDateTime expirationTime = verificationCode.getExpirationTime();
         if (expirationTime != null && expirationTime.isBefore(LocalDateTime.now())) {
-            log.debug("verificationCode is not null, but timeout");
+            log.debug("verificationCode is not null, but timeout, key: {}", key);
             cache.remove(key);
             return null;
         }

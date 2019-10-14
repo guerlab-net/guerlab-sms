@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 
 /**
  * redis配置
+ *
+ * @author guer
  */
 @Component
 @ConfigurationProperties(prefix = "sms.redis")
