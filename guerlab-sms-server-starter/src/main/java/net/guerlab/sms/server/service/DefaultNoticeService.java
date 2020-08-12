@@ -1,50 +1,36 @@
 package net.guerlab.sms.server.service;
 
 import lombok.extern.slf4j.Slf4j;
+import net.guerlab.loadbalancer.ILoadBalancer;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.exception.NotFindSendHandlerException;
 import net.guerlab.sms.core.handler.SendHandler;
 import net.guerlab.sms.core.utils.StringUtils;
 import net.guerlab.sms.server.properties.SmsProperties;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
  * 短信通知服务实现
  *
  * @author guer
- *
  */
 @Slf4j
 @Service
-public class DefaultNoticeService implements NoticeService, ApplicationContextAware {
+public class DefaultNoticeService implements NoticeService {
 
     private SmsProperties properties;
 
-    private ApplicationContext context = null;
-
-    @Autowired
-    public void setProperties(SmsProperties properties) {
-        this.properties = properties;
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        context = applicationContext;
-    }
+    private ILoadBalancer<SendHandler, NoticeData> smsSenderLoadbalancer;
 
     @Override
     public boolean phoneRegValidation(String phone) {
-        return StringUtils.isNotBlank(phone)
-                && (StringUtils.isBlank(properties.getReg()) || phone.matches(properties.getReg()));
+        return StringUtils.isNotBlank(phone) && (StringUtils.isBlank(properties.getReg()) || phone
+                .matches(properties.getReg()));
     }
 
     @Override
@@ -66,13 +52,22 @@ public class DefaultNoticeService implements NoticeService, ApplicationContextAw
             return false;
         }
 
-        Map<String, SendHandler> sendHandlerMap = context.getBeansOfType(SendHandler.class);
+        SendHandler sendHandler = smsSenderLoadbalancer.choose(noticeData);
 
-        if (sendHandlerMap.isEmpty()) {
+        if (sendHandler == null) {
             throw new NotFindSendHandlerException();
         }
 
-        return sendHandlerMap.values().stream().findAny().map(sendHandler -> sendHandler.send(noticeData, phones))
-                .orElse(false);
+        return sendHandler.send(noticeData, phones);
+    }
+
+    @Autowired
+    public void setProperties(SmsProperties properties) {
+        this.properties = properties;
+    }
+
+    @Autowired
+    public void setSmsSenderLoadbalancer(ILoadBalancer<SendHandler, NoticeData> smsSenderLoadbalancer) {
+        this.smsSenderLoadbalancer = smsSenderLoadbalancer;
     }
 }

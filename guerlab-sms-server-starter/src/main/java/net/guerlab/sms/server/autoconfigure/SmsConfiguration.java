@@ -4,6 +4,8 @@ import net.guerlab.sms.core.domain.NoticeInfo;
 import net.guerlab.sms.core.domain.VerifyInfo;
 import net.guerlab.sms.core.utils.StringUtils;
 import net.guerlab.sms.server.controller.SmsController;
+import net.guerlab.sms.server.loadbalancer.RandomSmsLoadBalancer;
+import net.guerlab.sms.server.loadbalancer.SmsSenderLoadBalancer;
 import net.guerlab.sms.server.properties.SmsProperties;
 import net.guerlab.sms.server.properties.SmsWebProperties;
 import net.guerlab.sms.server.repository.IVerificationCodeRepository;
@@ -43,6 +45,17 @@ public class SmsConfiguration {
     @ConditionalOnMissingBean(IVerificationCodeRepository.class)
     public IVerificationCodeRepository verificationCodeMemoryRepository() {
         return new VerificationCodeMemoryRepository();
+    }
+
+    /**
+     * 构造发送者负载均衡器
+     *
+     * @return 发送者负载均衡器
+     */
+    @Bean
+    @ConditionalOnMissingBean(SmsSenderLoadBalancer.class)
+    public SmsSenderLoadBalancer smsSenderLoadbalancer() {
+        return new RandomSmsLoadBalancer();
     }
 
     /**

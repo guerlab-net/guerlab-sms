@@ -6,18 +6,18 @@
       "sourceType": "net.guerlab.sms.server.properties.SmsProperties",
       "description": "短信配置."
     },
-        {
-            "name": "sms.web",
-            "type": "net.guerlab.sms.server.properties.SmsWebProperties",
-            "sourceType": "net.guerlab.sms.server.properties.SmsWebProperties",
-          "description": "短信Web配置."
-        },
-        {
-            "name": "sms.verification-code",
-            "type": "net.guerlab.sms.server.properties.VerificationCodeProperties",
-            "sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
-          "description": "短信验证码配置."
-        }
+    {
+      "name": "sms.web",
+      "type": "net.guerlab.sms.server.properties.SmsWebProperties",
+      "sourceType": "net.guerlab.sms.server.properties.SmsWebProperties",
+      "description": "短信Web配置."
+    },
+    {
+      "name": "sms.verification-code",
+      "type": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+      "sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
+      "description": "短信验证码配置."
+    }
   ],
   "properties": [
     {
@@ -26,27 +26,27 @@
       "sourceType": "net.guerlab.sms.server.properties.SmsProperties",
       "description": "手机号码正则规则."
     },
-        {
-            "name": "sms.web.enable",
-          "type": "java.lang.Boolean",
-            "sourceType": "net.guerlab.sms.server.properties.SmsWebProperties",
-          "description": "是否启用web端点.",
-            "defaultValue": "false"
-        },
-        {
-            "name": "sms.web.base-path",
-          "type": "java.lang.String",
-            "sourceType": "net.guerlab.sms.server.properties.SmsWebProperties",
-          "description": "基础路径.",
-            "defaultValue": "/sms"
-        },
+    {
+      "name": "sms.web.enable",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.guerlab.sms.server.properties.SmsWebProperties",
+      "description": "是否启用web端点.",
+      "defaultValue": "false"
+    },
+    {
+      "name": "sms.web.base-path",
+      "type": "java.lang.String",
+      "sourceType": "net.guerlab.sms.server.properties.SmsWebProperties",
+      "description": "基础路径.",
+      "defaultValue": "/sms"
+    },
     {
       "name": "sms.web.enable-send",
       "type": "java.lang.Boolean",
       "sourceType": "net.guerlab.sms.server.properties.SmsWebProperties",
       "description": "是否启用验证码发送web端点.",
       "defaultValue": "true"
-        },
+    },
     {
       "name": "sms.web.enable-get",
       "type": "java.lang.Boolean",

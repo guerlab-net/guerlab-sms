@@ -1,14 +1,9 @@
 package net.guerlab.sms.server.annotation;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
+import net.guerlab.sms.server.autoconfigure.SmsConfiguration;
 import org.springframework.context.annotation.Import;
 
-import net.guerlab.sms.server.autoconfigure.SmsConfiguration;
+import java.lang.annotation.*;
 
 /**
  * 启用短信服务
@@ -19,7 +14,7 @@ import net.guerlab.sms.server.autoconfigure.SmsConfiguration;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 @Documented
-@Import(SmsConfiguration.class)
+@Import({ SmsConfiguration.class })
 public @interface EnableSmsServer {
 
 }
