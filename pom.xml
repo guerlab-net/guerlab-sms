@@ -59,6 +59,8 @@
         <spring-boot.version>2.1.0.RELEASE</spring-boot.version>
 
         <guerlab-loadbalancer.version>0.0.3</guerlab-loadbalancer.version>
+
+        <apache-httpclient.version>4.5.12</apache-httpclient.version>
     </properties>
 
     <distributionManagement>
@@ -205,6 +207,12 @@
                 <artifactId>guerlab-sms-qcloud-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${apache-httpclient.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -222,5 +230,6 @@
         <module>guerlab-sms-aliyun-starter</module>
         <module>guerlab-sms-qcloud-starter</module>
         <module>guerlab-sms-tester</module>
+        <module>guerlab-sms-huaweicloud-starter</module>
     </modules>
 </project>
