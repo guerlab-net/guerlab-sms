@@ -1,0 +1,43 @@
+{
+	"groups": [
+		{
+			"name": "sms.baiducloud",
+			"type": "net.guerlab.sms.baiducloud.BaiduCloudProperties",
+			"sourceType": "net.guerlab.sms.baiducloud.BaiduCloudProperties",
+			"description": "百度云短信配置."
+		}
+	],
+	"properties": [
+		{
+			"name": "sms.baiducloud.enable",
+			"type": "java.lang.Boolean",
+			"sourceType": "net.guerlab.sms.baiducloud.BaiduCloudProperties",
+			"description": "是否启用百度云配置.",
+			"defaultValue": "true"
+		},
+		{
+			"name": "sms.baiducloud.access-key-id",
+			"type": "java.lang.String",
+			"sourceType": "net.guerlab.sms.baiducloud.BaiduCloudProperties",
+			"description": "ACCESS_KEY_ID."
+		},
+		{
+			"name": "sms.baiducloud.secret-access-key",
+			"type": "java.lang.String",
+			"sourceType": "net.guerlab.sms.baiducloud.BaiduCloudProperties",
+			"description": "SECRET_ACCESS_KEY."
+		},
+		{
+			"name": "sms.baiducloud.endpoint",
+			"type": "java.lang.String",
+			"sourceType": "net.guerlab.sms.baiducloud.BaiduCloudProperties",
+			"description": "endpoint."
+		},
+		{
+			"name": "sms.baiducloud.templates",
+			"type": "java.util.Map<java.lang.String, java.lang.String>",
+			"sourceType": "net.guerlab.sms.baiducloud.BaiduCloudProperties",
+			"description": "短信模板."
+		}
+	]
+}

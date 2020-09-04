@@ -235,5 +235,6 @@
         <module>guerlab-sms-qiniu-starter</module>
         <module>guerlab-sms-yunpian-starter</module>
         <module>guerlab-sms-upyun-starter</module>
+        <module>guerlab-sms-baiducloud-starter</module>
     </modules>
 </project>
