@@ -1,0 +1,56 @@
+{
+  "groups": [
+    {
+      "name": "sms.jdcloud",
+      "type": "net.guerlab.sms.jdcloud.JdCloudProperties",
+      "sourceType": "net.guerlab.sms.jdcloud.JdCloudProperties",
+      "description": "京东云短信配置."
+    }
+  ],
+  "properties": [
+    {
+      "name": "sms.jdcloud.enable",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.guerlab.sms.jdcloud.JdCloudProperties",
+      "description": "是否启用京东云配置.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "sms.jdcloud.access-key-id",
+      "type": "java.lang.String",
+      "sourceType": "net.guerlab.sms.jdcloud.JdCloudProperties",
+      "description": "AccessKey ID."
+    },
+    {
+      "name": "sms.jdcloud.secret-access-key",
+      "type": "java.lang.String",
+      "sourceType": "net.guerlab.sms.jdcloud.JdCloudProperties",
+      "description": "AccessKey Secret."
+    },
+    {
+      "name": "sms.jdcloud.region",
+      "type": "java.lang.String",
+      "sourceType": "net.guerlab.sms.jdcloud.JdCloudProperties",
+      "description": "地域.",
+      "defaultValue": "cn-north-1"
+    },
+    {
+      "name": "sms.jdcloud.sign-id",
+      "type": "java.lang.String",
+      "sourceType": "net.guerlab.sms.jdcloud.JdCloudProperties",
+      "description": "签名ID."
+    },
+    {
+      "name": "sms.jdcloud.templates",
+      "type": "java.util.Map<java.lang.String, java.lang.String>",
+      "sourceType": "net.guerlab.sms.jdcloud.JdCloudProperties",
+      "description": "短信模板."
+    },
+    {
+      "name": "sms.jdcloud.params-orders",
+      "type": "java.util.Map<java.lang.String, java.util.List<java.lang.String>>",
+      "sourceType": "net.guerlab.sms.jdcloud.JdCloudProperties",
+      "description": "参数顺序."
+    }
+  ]
+}

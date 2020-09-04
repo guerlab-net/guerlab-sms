@@ -231,5 +231,6 @@
         <module>guerlab-sms-qcloud-starter</module>
         <module>guerlab-sms-tester</module>
         <module>guerlab-sms-huaweicloud-starter</module>
+        <module>guerlab-sms-jdcloud-starter</module>
     </modules>
 </project>
