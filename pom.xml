@@ -234,5 +234,6 @@
         <module>guerlab-sms-jdcloud-starter</module>
         <module>guerlab-sms-qiniu-starter</module>
         <module>guerlab-sms-yunpian-starter</module>
+        <module>guerlab-sms-upyun-starter</module>
     </modules>
 </project>
