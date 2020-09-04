@@ -233,5 +233,6 @@
         <module>guerlab-sms-huaweicloud-starter</module>
         <module>guerlab-sms-jdcloud-starter</module>
         <module>guerlab-sms-qiniu-starter</module>
+        <module>guerlab-sms-yunpian-starter</module>
     </modules>
 </project>
