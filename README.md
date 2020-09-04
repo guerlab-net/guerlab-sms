@@ -25,6 +25,18 @@
 |guerlab-sms-aliyun-starter|阿里云接入实现|
 |guerlab-sms-qcloud-starter|腾讯云接入实现|
 
+## 支持通道
+
+- [x] 阿里云
+- [x] 腾讯云
+- [x] 华为云
+- [x] 京东云
+- [x] 七牛云
+- [ ] 网易云信
+- [ ] 云片网
+- [ ] 又拍云
+- [ ] 百度云
+
 ## wiki
 
 - [Gitee](https://gitee.com/guerlab_net/guerlab-sms/wikis/pages)
