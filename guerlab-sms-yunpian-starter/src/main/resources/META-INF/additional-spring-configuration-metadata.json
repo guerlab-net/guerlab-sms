@@ -4,7 +4,7 @@
 			"name": "sms.yunpian",
 			"type": "net.guerlab.sms.yunpian.YunPianProperties",
 			"sourceType": "net.guerlab.sms.yunpian.YunPianProperties",
-			"description": "云片云短信配置."
+			"description": "云片网短信配置."
 		}
 	],
 	"properties": [
@@ -12,7 +12,7 @@
 			"name": "sms.yunpian.enable",
 			"type": "java.lang.Boolean",
 			"sourceType": "net.guerlab.sms.yunpian.YunPianProperties",
-			"description": "是否启用云片云配置.",
+			"description": "是否启用云片网配置.",
 			"defaultValue": "true"
 		},
 		{

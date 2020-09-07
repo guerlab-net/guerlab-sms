@@ -16,16 +16,6 @@ import java.util.Map;
 public class NeteaseCloudProperties {
 
     /**
-     * 短信模板
-     */
-    protected Map<String, String> templates;
-
-    /**
-     * 参数顺序
-     */
-    protected Map<String, List<String>> paramsOrders;
-
-    /**
      * appkey
      */
     private String appKey;
@@ -34,6 +24,16 @@ public class NeteaseCloudProperties {
      * appSecret
      */
     private String appSecret;
+
+    /**
+     * 短信模板
+     */
+    protected Map<String, String> templates;
+
+    /**
+     * 参数顺序
+     */
+    protected Map<String, List<String>> paramsOrders;
 
     /**
      * 获取短信模板

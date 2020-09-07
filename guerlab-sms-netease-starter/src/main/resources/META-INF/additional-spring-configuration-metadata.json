@@ -1,60 +1,42 @@
 {
   "groups": [
     {
-      "name": "sms.huawei",
-      "type": "net.guerlab.sms.huaweicloud.HuaWeiCloudProperties",
-      "sourceType": "net.guerlab.sms.huaweicloud.HuaWeiCloudProperties",
+      "name": "sms.netease",
+      "type": "net.guerlab.sms.netease.NeteaseCloudProperties",
+      "sourceType": "net.guerlab.sms.netease.NeteaseCloudProperties",
       "description": "网易云信短信配置."
     }
   ],
   "properties": [
     {
-      "name": "sms.huawei.enable",
+      "name": "sms.netease.enable",
       "type": "java.lang.Boolean",
-      "sourceType": "net.guerlab.sms.huaweicloud.HuaWeiCloudProperties",
+      "sourceType": "net.guerlab.sms.netease.NeteaseCloudProperties",
       "description": "是否启用网易云信配置.",
       "defaultValue": "true"
     },
     {
-      "name": "sms.huawei.uri",
+      "name": "sms.netease.app-key",
       "type": "java.lang.String",
-      "sourceType": "net.guerlab.sms.huaweicloud.HuaWeiCloudProperties",
-      "description": "请求地址."
+      "sourceType": "net.guerlab.sms.netease.NeteaseCloudProperties",
+      "description": "appkey."
     },
     {
-      "name": "sms.huawei.app-key",
+      "name": "sms.netease.app-secret",
       "type": "java.lang.String",
-      "sourceType": "net.guerlab.sms.huaweicloud.HuaWeiCloudProperties",
-      "description": "APP_Key."
+      "sourceType": "net.guerlab.sms.netease.NeteaseCloudProperties",
+      "description": "appSecret."
     },
     {
-      "name": "sms.huawei.app-secret",
-      "type": "java.lang.String",
-      "sourceType": "net.guerlab.sms.huaweicloud.HuaWeiCloudProperties",
-      "description": "APP_Secret."
-    },
-    {
-      "name": "sms.huawei.sender",
-      "type": "java.lang.String",
-      "sourceType": "net.guerlab.sms.huaweicloud.HuaWeiCloudProperties",
-      "description": "国内短信签名通道号或国际/港澳台短信通道号."
-    },
-    {
-      "name": "sms.huawei.signature",
-      "type": "java.lang.String",
-      "sourceType": "net.guerlab.sms.huaweicloud.HuaWeiCloudProperties",
-      "description": "签名名称."
-    },
-    {
-      "name": "sms.huawei.templates",
+      "name": "sms.netease.templates",
       "type": "java.util.Map<java.lang.String, java.lang.String>",
-      "sourceType": "net.guerlab.sms.huaweicloud.HuaWeiCloudProperties",
+      "sourceType": "net.guerlab.sms.netease.NeteaseCloudProperties",
       "description": "短信模板."
     },
     {
-      "name": "sms.huawei.params-orders",
+      "name": "sms.netease.params-orders",
       "type": "java.util.Map<java.lang.String, java.util.List<java.lang.String>>",
-      "sourceType": "net.guerlab.sms.huaweicloud.HuaWeiCloudProperties",
+      "sourceType": "net.guerlab.sms.netease.NeteaseCloudProperties",
       "description": "参数顺序."
     }
   ]

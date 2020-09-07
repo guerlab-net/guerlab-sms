@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-net.guerlab.sms.huaweicloud.HuaWeiCloudAutoConfigure
+net.guerlab.sms.netease.NeteaseCloudAutoConfigure

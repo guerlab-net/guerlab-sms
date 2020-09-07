@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.Map;
 
 /**
- * 云片云短信配置
+ * 云片网短信配置
  *
  * @author guer
  */

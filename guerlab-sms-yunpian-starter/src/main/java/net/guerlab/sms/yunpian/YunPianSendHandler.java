@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 
 /**
- * 云片云发送处理
+ * 云片网发送处理
  *
  * @author guer
  */

@@ -8,7 +8,7 @@ import org.springframework.context.annotation.*;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
 /**
- * 云片云发送端点自动配置
+ * 云片网发送端点自动配置
  *
  * @author guer
  */
@@ -18,13 +18,13 @@ import org.springframework.core.type.AnnotatedTypeMetadata;
 public class YunPianAutoConfigure {
 
     /**
-     * 构造云片云发送处理
+     * 构造云片网发送处理
      *
      * @param properties
      *         配置对象
      * @param loadbalancer
      *         负载均衡器
-     * @return 云片云发送处理
+     * @return 云片网发送处理
      */
     @Bean
     @Conditional(YunPianSendHandlerCondition.class)
