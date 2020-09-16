@@ -1,10 +1,9 @@
 package net.guerlab.sms.jdcloud;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import net.guerlab.sms.server.properties.AbstractHandlerProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import java.util.List;
-import java.util.Map;
 
 /**
  * 京东云短信配置
@@ -12,18 +11,9 @@ import java.util.Map;
  * @author guer
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = "sms.jdcloud")
-public class JdCloudProperties {
-
-    /**
-     * 短信模板
-     */
-    protected Map<String, String> templates;
-
-    /**
-     * 参数顺序
-     */
-    protected Map<String, List<String>> paramsOrders;
+public class JdCloudProperties extends AbstractHandlerProperties<String> {
 
     /**
      * AccessKey ID
@@ -44,27 +34,5 @@ public class JdCloudProperties {
      * 签名ID
      */
     private String signId;
-
-    /**
-     * 获取短信模板
-     *
-     * @param type
-     *         类型
-     * @return 短信模板
-     */
-    public String getTemplates(String type) {
-        return templates == null ? null : templates.get(type);
-    }
-
-    /**
-     * 返回参数顺序
-     *
-     * @param type
-     *         类型
-     * @return 参数顺序
-     */
-    public List<String> getParamsOrder(String type) {
-        return paramsOrders.get(type);
-    }
 
 }

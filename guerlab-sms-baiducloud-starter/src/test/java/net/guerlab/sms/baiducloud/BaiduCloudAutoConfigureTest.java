@@ -24,6 +24,7 @@ public class BaiduCloudAutoConfigureTest {
         TestPropertyValues.of("sms.baiducloud.access-key-id=accessKeyId").applyTo(context);
         TestPropertyValues.of("sms.baiducloud.secret-access-key=secretAccessKey").applyTo(context);
         TestPropertyValues.of("sms.baiducloud.endpoint=endpoint").applyTo(context);
+        TestPropertyValues.of("sms.baiducloud.signature-id=signatureId").applyTo(context);
         TestPropertyValues.of("sms.baiducloud.templates.test=templateId").applyTo(context);
     }
 

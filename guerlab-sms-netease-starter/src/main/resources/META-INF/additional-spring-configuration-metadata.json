@@ -16,6 +16,13 @@
       "defaultValue": "true"
     },
     {
+      "name": "sms.netease.weight",
+      "type": "java.lang.Integer",
+      "sourceType": "net.guerlab.sms.netease.NeteaseCloudProperties",
+      "description": "权重.",
+      "defaultValue": "1"
+    },
+    {
       "name": "sms.netease.app-key",
       "type": "java.lang.String",
       "sourceType": "net.guerlab.sms.netease.NeteaseCloudProperties",

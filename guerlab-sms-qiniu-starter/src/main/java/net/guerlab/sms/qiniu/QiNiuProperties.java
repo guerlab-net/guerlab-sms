@@ -1,9 +1,9 @@
 package net.guerlab.sms.qiniu;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import net.guerlab.sms.server.properties.AbstractHandlerProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import java.util.Map;
 
 /**
  * 七牛云短信配置
@@ -11,8 +11,9 @@ import java.util.Map;
  * @author guer
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = "sms.qiniu")
-public class QiNiuProperties {
+public class QiNiuProperties extends AbstractHandlerProperties<String> {
 
     /**
      * accessKey
@@ -23,21 +24,5 @@ public class QiNiuProperties {
      * secretKey
      */
     private String secretKey;
-
-    /**
-     * 短信模板
-     */
-    private Map<String, String> templates;
-
-    /**
-     * 获取短信模板
-     *
-     * @param type
-     *         类型
-     * @return 短信模板
-     */
-    public String getTemplates(String type) {
-        return templates == null ? null : templates.get(type);
-    }
 
 }

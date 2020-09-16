@@ -68,8 +68,10 @@ public class YunPianSendHandler implements SendHandler {
         Result<?> result;
 
         if (phones.size() > 1) {
+            //noinspection deprecation
             result = client.sms().tpl_batch_send(data);
         } else {
+            //noinspection deprecation
             result = client.sms().tpl_single_send(data);
         }
 

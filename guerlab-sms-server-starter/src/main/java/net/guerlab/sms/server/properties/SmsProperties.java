@@ -19,6 +19,14 @@ public class SmsProperties {
     private String reg;
 
     /**
+     * 负载均衡类型
+     * <p>
+     * 可选值:
+     * Random、RoundRobin、WeightRandom、WeightRoundRobin
+     */
+    private String loadBalancerType = "Random";
+
+    /**
      * 验证码配置
      */
     private VerificationCodeProperties verificationCode = new VerificationCodeProperties();

@@ -4,8 +4,7 @@ import net.guerlab.sms.core.domain.NoticeInfo;
 import net.guerlab.sms.core.domain.VerifyInfo;
 import net.guerlab.sms.core.utils.StringUtils;
 import net.guerlab.sms.server.controller.SmsController;
-import net.guerlab.sms.server.loadbalancer.RandomSmsLoadBalancer;
-import net.guerlab.sms.server.loadbalancer.SmsSenderLoadBalancer;
+import net.guerlab.sms.server.loadbalancer.*;
 import net.guerlab.sms.server.properties.SmsProperties;
 import net.guerlab.sms.server.properties.SmsWebProperties;
 import net.guerlab.sms.server.repository.IVerificationCodeRepository;
@@ -54,8 +53,23 @@ public class SmsConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean(SmsSenderLoadBalancer.class)
-    public SmsSenderLoadBalancer smsSenderLoadbalancer() {
-        return new RandomSmsLoadBalancer();
+    public SmsSenderLoadBalancer smsSenderLoadBalancer(SmsProperties properties) {
+        String type = properties.getLoadBalancerType();
+        if (type == null) {
+            return new RandomSmsLoadBalancer();
+        }
+
+        type = type.trim();
+
+        if (RoundRobinSmsLoadBalancer.TYPE_NAME.equalsIgnoreCase(type)) {
+            return new RoundRobinSmsLoadBalancer();
+        } else if (WeightRandomSmsLoadBalancer.TYPE_NAME.equalsIgnoreCase(type)) {
+            return new WeightRandomSmsLoadBalancer();
+        } else if (WeightRoundRobinSmsLoadBalancer.TYPE_NAME.equalsIgnoreCase(type)) {
+            return new WeightRoundRobinSmsLoadBalancer();
+        } else {
+            return new RandomSmsLoadBalancer();
+        }
     }
 
     /**

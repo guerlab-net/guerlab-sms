@@ -14,6 +14,7 @@ import java.util.*;
  *
  * @author guer
  */
+@SuppressWarnings("AlibabaClassNamingShouldBeCamel")
 @Slf4j
 public class QCloudSendHandler implements SendHandler {
 

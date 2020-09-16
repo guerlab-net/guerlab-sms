@@ -3,6 +3,7 @@ package net.guerlab.sms.huaweicloud;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
+import net.guerlab.sms.core.exception.SendClientException;
 import net.guerlab.sms.core.exception.SendFailedException;
 import net.guerlab.sms.core.handler.SendHandler;
 import net.guerlab.sms.core.utils.StringUtils;
@@ -191,7 +192,7 @@ public class HuaWeiCloudSendHandler implements SendHandler {
         String appKey = properties.getAppKey();
         String appSecret = properties.getAppSecret();
         if (StringUtils.isAnyBlank(appKey, appSecret)) {
-            throw new SendFailedException("buildWsseHeader(): appKey or appSecret is null.");
+            throw new SendClientException("buildWsseHeader(): appKey or appSecret is null.");
         }
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
