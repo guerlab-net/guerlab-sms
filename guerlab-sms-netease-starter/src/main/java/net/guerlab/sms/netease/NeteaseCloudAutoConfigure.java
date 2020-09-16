@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.guerlab.sms.server.autoconfigure.SmsConfiguration;
 import net.guerlab.sms.server.loadbalancer.SmsSenderLoadBalancer;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.*;
 import org.springframework.core.type.AnnotatedTypeMetadata;
@@ -29,17 +30,21 @@ public class NeteaseCloudAutoConfigure {
      *         负载均衡器
      * @return 网易云信发送处理
      */
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Bean
     @Conditional(NeteaseCloudSendHandlerCondition.class)
+    @ConditionalOnBean(SmsSenderLoadBalancer.class)
     public NeteaseCloudSendHandler neteaseCloudSendHandler(NeteaseCloudProperties properties, ObjectMapper objectMapper,
             SmsSenderLoadBalancer loadbalancer) {
         NeteaseCloudSendHandler handler = new NeteaseCloudSendHandler(properties, objectMapper);
         loadbalancer.addTarget(handler, true);
+        loadbalancer.setWeight(handler, properties.getWeight());
         return handler;
     }
 
     public static class NeteaseCloudSendHandlerCondition implements Condition {
 
+        @SuppressWarnings("NullableProblems")
         @Override
         public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
             Boolean enable = context.getEnvironment().getProperty("sms.netease.enable", Boolean.class);

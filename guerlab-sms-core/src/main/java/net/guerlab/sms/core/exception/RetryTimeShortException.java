@@ -16,7 +16,7 @@ public class RetryTimeShortException extends RuntimeException {
     /**
      * 剩余时间,单位秒
      */
-    private long surplus;
+    private final long surplus;
 
     static {
         Locale locale = Locale.getDefault();

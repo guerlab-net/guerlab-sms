@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author guer
  */
+@SuppressWarnings("MVCPathVariableInspection")
 @RestController
 public class SmsController {
 

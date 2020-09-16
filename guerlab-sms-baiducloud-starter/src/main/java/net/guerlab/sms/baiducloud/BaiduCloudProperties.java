@@ -1,9 +1,9 @@
 package net.guerlab.sms.baiducloud;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import net.guerlab.sms.server.properties.AbstractHandlerProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-
-import java.util.Map;
 
 /**
  * 百度云短信配置
@@ -11,8 +11,9 @@ import java.util.Map;
  * @author guer
  */
 @Data
+@EqualsAndHashCode(callSuper = true)
 @ConfigurationProperties(prefix = "sms.baiducloud")
-public class BaiduCloudProperties {
+public class BaiduCloudProperties extends AbstractHandlerProperties<String> {
 
     /**
      * ACCESS_KEY_ID
@@ -30,19 +31,7 @@ public class BaiduCloudProperties {
     private String endpoint;
 
     /**
-     * 短信模板
+     * 短信签名ID
      */
-    private Map<String, String> templates;
-
-    /**
-     * 获取短信模板
-     *
-     * @param type
-     *         类型
-     * @return 短信模板
-     */
-    public String getTemplates(String type) {
-        return templates == null ? null : templates.get(type);
-    }
-
+    private String signatureId;
 }

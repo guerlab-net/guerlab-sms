@@ -46,7 +46,7 @@ public class BaiduCloudSendHandler implements SendHandler {
 
         SendMessageV3Request request = new SendMessageV3Request();
         request.setMobile(StringUtils.join(phones, ","));
-        request.setSignatureId("");
+        request.setSignatureId(properties.getSignatureId());
         request.setTemplate(templateId);
         request.setContentVar(noticeData.getParams());
 
@@ -54,6 +54,7 @@ public class BaiduCloudSendHandler implements SendHandler {
 
         if (response == null) {
             log.debug("send fail: not response");
+            return false;
         } else if (!response.isSuccess()) {
             log.debug("send fail: {}", response.getCode());
             return false;
