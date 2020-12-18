@@ -28,7 +28,7 @@
         <dependency>
             <groupId>com.github.qcloudsms</groupId>
             <artifactId>qcloudsms</artifactId>
-            <version>1.0.6</version>
+            <version>[1.0.6, 1.1.0)</version>
         </dependency>
 
         <dependency>
