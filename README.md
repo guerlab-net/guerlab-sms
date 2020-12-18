@@ -26,14 +26,15 @@
 
 ## 支持通道
 
-- [x] 阿里云  guerlab-sms-aliyun-starter
-- [x] 腾讯云  guerlab-sms-qcloud-starter
-- [x] 华为云  guerlab-sms-huaweicloud-starter
-- [x] 京东云  guerlab-sms-jdcloud-starter
-- [x] 七牛云  guerlab-sms-qiniu-starter
-- [X] 网易云信  guerlab-sms-netease-starter
-- [X] 云片网  guerlab-sms-yunpian-starter
-- [X] 又拍云  guerlab-sms-upyun-starter
+- [x] 阿里云 guerlab-sms-aliyun-starter
+- [x] 腾讯云 guerlab-sms-qcloud-starter
+- [x] 华为云 guerlab-sms-huaweicloud-starter
+- [x] 京东云 guerlab-sms-jdcloud-starter
+- [x] 极光短信 guerlab-sms-jpush-starter
+- [x] 七牛云 guerlab-sms-qiniu-starter
+- [X] 网易云信 guerlab-sms-netease-starter
+- [X] 云片网 guerlab-sms-yunpian-starter
+- [X] 又拍云 guerlab-sms-upyun-starter
 - [X] 百度云 guerlab-sms-baiducloud-starter
 
 ## wiki
