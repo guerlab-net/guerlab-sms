@@ -46,7 +46,7 @@
     </issueManagement>
 
     <properties>
-        <revision>1.4.0</revision>
+        <revision>1.5.0-SNAPSHOT</revision>
         <java.version>1.8</java.version>
         <project.encoding>UTF-8</project.encoding>
 
@@ -266,7 +266,6 @@
         <module>guerlab-sms-redis-repository-starter</module>
         <module>guerlab-sms-aliyun-starter</module>
         <module>guerlab-sms-qcloud-starter</module>
-        <module>guerlab-sms-tester</module>
         <module>guerlab-sms-huaweicloud-starter</module>
         <module>guerlab-sms-jdcloud-starter</module>
         <module>guerlab-sms-qiniu-starter</module>
@@ -275,5 +274,6 @@
         <module>guerlab-sms-baiducloud-starter</module>
         <module>guerlab-sms-netease-starter</module>
         <module>guerlab-sms-jpush-starter</module>
+        <module>guerlab-sms-chinamobile-starter</module>
     </modules>
 </project>

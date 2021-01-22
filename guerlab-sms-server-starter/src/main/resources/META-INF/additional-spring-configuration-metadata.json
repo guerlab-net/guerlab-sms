@@ -17,6 +17,12 @@
       "type": "net.guerlab.sms.server.properties.VerificationCodeProperties",
       "sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
       "description": "短信验证码配置."
+    },
+    {
+      "name": "sms.verification-code.repository.memory",
+      "type": "net.guerlab.sms.server.properties.VerificationCodeMemoryRepositoryProperties",
+      "sourceType": "net.guerlab.sms.server.properties.VerificationCodeMemoryRepositoryProperties",
+      "description": "验证码内存储存配置."
     }
   ],
   "properties": [
@@ -128,6 +134,13 @@
       "sourceType": "net.guerlab.sms.server.properties.VerificationCodeProperties",
       "description": "模板中是否包含过期时间.",
       "defaultValue": "false"
+    },
+    {
+      "name": "sms.verification-code.repository.memory.gc-frequency",
+      "type": "java.lang.Long",
+      "sourceType": "net.guerlab.sms.server.properties.VerificationCodeMemoryRepositoryProperties",
+      "description": "gc频率，单位秒.",
+      "defaultValue": "300"
     }
   ]
 }

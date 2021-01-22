@@ -163,7 +163,7 @@ public class HuaWeiCloudSendHandler implements SendHandler {
 
     private String buildRequestBody(String receiver, String templateId, String templateParas) {
         if (StringUtils.isAnyBlank(receiver, templateId)) {
-            throw new SendFailedException("buildRequestBody(): sender, receiver or templateId is null.");
+            throw new SendFailedException("buildRequestBody(): receiver or templateId is null.");
         }
 
         String signature = StringUtils.trimToNull(properties.getSignature());

@@ -3,7 +3,7 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>guerlab-sms-tester</artifactId>
+    <artifactId>guerlab-sms-chinamobile-starter</artifactId>
 
     <parent>
         <groupId>net.guerlab.sms</groupId>
@@ -15,33 +15,20 @@
         <main.basedir>${basedir}/..</main.basedir>
     </properties>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
-
     <dependencies>
         <dependency>
             <groupId>net.guerlab.sms</groupId>
             <artifactId>guerlab-sms-server-starter</artifactId>
-            <version>${revision}</version>
         </dependency>
         <dependency>
-            <groupId>net.guerlab.sms</groupId>
-            <artifactId>guerlab-sms-aliyun-starter</artifactId>
-            <version>${revision}</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
+
         <dependency>
-            <groupId>net.guerlab.sms</groupId>
-            <artifactId>guerlab-sms-qcloud-starter</artifactId>
-            <version>${revision}</version>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
         </dependency>
 
         <dependency>
@@ -50,6 +37,4 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-
 </project>

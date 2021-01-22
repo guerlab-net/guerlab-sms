@@ -7,6 +7,7 @@ import net.guerlab.sms.server.controller.SmsController;
 import net.guerlab.sms.server.loadbalancer.*;
 import net.guerlab.sms.server.properties.SmsProperties;
 import net.guerlab.sms.server.properties.SmsWebProperties;
+import net.guerlab.sms.server.properties.VerificationCodeMemoryRepositoryProperties;
 import net.guerlab.sms.server.repository.IVerificationCodeRepository;
 import net.guerlab.sms.server.repository.VerificationCodeMemoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,21 +30,19 @@ import java.lang.reflect.Method;
  *
  */
 @Configuration
-@EnableConfigurationProperties(SmsProperties.class)
+@EnableConfigurationProperties({ SmsProperties.class, VerificationCodeMemoryRepositoryProperties.class })
 @ComponentScan({ "net.guerlab.sms.server.controller", "net.guerlab.sms.server.repository",
-        "net.guerlab.sms.server.service"
-})
+        "net.guerlab.sms.server.service" })
 public class SmsConfiguration {
 
-    /**
-     * 构造默认验证码储存接口实现
-     *
-     * @return 默认验证码储存接口实现
-     */
-    @Bean
-    @ConditionalOnMissingBean(IVerificationCodeRepository.class)
-    public IVerificationCodeRepository verificationCodeMemoryRepository() {
-        return new VerificationCodeMemoryRepository();
+    private static String getBasePath(SmsWebProperties properties) {
+        if (properties == null) {
+            return SmsWebProperties.DEFAULT_BASE_PATH;
+        }
+
+        String bathPath = StringUtils.trimToNull(properties.getBasePath());
+
+        return bathPath == null ? SmsWebProperties.DEFAULT_BASE_PATH : bathPath;
     }
 
     /**
@@ -133,13 +132,19 @@ public class SmsConfiguration {
         }
     }
 
-    private String getBasePath(SmsWebProperties properties) {
-        if (properties == null) {
-            return SmsWebProperties.DEFAULT_BASE_PATH;
-        }
-
-        String bathPath = StringUtils.trimToNull(properties.getBasePath());
-
-        return bathPath == null ? SmsWebProperties.DEFAULT_BASE_PATH : bathPath;
+    /**
+     * 构造默认验证码储存接口实现
+     *
+     * @param properties
+     *         验证码内存储存配置
+     * @return 默认验证码储存接口实现
+     */
+    @Bean
+    @ConditionalOnMissingBean(IVerificationCodeRepository.class)
+    public IVerificationCodeRepository verificationCodeMemoryRepository(
+            VerificationCodeMemoryRepositoryProperties properties) {
+        VerificationCodeMemoryRepository repository = new VerificationCodeMemoryRepository();
+        repository.setProperties(properties);
+        return repository;
     }
 }
