@@ -19,12 +19,11 @@ import java.util.concurrent.TimeUnit;
  * 验证码redis储存实现
  *
  * @author guer
- *
  */
 @Slf4j
 @Repository
 @EnableConfigurationProperties(RedisProperties.class)
-public class VerificationCodeRedisRepository implements IVerificationCodeRepository {
+public class VerificationCodeRedisRepository implements VerificationCodeRepository {
 
     private RedisProperties properties;
 

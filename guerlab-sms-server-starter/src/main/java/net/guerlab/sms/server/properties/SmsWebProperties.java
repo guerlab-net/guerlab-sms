@@ -1,6 +1,7 @@
 package net.guerlab.sms.server.properties;
 
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * 短信Web配置
@@ -9,6 +10,7 @@ import lombok.Data;
  *
  */
 @Data
+@ConfigurationProperties(prefix = "sms.web")
 public class SmsWebProperties {
 
     /**

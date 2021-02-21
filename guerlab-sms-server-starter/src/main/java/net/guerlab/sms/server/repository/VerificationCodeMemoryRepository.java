@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
  * @author guer
  */
 @Slf4j
-public class VerificationCodeMemoryRepository implements IVerificationCodeRepository {
+public class VerificationCodeMemoryRepository implements VerificationCodeRepository {
 
     private final Map<String, VerificationCode> cache = new ConcurrentHashMap<>();
 

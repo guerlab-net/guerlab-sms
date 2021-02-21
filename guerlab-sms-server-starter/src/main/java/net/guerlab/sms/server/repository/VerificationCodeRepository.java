@@ -4,19 +4,18 @@ import net.guerlab.sms.server.entity.VerificationCode;
 
 /**
  * 验证码储存接口
- * 
- * @author guer
  *
+ * @author guer
  */
-public interface IVerificationCodeRepository {
+public interface VerificationCodeRepository {
 
     /**
      * 根据手机号码查询验证码
      *
      * @param phone
-     *            手机号码
+     *         手机号码
      * @param identificationCode
-     *            识别码
+     *         识别码
      * @return 验证码
      */
     VerificationCode findOne(String phone, String identificationCode);

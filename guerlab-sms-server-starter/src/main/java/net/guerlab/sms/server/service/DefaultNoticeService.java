@@ -6,6 +6,7 @@ import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.exception.NotFindSendHandlerException;
 import net.guerlab.sms.core.handler.SendHandler;
 import net.guerlab.sms.core.utils.StringUtils;
+import net.guerlab.sms.server.properties.SmsAsyncProperties;
 import net.guerlab.sms.server.properties.SmsProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,10 @@ public class DefaultNoticeService implements NoticeService {
     private SmsProperties properties;
 
     private ILoadBalancer<SendHandler, NoticeData> smsSenderLoadbalancer;
+
+    private SmsAsyncProperties asyncProperties;
+
+    private SendAsyncThreadPoolExecutor executor;
 
     @Override
     public boolean phoneRegValidation(String phone) {
@@ -61,9 +66,57 @@ public class DefaultNoticeService implements NoticeService {
         return sendHandler.send(noticeData, phones);
     }
 
+    @Override
+    public void asyncSend(NoticeData noticeData, Collection<String> phones) {
+        if (!asyncProperties.isEnable() || executor == null) {
+            send(noticeData, phones);
+            return;
+        }
+
+        Runnable command = () -> {
+            if (noticeData == null) {
+                log.debug("noticeData is null");
+                return;
+            }
+
+            if (phones == null || phones.isEmpty()) {
+                log.debug("phones is empty");
+                return;
+            }
+
+            List<String> phoneList = phones.stream().filter(this::phoneRegValidation).collect(Collectors.toList());
+
+            if (phoneList.isEmpty()) {
+                log.debug("after filter phones is empty");
+                return;
+            }
+
+            SendHandler sendHandler = smsSenderLoadbalancer.choose(noticeData);
+
+            if (sendHandler == null) {
+                log.debug(new NotFindSendHandlerException().getLocalizedMessage());
+                return;
+            }
+
+            sendHandler.send(noticeData, phones);
+        };
+
+        executor.submit(command);
+    }
+
     @Autowired
     public void setProperties(SmsProperties properties) {
         this.properties = properties;
+    }
+
+    @Autowired
+    public void setAsyncProperties(SmsAsyncProperties asyncProperties) {
+        this.asyncProperties = asyncProperties;
+    }
+
+    @Autowired(required = false)
+    public void setExecutor(SendAsyncThreadPoolExecutor executor) {
+        this.executor = executor;
     }
 
     @Autowired

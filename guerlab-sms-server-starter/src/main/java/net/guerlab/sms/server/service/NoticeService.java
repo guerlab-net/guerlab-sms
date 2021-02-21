@@ -62,10 +62,48 @@ public interface NoticeService {
      * @return 是否发送成功
      */
     default boolean send(NoticeData noticeData, String... phones) {
-        if (phones == null) {
+        if (phones == null || phones.length <= 0) {
             return false;
         }
 
         return send(noticeData, Arrays.asList(phones));
+    }
+
+    /**
+     * 异步发送通知,当未启用异步支持的时候默认会直接同步发送
+     *
+     * @param noticeData
+     *         通知内容
+     * @param phones
+     *         手机号列表
+     */
+    void asyncSend(NoticeData noticeData, Collection<String> phones);
+
+    /**
+     * 异步发送通知,当未启用异步支持的时候默认会直接同步发送
+     *
+     * @param noticeData
+     *         通知内容
+     * @param phone
+     *         手机号
+     */
+    default void asyncSend(NoticeData noticeData, String phone) {
+        if (!StringUtils.isBlank(phone)) {
+            asyncSend(noticeData, Collections.singletonList(phone));
+        }
+    }
+
+    /**
+     * 异步发送通知,当未启用异步支持的时候默认会直接同步发送
+     *
+     * @param noticeData
+     *         通知内容
+     * @param phones
+     *         手机号列表
+     */
+    default void asyncSend(NoticeData noticeData, String... phones) {
+        if (phones != null && phones.length > 0) {
+            asyncSend(noticeData, Arrays.asList(phones));
+        }
     }
 }

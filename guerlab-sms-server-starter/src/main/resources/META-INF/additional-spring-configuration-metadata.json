@@ -23,6 +23,12 @@
       "type": "net.guerlab.sms.server.properties.VerificationCodeMemoryRepositoryProperties",
       "sourceType": "net.guerlab.sms.server.properties.VerificationCodeMemoryRepositoryProperties",
       "description": "验证码内存储存配置."
+    },
+    {
+      "name": "sms.async",
+      "type": "net.guerlab.sms.server.properties.SmsAsyncProperties",
+      "sourceType": "net.guerlab.sms.server.properties.SmsAsyncProperties",
+      "description": "短信异步配置."
     }
   ],
   "properties": [
@@ -141,6 +147,55 @@
       "sourceType": "net.guerlab.sms.server.properties.VerificationCodeMemoryRepositoryProperties",
       "description": "gc频率，单位秒.",
       "defaultValue": "300"
+    },
+    {
+      "name": "sms.async.enable",
+      "type": "java.lang.Boolean",
+      "sourceType": "net.guerlab.sms.server.properties.SmsAsyncProperties",
+      "description": "是否启用异步支持.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "sms.async.core-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "net.guerlab.sms.server.properties.SmsAsyncProperties",
+      "description": "核心线程数量.",
+      "defaultValue": "可用处理器数量 (Runtime.getRuntime().availableProcessors())"
+    },
+    {
+      "name": "sms.async.maximum-pool-size",
+      "type": "java.lang.Integer",
+      "sourceType": "net.guerlab.sms.server.properties.SmsAsyncProperties",
+      "description": "最大线程数量.",
+      "defaultValue": "可用处理器数量 * 2 (Runtime.getRuntime().availableProcessors() * 2)"
+    },
+    {
+      "name": "sms.async.keep-alive-time",
+      "type": "java.lang.Long",
+      "sourceType": "net.guerlab.sms.server.properties.SmsAsyncProperties",
+      "description": "线程最大空闲时间.",
+      "defaultValue": "60"
+    },
+    {
+      "name": "sms.async.unit",
+      "type": "java.util.concurrent.TimeUnit",
+      "sourceType": "net.guerlab.sms.server.properties.SmsAsyncProperties",
+      "description": "线程最大空闲时间单位.",
+      "defaultValue": "SECONDS"
+    },
+    {
+      "name": "sms.async.queue-capacity",
+      "type": "java.lang.Integer",
+      "sourceType": "net.guerlab.sms.server.properties.SmsAsyncProperties",
+      "description": "队列容量.",
+      "defaultValue": "Integer.MAX_VALUE"
+    },
+    {
+      "name": "sms.async.reject-policy",
+      "type": "net.guerlab.sms.server.properties.RejectPolicy",
+      "sourceType": "net.guerlab.sms.server.properties.SmsAsyncProperties",
+      "description": "拒绝策略, 可选值:Abort、Caller、Discard、DiscardOldest.",
+      "defaultValue": "Abort"
     }
   ]
 }

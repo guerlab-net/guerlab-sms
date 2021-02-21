@@ -1,6 +1,7 @@
 package net.guerlab.sms.server.properties;
 
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * 验证码配置
@@ -9,6 +10,7 @@ import lombok.Data;
  *
  */
 @Data
+@ConfigurationProperties(prefix = "sms.verification-code")
 public class VerificationCodeProperties {
 
     /**

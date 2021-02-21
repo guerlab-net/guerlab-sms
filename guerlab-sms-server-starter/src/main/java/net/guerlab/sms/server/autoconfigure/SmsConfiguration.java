@@ -5,14 +5,14 @@ import net.guerlab.sms.core.domain.VerifyInfo;
 import net.guerlab.sms.core.utils.StringUtils;
 import net.guerlab.sms.server.controller.SmsController;
 import net.guerlab.sms.server.loadbalancer.*;
-import net.guerlab.sms.server.properties.SmsProperties;
-import net.guerlab.sms.server.properties.SmsWebProperties;
-import net.guerlab.sms.server.properties.VerificationCodeMemoryRepositoryProperties;
-import net.guerlab.sms.server.repository.IVerificationCodeRepository;
+import net.guerlab.sms.server.properties.*;
 import net.guerlab.sms.server.repository.VerificationCodeMemoryRepository;
+import net.guerlab.sms.server.repository.VerificationCodeRepository;
+import net.guerlab.sms.server.service.SendAsyncThreadPoolExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -30,7 +30,8 @@ import java.lang.reflect.Method;
  *
  */
 @Configuration
-@EnableConfigurationProperties({ SmsProperties.class, VerificationCodeMemoryRepositoryProperties.class })
+@EnableConfigurationProperties({ SmsAsyncProperties.class, SmsProperties.class, SmsWebProperties.class,
+        VerificationCodeProperties.class, VerificationCodeMemoryRepositoryProperties.class })
 @ComponentScan({ "net.guerlab.sms.server.controller", "net.guerlab.sms.server.repository",
         "net.guerlab.sms.server.service" })
 public class SmsConfiguration {
@@ -48,6 +49,8 @@ public class SmsConfiguration {
     /**
      * 构造发送者负载均衡器
      *
+     * @param properties
+     *         短信配置
      * @return 发送者负载均衡器
      */
     @Bean
@@ -75,12 +78,13 @@ public class SmsConfiguration {
      * 设置控制器映射
      *
      * @param mapping
-     *            RequestMappingHandlerMapping
-     * @param smsProperties
-     *            短信配置
+     *         RequestMappingHandlerMapping
+     * @param properties
+     *         短信Web配置
      * @param controller
-     *            短信Controller
-     * @throws NoSuchMethodException if a matching method is not found
+     *         短信Controller
+     * @throws NoSuchMethodException
+     *         if a matching method is not found
      *         or if the name is "&lt;init&gt;"or "&lt;clinit&gt;".
      * @throws SecurityException
      *         If a security manager, <i>s</i>, is present and
@@ -91,40 +95,34 @@ public class SmsConfiguration {
      *         of this class.
      */
     @Autowired(required = false)
-    @ConditionalOnBean({ RequestMappingHandlerMapping.class, SmsProperties.class })
-    public void setWebMapping(RequestMappingHandlerMapping mapping, SmsProperties smsProperties,
+    @ConditionalOnBean(RequestMappingHandlerMapping.class)
+    public void setWebMapping(RequestMappingHandlerMapping mapping, SmsWebProperties properties,
             SmsController controller) throws NoSuchMethodException, SecurityException {
-        if (smsProperties == null) {
+        if (properties == null || !properties.isEnable()) {
             return;
         }
 
-        SmsWebProperties webProperties = smsProperties.getWeb();
+        String bathPath = getBasePath(properties);
 
-        if (webProperties == null || !webProperties.isEnable()) {
-            return;
-        }
-
-        String bathPath = getBasePath(webProperties);
-
-        if (webProperties.isEnableSend()) {
+        if (properties.isEnableSend()) {
             Method sendMethod = SmsController.class.getMethod("sendVerificationCode", String.class);
             RequestMappingInfo sendInfo = RequestMappingInfo.paths(bathPath + "/verificationCode/{phone}")
                     .methods(RequestMethod.POST).build();
             mapping.registerMapping(sendInfo, controller, sendMethod);
         }
-        if (webProperties.isEnableGet()) {
+        if (properties.isEnableGet()) {
             Method getMethod = SmsController.class.getMethod("getVerificationCode", String.class, String.class);
             RequestMappingInfo getInfo = RequestMappingInfo.paths(bathPath + "/verificationCode/{phone}")
                     .methods(RequestMethod.GET).produces("application/json").build();
             mapping.registerMapping(getInfo, controller, getMethod);
         }
-        if (webProperties.isEnableVerify()) {
+        if (properties.isEnableVerify()) {
             Method verifyMethod = SmsController.class.getMethod("verifyVerificationCode", VerifyInfo.class);
             RequestMappingInfo verifyInfo = RequestMappingInfo.paths(bathPath + "/verificationCode")
                     .methods(RequestMethod.POST).build();
             mapping.registerMapping(verifyInfo, controller, verifyMethod);
         }
-        if (webProperties.isEnableNotice()) {
+        if (properties.isEnableNotice()) {
             Method noticeMethod = SmsController.class.getMethod("sendNotice", NoticeInfo.class);
             RequestMappingInfo noticeInfo = RequestMappingInfo.paths(bathPath + "/notice").methods(RequestMethod.PUT)
                     .build();
@@ -140,11 +138,24 @@ public class SmsConfiguration {
      * @return 默认验证码储存接口实现
      */
     @Bean
-    @ConditionalOnMissingBean(IVerificationCodeRepository.class)
-    public IVerificationCodeRepository verificationCodeMemoryRepository(
+    @ConditionalOnMissingBean(VerificationCodeRepository.class)
+    public VerificationCodeRepository verificationCodeMemoryRepository(
             VerificationCodeMemoryRepositoryProperties properties) {
         VerificationCodeMemoryRepository repository = new VerificationCodeMemoryRepository();
         repository.setProperties(properties);
         return repository;
+    }
+
+    /**
+     * 构造发送异步处理线程池
+     *
+     * @param properties
+     *         短信异步配置
+     * @return 发送异步处理线程池
+     */
+    @Bean
+    @ConditionalOnProperty(name = "sms.async.enable", havingValue = "true")
+    public SendAsyncThreadPoolExecutor sendAsyncThreadPoolExecutor(SmsAsyncProperties properties) {
+        return new SendAsyncThreadPoolExecutor(properties);
     }
 }

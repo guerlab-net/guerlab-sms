@@ -4,10 +4,9 @@ package net.guerlab.sms.server.service;
  * 验证码生成
  *
  * @author guer
- *
  */
 @FunctionalInterface
-public interface ICodeGenerate {
+public interface CodeGenerate {
 
     /**
      * 生成验证码

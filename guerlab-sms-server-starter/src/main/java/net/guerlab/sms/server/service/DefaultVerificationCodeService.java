@@ -5,8 +5,8 @@ import net.guerlab.sms.core.exception.PhoneIsNullException;
 import net.guerlab.sms.core.exception.RetryTimeShortException;
 import net.guerlab.sms.core.utils.StringUtils;
 import net.guerlab.sms.server.entity.VerificationCode;
-import net.guerlab.sms.server.properties.SmsProperties;
-import net.guerlab.sms.server.repository.IVerificationCodeRepository;
+import net.guerlab.sms.server.properties.VerificationCodeProperties;
+import net.guerlab.sms.server.repository.VerificationCodeRepository;
 import net.guerlab.sms.server.utils.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,21 +26,21 @@ import java.util.Objects;
 @Service
 public class DefaultVerificationCodeService implements VerificationCodeService {
 
-    private IVerificationCodeRepository repository;
+    private VerificationCodeRepository repository;
 
-    private SmsProperties properties;
+    private VerificationCodeProperties properties;
 
     private NoticeService noticeService;
 
-    private ICodeGenerate codeGenerate;
+    private CodeGenerate codeGenerate;
 
     @Autowired
-    public void setRepository(IVerificationCodeRepository repository) {
+    public void setRepository(VerificationCodeRepository repository) {
         this.repository = repository;
     }
 
     @Autowired
-    public void setProperties(SmsProperties properties) {
+    public void setProperties(VerificationCodeProperties properties) {
         this.properties = properties;
     }
 
@@ -50,7 +50,7 @@ public class DefaultVerificationCodeService implements VerificationCodeService {
     }
 
     @Autowired
-    public void setCodeGenerate(ICodeGenerate codeGenerate) {
+    public void setCodeGenerate(CodeGenerate codeGenerate) {
         this.codeGenerate = codeGenerate;
     }
 
@@ -68,11 +68,11 @@ public class DefaultVerificationCodeService implements VerificationCodeService {
     }
 
     private String createIdentificationCode() {
-        if (!properties.getVerificationCode().isUseIdentificationCode()) {
+        if (!properties.isUseIdentificationCode()) {
             return null;
         }
 
-        return RandomUtil.nextString(properties.getVerificationCode().getIdentificationCodeLength());
+        return RandomUtil.nextString(properties.getIdentificationCodeLength());
     }
 
     @Override
@@ -89,14 +89,14 @@ public class DefaultVerificationCodeService implements VerificationCodeService {
         VerificationCode verificationCode = repository.findOne(phone, identificationCode);
         boolean newVerificationCode = false;
 
-        Long expirationTime = properties.getVerificationCode().getExpirationTime();
+        Long expirationTime = properties.getExpirationTime();
 
         if (verificationCode == null) {
             verificationCode = new VerificationCode();
             verificationCode.setPhone(phone);
             verificationCode.setIdentificationCode(identificationCode);
 
-            Long retryIntervalTime = properties.getVerificationCode().getRetryIntervalTime();
+            Long retryIntervalTime = properties.getRetryIntervalTime();
 
             if (expirationTime != null && expirationTime > 0) {
                 verificationCode.setExpirationTime(LocalDateTime.now().plusSeconds(expirationTime));
@@ -125,8 +125,7 @@ public class DefaultVerificationCodeService implements VerificationCodeService {
         if (verificationCode.getIdentificationCode() != null) {
             params.put(MSG_KEY_IDENTIFICATION_CODE, verificationCode.getIdentificationCode());
         }
-        if (properties.getVerificationCode().isTemplateHasExpirationTime() && expirationTime != null
-                && expirationTime > 0) {
+        if (properties.isTemplateHasExpirationTime() && expirationTime != null && expirationTime > 0) {
             params.put(MSG_KEY_EXPIRATION_TIME_OF_SECONDS, String.valueOf(expirationTime));
             params.put(MSG_KEY_EXPIRATION_TIME_OF_MINUTES, String.valueOf(expirationTime / 60));
         }
@@ -156,11 +155,11 @@ public class DefaultVerificationCodeService implements VerificationCodeService {
 
         boolean verifyData = Objects.equals(verificationCode.getCode(), code);
 
-        if (verifyData && properties.getVerificationCode().isDeleteByVerifySucceed()) {
+        if (verifyData && properties.isDeleteByVerifySucceed()) {
             repository.delete(phone, identificationCode);
         }
 
-        if (!verifyData && properties.getVerificationCode().isDeleteByVerifyFail()) {
+        if (!verifyData && properties.isDeleteByVerifyFail()) {
             repository.delete(phone, identificationCode);
         }
 

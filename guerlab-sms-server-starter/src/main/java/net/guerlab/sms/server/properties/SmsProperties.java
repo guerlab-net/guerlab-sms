@@ -22,17 +22,9 @@ public class SmsProperties {
      * 负载均衡类型
      * <p>
      * 可选值:
-     * Random、RoundRobin、WeightRandom、WeightRoundRobin
+     * Random、RoundRobin、WeightRandom、WeightRoundRobin，
+     * 默认:
+     * Random
      */
     private String loadBalancerType = "Random";
-
-    /**
-     * 验证码配置
-     */
-    private VerificationCodeProperties verificationCode = new VerificationCodeProperties();
-
-    /**
-     * 短信Web配置
-     */
-    private SmsWebProperties web = new SmsWebProperties();
 }
