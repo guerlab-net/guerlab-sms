@@ -1,3 +1,15 @@
+/*
+ * Copyright 2018-2021 the original author or authors.
+ *
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE, Version 3 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.guerlab.sms.server.controller;
 
 import net.guerlab.sms.core.domain.NoticeInfo;
@@ -18,7 +30,6 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author guer
  */
-@SuppressWarnings("MVCPathVariableInspection")
 @RestController
 public class SmsController {
 
@@ -56,9 +67,9 @@ public class SmsController {
      * 获取验证码
      *
      * @param phone
-     *            手机号码
+     *         手机号码
      * @param identificationCode
-     *            识别码
+     *         识别码
      * @return 验证码信息
      */
     public VerifyInfo getVerificationCode(@PathVariable("phone") String phone,
@@ -84,8 +95,8 @@ public class SmsController {
      *            验证信息
      */
     public void verifyVerificationCode(@RequestBody VerifyInfo verifyInfo) {
-        if (!verificationCodeService.verify(verifyInfo.getPhone(), verifyInfo.getCode(),
-                verifyInfo.getIdentificationCode())) {
+        if (!verificationCodeService
+                .verify(verifyInfo.getPhone(), verifyInfo.getCode(), verifyInfo.getIdentificationCode())) {
             throw new VerifyFailException();
         }
     }

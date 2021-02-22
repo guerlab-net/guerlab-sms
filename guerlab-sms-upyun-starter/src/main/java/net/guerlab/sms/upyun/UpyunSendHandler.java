@@ -1,3 +1,15 @@
+/*
+ * Copyright 2018-2021 the original author or authors.
+ *
+ * Licensed under the GNU LESSER GENERAL PUBLIC LICENSE, Version 3 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package net.guerlab.sms.upyun;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -74,8 +86,7 @@ public class UpyunSendHandler implements SendHandler {
         try {
             HttpResponse response = client.execute(
                     RequestBuilder.post(API_URL).addHeader(HttpHeaders.AUTHORIZATION, properties.getToken())
-                            .addHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.getMimeType())
-                            .setEntity(new StringEntity(objectMapper.writeValueAsString(request))).build());
+                            .addHeader(HttpHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.getMimeType()).setEntity(new StringEntity(objectMapper.writeValueAsString(request))).build());
 
             String responseContent = EntityUtils.toString(response.getEntity());
 

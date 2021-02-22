@@ -1,6 +1,6 @@
 # guerlab-sms
 
-基于Spring boot的短信服务支持，通过引用不同的Starter启用不同的短信通道支持，支持多通道下的负载均衡。
+基于Spring boot的短信服务支持，通过引用不同的Starter启用不同的短信通道支持，支持多通道下的负载均衡，支持同步/异步方式发送。
 目前支持类型：阿里云短信、百度云短信、华为云短信、京东云短信、网易云信短信、腾讯云短信、七牛云短信、云片网短信、又拍云短信、移动云模板短信
 
 [![gitee](https://gitee.com/guerlab_net/guerlab-sms/badge/star.svg)](https://gitee.com/guerlab_net/guerlab-sms)
