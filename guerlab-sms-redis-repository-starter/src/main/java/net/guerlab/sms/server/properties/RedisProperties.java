@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @author guer
  */
 @Component
-@ConfigurationProperties(prefix = "sms.redis")
+@ConfigurationProperties(prefix = "sms.verification-code.repository.redis")
 public class RedisProperties {
 
     /**
