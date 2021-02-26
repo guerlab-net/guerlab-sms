@@ -16,8 +16,8 @@ import com.yunpian.sdk.YunpianClient;
 import com.yunpian.sdk.model.Result;
 import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
-import net.guerlab.sms.core.handler.SendHandler;
 import net.guerlab.sms.core.utils.StringUtils;
+import net.guerlab.sms.server.handler.AbstractSendHandler;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -32,14 +32,12 @@ import java.util.Objects;
  * @author guer
  */
 @Slf4j
-public class YunPianSendHandler implements SendHandler {
-
-    private final YunPianProperties properties;
+public class YunPianSendHandler extends AbstractSendHandler<YunPianProperties> {
 
     private final YunpianClient client;
 
     public YunPianSendHandler(YunPianProperties properties) {
-        this.properties = properties;
+        super(properties);
         client = new YunpianClient(properties.getApikey()).init();
     }
 

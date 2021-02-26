@@ -52,30 +52,13 @@ public class DefaultNoticeService implements NoticeService {
 
     @Override
     public boolean send(NoticeData noticeData, Collection<String> phones) {
-        if (noticeData == null) {
-            log.debug("noticeData is null");
-            return false;
+        SendResult result = send0(noticeData, phones);
+
+        if (result.exception != null) {
+            throw result.exception;
         }
 
-        if (phones == null || phones.isEmpty()) {
-            log.debug("phones is empty");
-            return false;
-        }
-
-        List<String> phoneList = phones.stream().filter(this::phoneRegValidation).collect(Collectors.toList());
-
-        if (phoneList.isEmpty()) {
-            log.debug("after filter phones is empty");
-            return false;
-        }
-
-        SendHandler sendHandler = smsSenderLoadbalancer.choose(noticeData);
-
-        if (sendHandler == null) {
-            throw new NotFindSendHandlerException();
-        }
-
-        return sendHandler.send(noticeData, phones);
+        return result.result;
     }
 
     @Override
@@ -85,35 +68,45 @@ public class DefaultNoticeService implements NoticeService {
             return;
         }
 
-        Runnable command = () -> {
-            if (noticeData == null) {
-                log.debug("noticeData is null");
-                return;
-            }
+        executor.submit(() -> send0(noticeData, phones));
+    }
 
-            if (phones == null || phones.isEmpty()) {
-                log.debug("phones is empty");
-                return;
-            }
+    private SendResult send0(NoticeData noticeData, Collection<String> phones) {
+        SendResult result = new SendResult();
+        if (noticeData == null) {
+            log.debug("noticeData is null");
+            return result;
+        }
 
-            List<String> phoneList = phones.stream().filter(this::phoneRegValidation).collect(Collectors.toList());
+        if (phones == null || phones.isEmpty()) {
+            log.debug("phones is empty");
+            return result;
+        }
 
-            if (phoneList.isEmpty()) {
-                log.debug("after filter phones is empty");
-                return;
-            }
+        List<String> phoneList = phones.stream().filter(this::phoneRegValidation).collect(Collectors.toList());
 
-            SendHandler sendHandler = smsSenderLoadbalancer.choose(noticeData);
+        if (phoneList.isEmpty()) {
+            log.debug("after filter phones is empty");
+            return result;
+        }
 
-            if (sendHandler == null) {
-                log.debug(new NotFindSendHandlerException().getLocalizedMessage());
-                return;
-            }
+        SendHandler sendHandler = smsSenderLoadbalancer.choose(noticeData);
 
-            sendHandler.send(noticeData, phones);
-        };
+        if (sendHandler == null) {
+            result.exception = new NotFindSendHandlerException();
+            log.debug(result.exception.getLocalizedMessage());
+        } else {
+            result.result = sendHandler.send(noticeData, phones);
+        }
 
-        executor.submit(command);
+        return result;
+    }
+
+    private static class SendResult {
+
+        boolean result;
+
+        RuntimeException exception;
     }
 
     @Autowired

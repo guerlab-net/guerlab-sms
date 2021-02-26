@@ -15,7 +15,7 @@ package net.guerlab.sms.netease;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
-import net.guerlab.sms.core.handler.SendHandler;
+import net.guerlab.sms.server.handler.AbstractSendHandler;
 import net.guerlab.sms.server.utils.RandomUtil;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -38,21 +38,19 @@ import java.util.*;
  * @author guer
  */
 @Slf4j
-public class NeteaseCloudSendHandler implements SendHandler {
+public class NeteaseCloudSendHandler extends AbstractSendHandler<NeteaseCloudProperties> {
 
     /**
      * 请求路径URL
      */
     private static final String SERVER_URL = "https://api.netease.im/sms/sendtemplate.action";
 
-    private final NeteaseCloudProperties properties;
-
     private final ObjectMapper objectMapper;
 
     private final CloseableHttpClient client;
 
     public NeteaseCloudSendHandler(NeteaseCloudProperties properties, ObjectMapper objectMapper) {
-        this.properties = properties;
+        super(properties);
         this.objectMapper = objectMapper;
         client = buildHttpclient();
     }

@@ -13,6 +13,7 @@
 package net.guerlab.sms.server.loadbalancer;
 
 import net.guerlab.loadbalancer.ILoadBalancer;
+import net.guerlab.loadbalancer.TargetWrapper;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.handler.SendHandler;
 
@@ -21,4 +22,21 @@ import net.guerlab.sms.core.handler.SendHandler;
  *
  * @author guer
  */
-public interface SmsSenderLoadBalancer extends ILoadBalancer<SendHandler, NoticeData> {}
+public interface SmsSenderLoadBalancer extends ILoadBalancer<SendHandler, NoticeData> {
+
+    /**
+     * 按照业务类型支持进行选择过滤
+     *
+     * @param targetWrapper
+     *         发送处理包装代理对黄
+     * @param noticeData
+     *         发送数据
+     * @return 是否允许使用该发送类型
+     */
+    static boolean chooseFilter(TargetWrapper<SendHandler> targetWrapper, NoticeData noticeData) {
+        if (noticeData == null || noticeData.getType() == null || targetWrapper.getTarget() == null) {
+            return false;
+        }
+        return targetWrapper.getTarget().acceptSend(noticeData.getType());
+    }
+}

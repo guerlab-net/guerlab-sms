@@ -17,8 +17,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.exception.SendClientException;
 import net.guerlab.sms.core.exception.SendFailedException;
-import net.guerlab.sms.core.handler.SendHandler;
 import net.guerlab.sms.core.utils.StringUtils;
+import net.guerlab.sms.server.handler.AbstractSendHandler;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.HttpHeaders;
@@ -46,7 +46,7 @@ import java.util.*;
  * @author guer
  */
 @Slf4j
-public class HuaWeiCloudSendHandler implements SendHandler {
+public class HuaWeiCloudSendHandler extends AbstractSendHandler<HuaWeiCloudProperties> {
 
     /**
      * 无需修改,用于格式化鉴权头域,给"X-WSSE"参数赋值
@@ -60,14 +60,12 @@ public class HuaWeiCloudSendHandler implements SendHandler {
 
     private static final String DEFAULT_NATION_CODE = "+86";
 
-    private final HuaWeiCloudProperties properties;
-
     private final ObjectMapper objectMapper;
 
     private final CloseableHttpClient client;
 
     public HuaWeiCloudSendHandler(HuaWeiCloudProperties properties, ObjectMapper objectMapper) {
-        this.properties = properties;
+        super(properties);
         this.objectMapper = objectMapper;
         client = buildHttpclient();
     }

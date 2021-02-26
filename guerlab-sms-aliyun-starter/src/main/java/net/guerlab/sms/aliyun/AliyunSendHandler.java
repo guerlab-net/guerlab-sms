@@ -22,8 +22,8 @@ import com.aliyuncs.profile.IClientProfile;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
-import net.guerlab.sms.core.handler.SendHandler;
 import net.guerlab.sms.core.utils.StringUtils;
+import net.guerlab.sms.server.handler.AbstractSendHandler;
 
 import java.util.Collection;
 
@@ -31,18 +31,15 @@ import java.util.Collection;
  * 阿里云短信发送处理
  *
  * @author guer
- *
  */
 @Slf4j
-public class AliyunSendHandler implements SendHandler {
+public class AliyunSendHandler extends AbstractSendHandler<AliyunProperties> {
 
     private static final String OK = "OK";
 
     private static final String PRODUCT = "Dysmsapi";
 
     private static final String DOMAIN = "dysmsapi.aliyuncs.com";
-
-    private final AliyunProperties properties;
 
     private final ObjectMapper objectMapper;
 
@@ -57,7 +54,7 @@ public class AliyunSendHandler implements SendHandler {
      *            objectMapper
      */
     public AliyunSendHandler(AliyunProperties properties, ObjectMapper objectMapper) {
-        this.properties = properties;
+        super(properties);
         this.objectMapper = objectMapper;
 
         String endPoint = properties.getEndpoint();

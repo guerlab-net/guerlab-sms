@@ -16,8 +16,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.exception.SendFailedException;
-import net.guerlab.sms.core.handler.SendHandler;
 import net.guerlab.sms.core.utils.StringUtils;
+import net.guerlab.sms.server.handler.AbstractSendHandler;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.http.HttpResponse;
@@ -43,18 +43,16 @@ import java.util.Map;
  * @author guer
  */
 @Slf4j
-public class ChinaMobileSendHandler implements SendHandler {
+public class ChinaMobileSendHandler extends AbstractSendHandler<ChinaMobileProperties> {
 
     private static final String BODY_TEMPLATE = "{\"ecName\":\"%s\",\"apId\":\"%s\",\"templateId\":\"%s\",\"mobiles\":\"%s\",\"params\":\"%s\",\"sign\":\"%s\",\"addSerial\":\"\",\"mac\":\"%s\"}";
-
-    private final ChinaMobileProperties properties;
 
     private final ObjectMapper objectMapper;
 
     private final CloseableHttpClient client;
 
     public ChinaMobileSendHandler(ChinaMobileProperties properties, ObjectMapper objectMapper) {
-        this.properties = properties;
+        super(properties);
         this.objectMapper = objectMapper;
         client = buildHttpclient();
     }

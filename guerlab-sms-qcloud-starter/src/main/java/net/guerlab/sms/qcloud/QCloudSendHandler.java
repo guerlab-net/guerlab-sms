@@ -16,8 +16,8 @@ import com.github.qcloudsms.SmsMultiSender;
 import com.github.qcloudsms.SmsMultiSenderResult;
 import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
-import net.guerlab.sms.core.handler.SendHandler;
 import net.guerlab.sms.core.utils.StringUtils;
+import net.guerlab.sms.server.handler.AbstractSendHandler;
 
 import java.util.*;
 
@@ -28,16 +28,14 @@ import java.util.*;
  */
 @SuppressWarnings("AlibabaClassNamingShouldBeCamel")
 @Slf4j
-public class QCloudSendHandler implements SendHandler {
+public class QCloudSendHandler extends AbstractSendHandler<QCloudProperties> {
 
     private static final String DEFAULT_NATION_CODE = "86";
-
-    private final QCloudProperties properties;
 
     private final SmsMultiSender sender;
 
     public QCloudSendHandler(QCloudProperties properties) {
-        this.properties = properties;
+        super(properties);
         sender = new SmsMultiSender(properties.getAppId(), properties.getAppkey());
     }
 

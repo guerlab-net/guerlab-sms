@@ -15,7 +15,7 @@ package net.guerlab.sms.jpush;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
-import net.guerlab.sms.core.handler.SendHandler;
+import net.guerlab.sms.server.handler.AbstractSendHandler;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.RequestBuilder;
@@ -40,16 +40,14 @@ import java.util.Collection;
  */
 @SuppressWarnings("AlibabaClassNamingShouldBeCamel")
 @Slf4j
-public class JPushSendHandler implements SendHandler {
-
-    private final JPushProperties properties;
+public class JPushSendHandler extends AbstractSendHandler<JPushProperties> {
 
     private final ObjectMapper objectMapper;
 
     private final CloseableHttpClient client;
 
     public JPushSendHandler(JPushProperties properties, ObjectMapper objectMapper) {
-        this.properties = properties;
+        super(properties);
         this.objectMapper = objectMapper;
         client = buildHttpclient();
     }
@@ -105,7 +103,8 @@ public class JPushSendHandler implements SendHandler {
     private <T> T getResponse(String uri, Object requestData, Class<T> clazz) throws Exception {
         HttpResponse response = client.execute(
                 RequestBuilder.create("POST").setUri(uri).addHeader(HttpHeaders.CONTENT_TYPE, "application/json")
-                        .addHeader(HttpHeaders.AUTHORIZATION, "Basic " + getSign()).setEntity(new StringEntity(objectMapper.writeValueAsString(requestData))).build());
+                        .addHeader(HttpHeaders.AUTHORIZATION, "Basic " + getSign())
+                        .setEntity(new StringEntity(objectMapper.writeValueAsString(requestData))).build());
 
         String responseContent = EntityUtils.toString(response.getEntity());
 

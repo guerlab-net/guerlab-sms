@@ -12,9 +12,13 @@
  */
 package net.guerlab.sms.server.loadbalancer;
 
+import net.guerlab.loadbalancer.TargetWrapper;
 import net.guerlab.loadbalancer.WeightRandomLoadBalancer;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.handler.SendHandler;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * weight random Load Balancer
@@ -25,4 +29,15 @@ public class WeightRandomSmsLoadBalancer extends WeightRandomLoadBalancer<SendHa
         implements SmsSenderLoadBalancer {
 
     public static final String TYPE_NAME = "WeightRandom";
+
+    @Override
+    protected SendHandler choose0(List<TargetWrapper<SendHandler>> activeTargetList, NoticeData chooseReferenceObject) {
+        List<TargetWrapper<SendHandler>> newActiveTargetList = activeTargetList.stream()
+                .filter(wrapper -> SmsSenderLoadBalancer.chooseFilter(wrapper, chooseReferenceObject))
+                .collect(Collectors.toList());
+        if (newActiveTargetList.isEmpty()) {
+            return null;
+        }
+        return super.choose0(activeTargetList, chooseReferenceObject);
+    }
 }

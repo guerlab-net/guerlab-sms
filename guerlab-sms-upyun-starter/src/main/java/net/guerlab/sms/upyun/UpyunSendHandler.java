@@ -15,8 +15,8 @@ package net.guerlab.sms.upyun;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
-import net.guerlab.sms.core.handler.SendHandler;
 import net.guerlab.sms.core.utils.StringUtils;
+import net.guerlab.sms.server.handler.AbstractSendHandler;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.RequestBuilder;
@@ -38,18 +38,16 @@ import java.util.*;
  * @author guer
  */
 @Slf4j
-public class UpyunSendHandler implements SendHandler {
+public class UpyunSendHandler extends AbstractSendHandler<UpyunProperties> {
 
     private static final String API_URL = "https://sms-api.upyun.com/api/messages";
-
-    private final UpyunProperties properties;
 
     private final ObjectMapper objectMapper;
 
     private final CloseableHttpClient client;
 
     public UpyunSendHandler(UpyunProperties properties, ObjectMapper objectMapper) {
-        this.properties = properties;
+        super(properties);
         this.objectMapper = objectMapper;
         client = buildHttpclient();
     }

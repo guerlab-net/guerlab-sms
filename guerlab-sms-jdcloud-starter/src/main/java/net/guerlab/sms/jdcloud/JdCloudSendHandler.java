@@ -21,7 +21,7 @@ import com.jdcloud.sdk.service.sms.model.BatchSendRequest;
 import com.jdcloud.sdk.service.sms.model.BatchSendResult;
 import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
-import net.guerlab.sms.core.handler.SendHandler;
+import net.guerlab.sms.server.handler.AbstractSendHandler;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,14 +34,12 @@ import java.util.Map;
  * @author guer
  */
 @Slf4j
-public class JdCloudSendHandler implements SendHandler {
-
-    private final JdCloudProperties properties;
+public class JdCloudSendHandler extends AbstractSendHandler<JdCloudProperties> {
 
     private final SmsClient smsClient;
 
     public JdCloudSendHandler(JdCloudProperties properties) {
-        this.properties = properties;
+        super(properties);
         CredentialsProvider credentialsProvider = new StaticCredentialsProvider(properties.getAccessKeyId(),
                 properties.getSecretAccessKey());
         smsClient = SmsClient.builder().credentialsProvider(credentialsProvider)
@@ -87,5 +85,10 @@ public class JdCloudSendHandler implements SendHandler {
         }
 
         return flag;
+    }
+
+    @Override
+    public boolean acceptSend(String type) {
+        return properties.getTemplates().containsKey(type);
     }
 }

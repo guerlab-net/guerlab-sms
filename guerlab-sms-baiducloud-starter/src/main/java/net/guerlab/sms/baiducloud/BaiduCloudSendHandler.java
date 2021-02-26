@@ -19,8 +19,8 @@ import com.baidubce.services.sms.model.SendMessageV3Request;
 import com.baidubce.services.sms.model.SendMessageV3Response;
 import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
-import net.guerlab.sms.core.handler.SendHandler;
 import net.guerlab.sms.core.utils.StringUtils;
+import net.guerlab.sms.server.handler.AbstractSendHandler;
 
 import java.util.Collection;
 
@@ -30,14 +30,12 @@ import java.util.Collection;
  * @author guer
  */
 @Slf4j
-public class BaiduCloudSendHandler implements SendHandler {
-
-    private final BaiduCloudProperties properties;
+public class BaiduCloudSendHandler extends AbstractSendHandler<BaiduCloudProperties> {
 
     private final SmsClient client;
 
     public BaiduCloudSendHandler(BaiduCloudProperties properties) {
-        this.properties = properties;
+        super(properties);
 
         SmsClientConfiguration config = new SmsClientConfiguration();
         config.setCredentials(new DefaultBceCredentials(properties.getAccessKeyId(), properties.getSecretAccessKey()));

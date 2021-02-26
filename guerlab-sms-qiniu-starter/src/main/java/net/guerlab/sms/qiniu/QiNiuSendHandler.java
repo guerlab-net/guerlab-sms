@@ -17,7 +17,7 @@ import com.qiniu.sms.SmsManager;
 import com.qiniu.util.Auth;
 import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
-import net.guerlab.sms.core.handler.SendHandler;
+import net.guerlab.sms.server.handler.AbstractSendHandler;
 
 import java.util.Collection;
 
@@ -27,14 +27,12 @@ import java.util.Collection;
  * @author guer
  */
 @Slf4j
-public class QiNiuSendHandler implements SendHandler {
-
-    private final QiNiuProperties properties;
+public class QiNiuSendHandler extends AbstractSendHandler<QiNiuProperties> {
 
     private final SmsManager smsManager;
 
     public QiNiuSendHandler(QiNiuProperties properties) {
-        this.properties = properties;
+        super(properties);
         Auth auth = Auth.create(properties.getAccessKey(), properties.getSecretKey());
         smsManager = new SmsManager(auth);
     }

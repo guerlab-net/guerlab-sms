@@ -13,8 +13,12 @@
 package net.guerlab.sms.server.loadbalancer;
 
 import net.guerlab.loadbalancer.RoundRobinLoadBalancer;
+import net.guerlab.loadbalancer.TargetWrapper;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.handler.SendHandler;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * round robin Load Balancer
@@ -25,5 +29,16 @@ public class RoundRobinSmsLoadBalancer extends RoundRobinLoadBalancer<SendHandle
         implements SmsSenderLoadBalancer {
 
     public static final String TYPE_NAME = "RoundRobin";
+
+    @Override
+    protected SendHandler choose0(List<TargetWrapper<SendHandler>> activeTargetList, NoticeData chooseReferenceObject) {
+        List<TargetWrapper<SendHandler>> newActiveTargetList = activeTargetList.stream()
+                .filter(wrapper -> SmsSenderLoadBalancer.chooseFilter(wrapper, chooseReferenceObject))
+                .collect(Collectors.toList());
+        if (newActiveTargetList.isEmpty()) {
+            return null;
+        }
+        return super.choose0(activeTargetList, chooseReferenceObject);
+    }
 }
 
