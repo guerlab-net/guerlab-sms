@@ -18,6 +18,7 @@ import net.guerlab.sms.server.loadbalancer.SmsSenderLoadBalancer;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.*;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
@@ -40,6 +41,8 @@ public class UpyunAutoConfigure {
      *         objectMapper
      * @param loadbalancer
      *         负载均衡器
+     * @param eventPublisher
+     *         spring应用事件发布器
      * @return 又拍云发送处理
      */
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -47,8 +50,8 @@ public class UpyunAutoConfigure {
     @Conditional(UpyunSendHandlerCondition.class)
     @ConditionalOnBean(SmsSenderLoadBalancer.class)
     public UpyunSendHandler upyunSendHandler(UpyunProperties properties, ObjectMapper objectMapper,
-            SmsSenderLoadBalancer loadbalancer) {
-        UpyunSendHandler handler = new UpyunSendHandler(properties, objectMapper);
+            SmsSenderLoadBalancer loadbalancer, ApplicationEventPublisher eventPublisher) {
+        UpyunSendHandler handler = new UpyunSendHandler(properties, eventPublisher, objectMapper);
         loadbalancer.addTarget(handler, true);
         loadbalancer.setWeight(handler, properties.getWeight());
         return handler;

@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.utils.StringUtils;
 import net.guerlab.sms.server.handler.AbstractSendHandler;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -36,9 +37,14 @@ public class YunPianSendHandler extends AbstractSendHandler<YunPianProperties> {
 
     private final YunpianClient client;
 
-    public YunPianSendHandler(YunPianProperties properties) {
-        super(properties);
+    public YunPianSendHandler(YunPianProperties properties, ApplicationEventPublisher eventPublisher) {
+        super(properties, eventPublisher);
         client = new YunpianClient(properties.getApikey()).init();
+    }
+
+    @Override
+    public String getChannelName() {
+        return "yunPian";
     }
 
     @Override
@@ -86,7 +92,9 @@ public class YunPianSendHandler extends AbstractSendHandler<YunPianProperties> {
         }
 
         boolean succeed = Objects.equals(result.getCode(), 0);
-        if (!succeed) {
+        if (succeed) {
+            publishSendEndEvent(noticeData, phones);
+        } else {
             log.debug("send fail: {}", result.getMsg());
         }
         return succeed;

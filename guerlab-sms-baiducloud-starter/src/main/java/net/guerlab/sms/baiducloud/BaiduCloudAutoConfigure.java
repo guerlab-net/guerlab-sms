@@ -17,6 +17,7 @@ import net.guerlab.sms.server.loadbalancer.SmsSenderLoadBalancer;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.*;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
@@ -37,6 +38,8 @@ public class BaiduCloudAutoConfigure {
      *         配置对象
      * @param loadbalancer
      *         负载均衡器
+     * @param eventPublisher
+     *         spring应用事件发布器
      * @return 百度云发送处理
      */
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -44,8 +47,8 @@ public class BaiduCloudAutoConfigure {
     @Conditional(BaiduCloudSendHandlerCondition.class)
     @ConditionalOnBean(SmsSenderLoadBalancer.class)
     public BaiduCloudSendHandler baiduCloudSendHandler(BaiduCloudProperties properties,
-            SmsSenderLoadBalancer loadbalancer) {
-        BaiduCloudSendHandler handler = new BaiduCloudSendHandler(properties);
+            SmsSenderLoadBalancer loadbalancer, ApplicationEventPublisher eventPublisher) {
+        BaiduCloudSendHandler handler = new BaiduCloudSendHandler(properties, eventPublisher);
         loadbalancer.addTarget(handler, true);
         loadbalancer.setWeight(handler, properties.getWeight());
         return handler;

@@ -29,6 +29,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
+import org.springframework.context.ApplicationEventPublisher;
 
 import javax.net.ssl.SSLContext;
 import java.nio.charset.StandardCharsets;
@@ -51,8 +52,9 @@ public class ChinaMobileSendHandler extends AbstractSendHandler<ChinaMobilePrope
 
     private final CloseableHttpClient client;
 
-    public ChinaMobileSendHandler(ChinaMobileProperties properties, ObjectMapper objectMapper) {
-        super(properties);
+    public ChinaMobileSendHandler(ChinaMobileProperties properties, ApplicationEventPublisher eventPublisher,
+            ObjectMapper objectMapper) {
+        super(properties, eventPublisher);
         this.objectMapper = objectMapper;
         client = buildHttpclient();
     }
@@ -140,7 +142,11 @@ public class ChinaMobileSendHandler extends AbstractSendHandler<ChinaMobilePrope
 
             ChinaMobileResult result = objectMapper.readValue(responseContent, ChinaMobileResult.class);
 
-            return ChinaMobileResult.SUCCESS_RSPCOD.equals(result.getRspcod());
+            boolean succeed = ChinaMobileResult.SUCCESS_RSPCOD.equals(result.getRspcod());
+            if (succeed) {
+                publishSendEndEvent(noticeData, phones);
+            }
+            return succeed;
         } catch (Exception e) {
             log.debug(e.getLocalizedMessage(), e);
             return false;
@@ -175,5 +181,10 @@ public class ChinaMobileSendHandler extends AbstractSendHandler<ChinaMobilePrope
                         mac);
 
         return Base64.encodeBase64String(body.getBytes(StandardCharsets.UTF_8));
+    }
+
+    @Override
+    public String getChannelName() {
+        return "chinaMobile";
     }
 }

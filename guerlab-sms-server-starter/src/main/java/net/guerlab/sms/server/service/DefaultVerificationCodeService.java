@@ -19,7 +19,7 @@ import net.guerlab.sms.core.utils.StringUtils;
 import net.guerlab.sms.server.entity.VerificationCode;
 import net.guerlab.sms.server.properties.VerificationCodeProperties;
 import net.guerlab.sms.server.repository.VerificationCodeRepository;
-import net.guerlab.sms.server.utils.RandomUtil;
+import net.guerlab.sms.server.utils.RandomUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -84,7 +84,7 @@ public class DefaultVerificationCodeService implements VerificationCodeService {
             return null;
         }
 
-        return RandomUtil.nextString(properties.getIdentificationCodeLength());
+        return RandomUtils.nextString(properties.getIdentificationCodeLength());
     }
 
     @Override

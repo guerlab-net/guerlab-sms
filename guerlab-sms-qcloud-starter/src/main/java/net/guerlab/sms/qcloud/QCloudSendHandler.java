@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.utils.StringUtils;
 import net.guerlab.sms.server.handler.AbstractSendHandler;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.*;
 
@@ -34,9 +35,14 @@ public class QCloudSendHandler extends AbstractSendHandler<QCloudProperties> {
 
     private final SmsMultiSender sender;
 
-    public QCloudSendHandler(QCloudProperties properties) {
-        super(properties);
+    public QCloudSendHandler(QCloudProperties properties, ApplicationEventPublisher eventPublisher) {
+        super(properties, eventPublisher);
         sender = new SmsMultiSender(properties.getAppId(), properties.getAppkey());
+    }
+
+    @Override
+    public String getChannelName() {
+        return "qCloud";
     }
 
     @Override
@@ -86,8 +92,14 @@ public class QCloudSendHandler extends AbstractSendHandler<QCloudProperties> {
             }
         }
 
-        return phoneMap.entrySet().parallelStream()
+        boolean result = phoneMap.entrySet().parallelStream()
                 .allMatch(entry -> send0(templateId, params, entry.getKey(), entry.getValue()));
+
+        if (result) {
+            publishSendEndEvent(noticeData, phones);
+        }
+
+        return result;
     }
 
     private Collection<String> getList(Map<String, ArrayList<String>> phoneMap, String nationCode) {

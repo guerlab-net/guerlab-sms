@@ -28,6 +28,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
+import org.springframework.context.ApplicationEventPublisher;
 
 import javax.net.ssl.SSLContext;
 import java.util.*;
@@ -46,8 +47,9 @@ public class UpyunSendHandler extends AbstractSendHandler<UpyunProperties> {
 
     private final CloseableHttpClient client;
 
-    public UpyunSendHandler(UpyunProperties properties, ObjectMapper objectMapper) {
-        super(properties);
+    public UpyunSendHandler(UpyunProperties properties, ApplicationEventPublisher eventPublisher,
+            ObjectMapper objectMapper) {
+        super(properties, eventPublisher);
         this.objectMapper = objectMapper;
         client = buildHttpclient();
     }
@@ -105,7 +107,13 @@ public class UpyunSendHandler extends AbstractSendHandler<UpyunProperties> {
                 return false;
             }
 
-            return messageIds.stream().filter(Objects::nonNull).anyMatch(MessageId::succeed);
+            boolean succeed = messageIds.stream().filter(Objects::nonNull).anyMatch(MessageId::succeed);
+
+            if (succeed) {
+                publishSendEndEvent(noticeData, phones);
+            }
+
+            return succeed;
         } catch (Exception e) {
             log.debug(e.getLocalizedMessage(), e);
             return false;
@@ -122,5 +130,10 @@ public class UpyunSendHandler extends AbstractSendHandler<UpyunProperties> {
         } catch (Exception e) {
             throw new RuntimeException(e.getLocalizedMessage(), e);
         }
+    }
+
+    @Override
+    public String getChannelName() {
+        return "upyun";
     }
 }

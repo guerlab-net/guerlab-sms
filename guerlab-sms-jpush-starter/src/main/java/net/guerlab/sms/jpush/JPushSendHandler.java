@@ -26,6 +26,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
+import org.springframework.context.ApplicationEventPublisher;
 
 import javax.net.ssl.SSLContext;
 import java.nio.charset.StandardCharsets;
@@ -46,8 +47,9 @@ public class JPushSendHandler extends AbstractSendHandler<JPushProperties> {
 
     private final CloseableHttpClient client;
 
-    public JPushSendHandler(JPushProperties properties, ObjectMapper objectMapper) {
-        super(properties);
+    public JPushSendHandler(JPushProperties properties, ApplicationEventPublisher eventPublisher,
+            ObjectMapper objectMapper) {
+        super(properties, eventPublisher);
         this.objectMapper = objectMapper;
         client = buildHttpclient();
     }
@@ -66,6 +68,7 @@ public class JPushSendHandler extends AbstractSendHandler<JPushProperties> {
         String[] phoneArray = phones.toArray(new String[] {});
 
         try {
+            boolean succeed;
             if (phoneArray.length > 1) {
                 MultiRecipient data = new MultiRecipient();
                 data.setSignId(properties.getSignId());
@@ -82,7 +85,7 @@ public class JPushSendHandler extends AbstractSendHandler<JPushProperties> {
                 data.setRecipients(recipients);
 
                 MultiResult result = getResponse("https://api.sms.jpush.cn/v1/messages/batch", data, MultiResult.class);
-                return result.getSuccessCount() > 0;
+                succeed = result.getSuccessCount() > 0;
             } else {
                 Recipient data = new Recipient();
                 data.setMobile(phoneArray[0]);
@@ -91,8 +94,13 @@ public class JPushSendHandler extends AbstractSendHandler<JPushProperties> {
                 data.setTempPara(noticeData.getParams());
 
                 SingleResult result = getResponse("https://api.sms.jpush.cn/v1/messages", data, SingleResult.class);
-                return result.getError() == null;
+                succeed = result.getError() == null;
             }
+
+            if (succeed) {
+                publishSendEndEvent(noticeData, phones);
+            }
+            return succeed;
         } catch (Exception e) {
             log.debug(e.getLocalizedMessage(), e);
         }
@@ -128,5 +136,10 @@ public class JPushSendHandler extends AbstractSendHandler<JPushProperties> {
         } catch (Exception e) {
             throw new RuntimeException(e.getLocalizedMessage(), e);
         }
+    }
+
+    @Override
+    public String getChannelName() {
+        return "jPush";
     }
 }

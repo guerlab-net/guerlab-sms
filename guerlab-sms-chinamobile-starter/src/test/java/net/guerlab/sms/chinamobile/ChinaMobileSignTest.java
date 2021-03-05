@@ -35,7 +35,7 @@ public class ChinaMobileSignTest {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        ChinaMobileSendHandler sendHandler = new ChinaMobileSendHandler(properties, objectMapper);
+        ChinaMobileSendHandler sendHandler = new ChinaMobileSendHandler(properties, null, objectMapper);
 
         NoticeData noticeData = new NoticeData();
         noticeData.setType("test");

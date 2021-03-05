@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.utils.StringUtils;
 import net.guerlab.sms.server.handler.AbstractSendHandler;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.Collection;
 
@@ -49,12 +50,15 @@ public class AliyunSendHandler extends AbstractSendHandler<AliyunProperties> {
      * 构造阿里云短信发送处理
      *
      * @param properties
-     *            阿里云短信配置
+     *         阿里云短信配置
+     * @param eventPublisher
+     *         spring应用事件发布器
      * @param objectMapper
-     *            objectMapper
+     *         objectMapper
      */
-    public AliyunSendHandler(AliyunProperties properties, ObjectMapper objectMapper) {
-        super(properties);
+    public AliyunSendHandler(AliyunProperties properties, ApplicationEventPublisher eventPublisher,
+            ObjectMapper objectMapper) {
+        super(properties, eventPublisher);
         this.objectMapper = objectMapper;
 
         String endPoint = properties.getEndpoint();
@@ -88,6 +92,7 @@ public class AliyunSendHandler extends AbstractSendHandler<AliyunProperties> {
             SendSmsResponse sendSmsResponse = acsClient.getAcsResponse(request);
 
             if (OK.equals(sendSmsResponse.getCode())) {
+                publishSendEndEvent(noticeData, phones);
                 return true;
             }
 
@@ -97,5 +102,10 @@ public class AliyunSendHandler extends AbstractSendHandler<AliyunProperties> {
         }
 
         return false;
+    }
+
+    @Override
+    public String getChannelName() {
+        return "aliyun";
     }
 }

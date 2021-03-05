@@ -16,7 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.server.handler.AbstractSendHandler;
-import net.guerlab.sms.server.utils.RandomUtil;
+import net.guerlab.sms.server.utils.RandomUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -28,6 +28,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
+import org.springframework.context.ApplicationEventPublisher;
 
 import javax.net.ssl.SSLContext;
 import java.util.*;
@@ -49,8 +50,9 @@ public class NeteaseCloudSendHandler extends AbstractSendHandler<NeteaseCloudPro
 
     private final CloseableHttpClient client;
 
-    public NeteaseCloudSendHandler(NeteaseCloudProperties properties, ObjectMapper objectMapper) {
-        super(properties);
+    public NeteaseCloudSendHandler(NeteaseCloudProperties properties, ApplicationEventPublisher eventPublisher,
+            ObjectMapper objectMapper) {
+        super(properties, eventPublisher);
         this.objectMapper = objectMapper;
         client = buildHttpclient();
     }
@@ -96,7 +98,7 @@ public class NeteaseCloudSendHandler extends AbstractSendHandler<NeteaseCloudPro
             }
         }
 
-        String nonce = RandomUtil.nextString(6);
+        String nonce = RandomUtils.nextString(6);
         String paramsString = buildStringArray(params);
         String mobilesString = buildStringArray(phones);
         String curTime = String.valueOf((new Date()).getTime() / 1000L);
@@ -124,7 +126,11 @@ public class NeteaseCloudSendHandler extends AbstractSendHandler<NeteaseCloudPro
 
             NeteaseCloudResult result = objectMapper.readValue(responseContent, NeteaseCloudResult.class);
 
-            return NeteaseCloudResult.SUCCESS_CODE.equals(result.getCode());
+            boolean succeed = NeteaseCloudResult.SUCCESS_CODE.equals(result.getCode());
+            if (succeed) {
+                publishSendEndEvent(noticeData, phones);
+            }
+            return succeed;
         } catch (Exception e) {
             log.debug(e.getLocalizedMessage(), e);
             return false;
@@ -141,5 +147,10 @@ public class NeteaseCloudSendHandler extends AbstractSendHandler<NeteaseCloudPro
         } catch (Exception e) {
             throw new RuntimeException(e.getLocalizedMessage(), e);
         }
+    }
+
+    @Override
+    public String getChannelName() {
+        return "netease";
     }
 }

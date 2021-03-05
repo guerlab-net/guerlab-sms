@@ -18,6 +18,7 @@ import com.qiniu.util.Auth;
 import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.server.handler.AbstractSendHandler;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.Collection;
 
@@ -31,10 +32,15 @@ public class QiNiuSendHandler extends AbstractSendHandler<QiNiuProperties> {
 
     private final SmsManager smsManager;
 
-    public QiNiuSendHandler(QiNiuProperties properties) {
-        super(properties);
+    public QiNiuSendHandler(QiNiuProperties properties, ApplicationEventPublisher eventPublisher) {
+        super(properties, eventPublisher);
         Auth auth = Auth.create(properties.getAccessKey(), properties.getSecretKey());
         smsManager = new SmsManager(auth);
+    }
+
+    @Override
+    public String getChannelName() {
+        return "qiNiu";
     }
 
     @Override
@@ -56,6 +62,8 @@ public class QiNiuSendHandler extends AbstractSendHandler<QiNiuProperties> {
                 log.debug("send fail, error: {}", response.error);
                 return false;
             }
+
+            publishSendEndEvent(noticeData, phones);
 
             return true;
         } catch (Exception e) {

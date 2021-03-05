@@ -22,6 +22,7 @@ import com.jdcloud.sdk.service.sms.model.BatchSendResult;
 import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.server.handler.AbstractSendHandler;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,8 +39,8 @@ public class JdCloudSendHandler extends AbstractSendHandler<JdCloudProperties> {
 
     private final SmsClient smsClient;
 
-    public JdCloudSendHandler(JdCloudProperties properties) {
-        super(properties);
+    public JdCloudSendHandler(JdCloudProperties properties, ApplicationEventPublisher eventPublisher) {
+        super(properties, eventPublisher);
         CredentialsProvider credentialsProvider = new StaticCredentialsProvider(properties.getAccessKeyId(),
                 properties.getSecretAccessKey());
         smsClient = SmsClient.builder().credentialsProvider(credentialsProvider)
@@ -80,7 +81,9 @@ public class JdCloudSendHandler extends AbstractSendHandler<JdCloudProperties> {
         Boolean status = result.getStatus();
         boolean flag = status != null && status;
 
-        if (!flag) {
+        if (flag) {
+            publishSendEndEvent(noticeData, phones);
+        } else {
             log.debug("send fail, error info: [{}:{}]", result.getCode(), result.getMessage());
         }
 
@@ -90,5 +93,10 @@ public class JdCloudSendHandler extends AbstractSendHandler<JdCloudProperties> {
     @Override
     public boolean acceptSend(String type) {
         return properties.getTemplates().containsKey(type);
+    }
+
+    @Override
+    public String getChannelName() {
+        return "jdCloud";
     }
 }

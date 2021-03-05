@@ -18,6 +18,7 @@ import net.guerlab.sms.server.loadbalancer.SmsSenderLoadBalancer;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.*;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
@@ -41,6 +42,8 @@ public class JPushAutoConfigure {
      *         负载均衡器
      * @param objectMapper
      *         objectMapper
+     * @param eventPublisher
+     *         spring应用事件发布器
      * @return 极光发送处理
      */
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
@@ -48,8 +51,8 @@ public class JPushAutoConfigure {
     @Conditional(JPushSendHandlerCondition.class)
     @ConditionalOnBean(SmsSenderLoadBalancer.class)
     public JPushSendHandler qiNiuSendHandler(JPushProperties properties, SmsSenderLoadBalancer loadbalancer,
-            ObjectMapper objectMapper) {
-        JPushSendHandler handler = new JPushSendHandler(properties, objectMapper);
+            ObjectMapper objectMapper, ApplicationEventPublisher eventPublisher) {
+        JPushSendHandler handler = new JPushSendHandler(properties, eventPublisher, objectMapper);
         loadbalancer.addTarget(handler, true);
         loadbalancer.setWeight(handler, properties.getWeight());
         return handler;

@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-net.guerlab.sms.server.autoconfigure.SmsConfiguration
+net.guerlab.sms.server.autoconfigure.SmsConfiguration,\
+net.guerlab.sms.server.utils.EventHandlerUtil

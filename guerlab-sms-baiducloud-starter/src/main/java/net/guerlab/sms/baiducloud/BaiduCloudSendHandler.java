@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.guerlab.sms.core.domain.NoticeData;
 import net.guerlab.sms.core.utils.StringUtils;
 import net.guerlab.sms.server.handler.AbstractSendHandler;
+import org.springframework.context.ApplicationEventPublisher;
 
 import java.util.Collection;
 
@@ -34,13 +35,18 @@ public class BaiduCloudSendHandler extends AbstractSendHandler<BaiduCloudPropert
 
     private final SmsClient client;
 
-    public BaiduCloudSendHandler(BaiduCloudProperties properties) {
-        super(properties);
+    public BaiduCloudSendHandler(BaiduCloudProperties properties, ApplicationEventPublisher eventPublisher) {
+        super(properties, eventPublisher);
 
         SmsClientConfiguration config = new SmsClientConfiguration();
         config.setCredentials(new DefaultBceCredentials(properties.getAccessKeyId(), properties.getSecretAccessKey()));
         config.setEndpoint(properties.getEndpoint());
         client = new SmsClient(config);
+    }
+
+    @Override
+    public String getChannelName() {
+        return "baiduCloud";
     }
 
     @Override
@@ -69,6 +75,8 @@ public class BaiduCloudSendHandler extends AbstractSendHandler<BaiduCloudPropert
             log.debug("send fail: {}", response.getCode());
             return false;
         }
+
+        publishSendEndEvent(noticeData, phones);
 
         return true;
     }

@@ -34,6 +34,7 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.TrustStrategy;
 import org.apache.http.util.EntityUtils;
+import org.springframework.context.ApplicationEventPublisher;
 
 import javax.net.ssl.SSLContext;
 import java.nio.charset.StandardCharsets;
@@ -64,8 +65,9 @@ public class HuaWeiCloudSendHandler extends AbstractSendHandler<HuaWeiCloudPrope
 
     private final CloseableHttpClient client;
 
-    public HuaWeiCloudSendHandler(HuaWeiCloudProperties properties, ObjectMapper objectMapper) {
-        super(properties);
+    public HuaWeiCloudSendHandler(HuaWeiCloudProperties properties, ApplicationEventPublisher eventPublisher,
+            ObjectMapper objectMapper) {
+        super(properties, eventPublisher);
         this.objectMapper = objectMapper;
         client = buildHttpclient();
     }
@@ -152,7 +154,11 @@ public class HuaWeiCloudSendHandler extends AbstractSendHandler<HuaWeiCloudPrope
 
             HuaWeiCloudResult result = objectMapper.readValue(responseContent, HuaWeiCloudResult.class);
 
-            return HuaWeiCloudResult.SUCCESS_CODE.equals(result.getCode());
+            boolean succeed = HuaWeiCloudResult.SUCCESS_CODE.equals(result.getCode());
+            if (succeed) {
+                publishSendEndEvent(noticeData, phones);
+            }
+            return succeed;
         } catch (Exception e) {
             log.debug(e.getLocalizedMessage(), e);
             return false;
@@ -215,5 +221,10 @@ public class HuaWeiCloudSendHandler extends AbstractSendHandler<HuaWeiCloudPrope
         String passwordDigestBase64Str = Base64.getEncoder().encodeToString(hexDigest.getBytes());
 
         return String.format(WSSE_HEADER_FORMAT, appKey, passwordDigestBase64Str, nonce, time);
+    }
+
+    @Override
+    public String getChannelName() {
+        return "huaweiCloud";
     }
 }
