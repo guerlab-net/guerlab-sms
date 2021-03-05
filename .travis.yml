@@ -3,7 +3,7 @@ language: java
 jdk:
   - openjdk8
 install: true
-script: "mvn clean package -Dmaven.gpg.skip=true"
+script: "mvn clean package"
 
 notifications:
   email:
